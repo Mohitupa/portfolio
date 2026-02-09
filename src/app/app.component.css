@@ -449,6 +449,124 @@
   border-radius: 4px;
 }
 
+/* Additional Projects Grid */
+.additional-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+}
+
+.compact-project-card {
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.compact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-sm);
+}
+
+.compact-title {
+  font-size: 1.15rem;
+  color: var(--color-text-primary);
+  font-weight: 700;
+}
+
+.compact-year {
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
+}
+
+.compact-desc {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: var(--space-md);
+  flex-grow: 1;
+}
+
+.compact-highlights {
+  list-style: none;
+  margin-bottom: var(--space-md);
+}
+
+.compact-highlights li {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  position: relative;
+  padding-left: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.compact-highlights li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--color-accent-amber);
+  font-weight: bold;
+}
+
+.compact-footer {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(255,255,255,0.03);
+  padding-top: var(--space-sm);
+}
+
+/* Expanded Footer */
+.footer-expanded {
+  margin-top: var(--space-slug);
+  padding: var(--space-2xl) 0 var(--space-xl) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3xl);
+  margin-bottom: var(--space-2xl);
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-accent-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.footer-philosophy {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  max-width: 400px;
+}
+
+.footer-heading {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-accent-amber);
+  margin-bottom: var(--space-sm);
+}
+
+.footer-status {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+.footer-bottom {
+  padding-top: var(--space-lg);
+  border-top: 1px solid rgba(255,255,255,0.03);
+  text-align: center;
+  font-size: 0.85rem;
+}
+
 /* Experience Section */
 .exp-timeline {
   max-width: 800px;
@@ -512,13 +630,6 @@
   font-size: 3rem; 
   margin-bottom: var(--space-md); 
   color: var(--color-text-primary);
-}
-
-/* Footer Control */
-.footer {
-  padding: var(--space-xl) 0;
-  border-top: 1px solid var(--color-border);
-  text-align: center;
 }
 
 /* Animations Core */

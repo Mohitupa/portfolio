@@ -19,12 +19,10 @@
     <div class="hero-content">
       <span class="hero-label mono fade-in-up">// Full-Stack Software Engineer</span>
       <h1 class="hero-title fade-in-up">
-        Building systems that <span class="text-accent">solve real business problems.</span>
+        {{ personalInfo.headline }}
       </h1>
       <p class="hero-description fade-in-up">
-        4+ years of shipping production code for dashboards, payment systems, and automation.
-        Currently focused on <span class="text-info mono">#Angular</span> and <span
-          class="text-info mono">#Node.JS</span>.
+        {{ personalInfo.description }}
       </p>
       <div class="hero-cta fade-in-up">
         <button (click)="scrollToSection('projects')" class="btn btn-primary">View Projects</button>
@@ -37,8 +35,8 @@
 <!-- How I Work -->
 <section id="work" class="section">
   <div class="container">
-    <h2 class="section-title fade-in-up">How I <span class="text-accent">Work</span></h2>
-    <p class="section-subtitle fade-in-up">A pragmatic approach to engineering in production environments.</p>
+    <h2 class="section-title fade-in-up">Process Over <span class="text-accent">Theory</span></h2>
+    <p class="section-subtitle fade-in-up">Pragmatic engineering focused on production stability and maintenance.</p>
 
     <div class="work-container">
       <div class="work-timeline">
@@ -58,12 +56,10 @@
 <section class="section">
   <div class="container">
     <div class="about-box">
-      <h2 class="section-title fade-in-up">About <span class="text-accent">Me</span></h2>
-      <p class="about-text fade-in-up">
-        I'm a Full-Stack Software Engineer with 4+ years of experience building
-        and scaling web applications using Angular, Node.js, and modern cloud infrastructure.
-        I focus on delivering systems that are secure, performant, and reliable.
-      </p>
+      <h2 class="section-title fade-in-up">Experience & <span class="text-accent">Ownership</span></h2>
+      <div class="about-text fade-in-up">
+        <p *ngFor="let para of personalInfo.about.story.split('\n\n')" class="story-para">{{ para }}</p>
+      </div>
 
       <div class="about-stats-row">
         <div *ngFor="let stat of personalInfo.about.stats" class="about-stat-panel glass-card stagger-item">
@@ -78,8 +74,8 @@
 <!-- Tech Stack -->
 <section class="section">
   <div class="container">
-    <h2 class="section-title fade-in-up">Tech <span class="text-accent">Stack</span></h2>
-    <p class="section-subtitle fade-in-up">Deep expertise in modern full-stack development.</p>
+    <h2 class="section-title fade-in-up">Core <span class="text-accent">Competencies</span></h2>
+    <p class="section-subtitle fade-in-up">Production-level expertise across the full-stack lifecycle.</p>
 
     <div class="skills-grid">
       <div *ngFor="let category of getSkillCategories()" class="skill-category stagger-item">
@@ -97,11 +93,12 @@
 <!-- Featured Projects -->
 <section id="projects" class="section">
   <div class="container">
-    <h2 class="section-title fade-in-up">Featured <span class="text-accent">Work</span></h2>
-    <p class="section-subtitle fade-in-up">Commercial systems delivered and in active use.</p>
+    <h2 class="section-title fade-in-up">Featured <span class="text-accent">Systems</span></h2>
+    <p class="section-subtitle fade-in-up">Scalable platforms delivered for real-world production use.</p>
 
+    <!-- Large Featured Cards (First 3) -->
     <div class="projects-editor-grid">
-      <div *ngFor="let project of projects" class="editor-card fade-in-up">
+      <div *ngFor="let project of projects.slice(0, 3)" class="editor-card fade-in-up">
         <div class="editor-chrome">
           <div class="chrome-dots">
             <div class="chrome-dot"></div>
@@ -115,7 +112,7 @@
         <div class="editor-main">
           <div class="editor-sidebar">
             <div class="line-numbers">
-              1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9
+              1<br>2<br>3<br>4<br>5<br>6
             </div>
           </div>
           <div class="editor-content">
@@ -134,6 +131,28 @@
         </div>
       </div>
     </div>
+
+    <!-- Additional Projects (Compact Grid) -->
+    <div class="additional-projects-header fade-in-up"
+      style="margin-top: var(--space-slug); border-top: 1px solid var(--color-border); padding-top: var(--space-xl);">
+      <h3 class="section-title" style="font-size: 1.75rem; text-align: left; margin-bottom: var(--space-md);">Commercial
+        Systems & Integrations</h3>
+    </div>
+    <div class="additional-projects-grid">
+      <div *ngFor="let project of projects.slice(3)" class="compact-project-card glass-card fade-in-up">
+        <div class="compact-header">
+          <h4 class="compact-title">{{ project.title }}</h4>
+          <span class="compact-year mono">{{ project.year }}</span>
+        </div>
+        <p class="compact-desc">{{ project.description }}</p>
+        <ul class="compact-highlights">
+          <li *ngFor="let highlight of project.highlights">{{ highlight.replace('**', '').replace('**', '') }}</li>
+        </ul>
+        <div class="compact-footer">
+          <span *ngFor="let tech of project.technologies" class="editor-tag">{{ tech }}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -141,7 +160,7 @@
 <section id="experience" class="section">
   <div class="container">
     <h2 class="section-title fade-in-up">Professional Journey</h2>
-    <p class="section-subtitle fade-in-up">A track record of shipping and ownership.</p>
+    <p class="section-subtitle fade-in-up">A track record of technical ownership and architecture.</p>
 
     <div class="exp-timeline">
       <div *ngFor="let exp of experience" class="exp-entry fade-in-up">
@@ -159,26 +178,46 @@
   </div>
 </section>
 
-<!-- Contact -->
+<!-- Contact & Footer Wrap -->
 <section id="contact" class="section">
   <div class="container">
     <div class="contact-box fade-in-up">
       <h2 class="contact-title">Let's build something <span class="text-accent">reliable.</span></h2>
       <p class="section-subtitle">
-        I'm always open to discussing technical challenges, new products, and engineering leadership.
+        I'm always open to discussing technical architecture, production scalability, and full-stack engineering
+        leadership.
       </p>
       <div style="margin-top: var(--space-xl);">
         <a [href]="'mailto:' + personalInfo.email" class="btn btn-primary" style="margin-right: var(--space-md);">
           Email Me
         </a>
-        <a [href]="personalInfo.linkedin" target="_blank" class="btn btn-outline">
+        <a [href]="personalInfo.linkedin" target="_blank" class="btn btn-outline"
+          style="margin-right: var(--space-md);">
           LinkedIn
+        </a>
+        <a [href]="personalInfo.github" target="_blank" class="btn btn-outline">
+          GitHub
         </a>
       </div>
     </div>
+
+    <footer class="footer-expanded fade-in-up">
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h4 class="footer-logo mono">MU.dev</h4>
+          <p class="footer-philosophy">
+            Focused on building clean, performant, and maintainable systems that solve real business problems through
+            deliberate engineering.
+          </p>
+        </div>
+        <div class="footer-column">
+          <h5 class="footer-heading mono">Availability</h5>
+          <p class="footer-status">Open to strategic roles / Remote-friendly</p>
+        </div>
+      </div>
+      <div class="footer-bottom mono text-dim">
+        &copy; 2026 Mohit Upadhyay // Production Grade Development.
+      </div>
+    </footer>
   </div>
 </section>
-
-<footer class="footer container text-dim mono">
-  &copy; {{ 2026 }} Mohit Upadhyay // Designed for Performance.
-</footer>
