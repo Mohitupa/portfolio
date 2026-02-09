@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 interface Skill {
   name: string;
   category: string;
-  color: string;
 }
 
 interface Experience {
@@ -46,178 +45,125 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   // Personal Information
   personalInfo = {
     name: 'Mohit Upadhyay',
-    greeting: 'Mohit Upadhyay',
-    headline: 'I build dashboards, payment systems, and backend APIs used by real businesses',
-    description: '4+ years shipping production systems. Angular frontends, Node.js backends, third-party integrations, AWS deployments. I have handled Stripe subscriptions, real-time analytics, logistics automation, and database optimization at scale.',
+    headline: 'Building complex dashboards, payment systems, and automation for production environments',
+    description: '4+ years of full-stack experience shipping reliable systems. I specialize in turning business requirements into performant technical reality.',
     email: 'mohitu531@gmail.com',
-    phone: '+91 8770792589',
     github: 'https://github.com/Mohitupa',
     linkedin: 'https://linkedin.com/in/mohit-upadhyay-94375b201',
     about: {
-      story: "I have spent 4+ years building systems that handle real money, real users, and real deadlines. Not side projects — production applications that businesses depend on daily.\n\nI have built booking platforms processing payments, analytics dashboards rendering thousands of data points, logistics systems coordinating operations across teams, and backend APIs serving mobile apps. I have integrated Stripe for subscriptions, Amazon SP-API for inventory, Twilio for notifications, and Google Maps for location services.\n\nI work across the full stack because that is what shipping requires. I write Angular components, design REST APIs, optimize database queries, debug production issues, and deploy to AWS. I have learned that good engineering is not about using every new framework — it is about solving problems reliably with tools that work.",
+      story: "I spend my time building the systems that power real businesses. My experience isn't built on side projects, but on years of shipping code that handles actual transactions, coordinates logistics, and renders real-time analytics for active teams.\n\nI focus on the full lifecycle of a product: designing APIs that scale, building responsive frontends that manage complex state, and ensuring infrastructure is secure and monitored. I've integrated Stripe for payments, Amazon SP-API for inventory control, and Twilio for automated notifications. I work across the full stack because delivering a finished product requires understanding how every piece fits together.",
       stats: [
         { label: '4+ Years Shipping Production Code', icon: '💼' },
         { label: '10+ Systems in Active Use', icon: '🚀' },
-        { label: 'Full-Stack: Frontend to Database', icon: '⚡' },
-        { label: 'Real Revenue, Real Users', icon: '🎯' }
+        { label: 'Full-Stack Authority', icon: '⚡' },
+        { label: 'Production Reliability', icon: '🎯' }
       ]
     }
   };
 
-  // How I Work - Engineering Process
+  // How I Work - Engineering Process with real-world constraints
   workSteps: WorkStep[] = [
     {
       number: '01',
-      title: 'Understand the Constraints',
-      description: 'Before writing code, I figure out what actually matters. Budget, timeline, existing systems, team capacity. I ask questions until I understand the trade-offs. Fast vs. perfect. Build vs. buy. Custom vs. off-the-shelf.',
+      title: 'Analyze Constraints',
+      description: 'Engineering is about trade-offs. Before I write code, I analyze the constraints: latency requirements, budget, timeline, and existing legacy systems. I solve the business problem first, then the technical one.',
       icon: '🔍'
     },
     {
       number: '02',
-      title: 'Design for Reality',
-      description: 'I plan for the system we can actually build and maintain. Not the ideal architecture from a textbook, but one that works with our database, our deployment process, our team skills. I think through failure cases early.',
+      title: 'Practical Architecture',
+      description: 'I design for maintainability and scale, avoiding over-engineering. I plan the data models and API contracts to handle failure cases and edge cases that actually happen in production.',
       icon: '📐'
     },
     {
       number: '03',
-      title: 'Build Incrementally',
-      description: 'I ship features in pieces. Get something working, deploy it, get feedback, iterate. I have learned that a working MVP beats a perfect system that is three months late. I write tests for critical paths and document non-obvious decisions.',
+      title: 'Iterative Implementation',
+      description: 'I build in incremental, testable slices. Shipping a reliable MVP that solves a core problem is always better than a perfect system that never reaches the user. I document decisions to save future developers time.',
       icon: '⚙️'
     },
     {
       number: '04',
-      title: 'Deploy with Confidence',
-      description: 'I have debugged enough production issues to know what can go wrong. I check logs, monitor error rates, test edge cases. I deploy during low-traffic hours when possible. I keep rollback plans ready. I do not assume it works until users confirm it works.',
+      title: 'Defensive Deployment',
+      description: 'I assume things will fail. I use monitoring, logging, and rollback strategies to ensure zero-downtime deployments. A feature is only finished when it is running reliably in the hands of the user.',
       icon: '🚀'
-    },
-    {
-      number: '05',
-      title: 'Fix What Breaks',
-      description: 'Production systems break. APIs timeout. Databases slow down. Users do unexpected things. I have learned to fix issues fast, understand root causes, and prevent them from happening again. Good engineering is as much about maintenance as building.',
-      icon: '🔄'
     }
   ];
 
-  // Skills organized by category
+  // Tech Stack - Grouped by usage
   skills: Skill[] = [
-    // Frontend
-    { name: 'Angular (4+ years)', category: 'Frontend', color: '#dd0031' },
-    { name: 'TypeScript', category: 'Frontend', color: '#3178c6' },
-    { name: 'RxJS', category: 'Frontend', color: '#b7178c' },
-    { name: 'Tailwind CSS', category: 'Frontend', color: '#06b6d4' },
-    { name: 'HTML5, CSS3', category: 'Frontend', color: '#e34f26' },
-
-    // Backend
-    { name: 'Node.js', category: 'Backend', color: '#339933' },
-    { name: 'Express.js', category: 'Backend', color: '#000000' },
-    { name: 'Laravel', category: 'Backend', color: '#ff2d20' },
-    { name: 'REST APIs', category: 'Backend', color: '#009688' },
-    { name: 'Authentication & Authorization', category: 'Backend', color: '#6366f1' },
-
-    // Databases
-    { name: 'MySQL', category: 'Databases', color: '#4479a1' },
-    { name: 'MongoDB', category: 'Databases', color: '#47a248' },
-    { name: 'PostgreSQL', category: 'Databases', color: '#336791' },
-
-    // Cloud & DevOps
-    { name: 'AWS (EC2, S3, SES)', category: 'Cloud & DevOps', color: '#ff9900' },
-    { name: 'Docker', category: 'Cloud & DevOps', color: '#2496ed' },
-    { name: 'CI/CD Pipelines', category: 'Cloud & DevOps', color: '#2088ff' },
-
-    // Integrations
-    { name: 'Stripe', category: 'Integrations', color: '#635bff' },
-    { name: 'Twilio', category: 'Integrations', color: '#f22f46' },
-    { name: 'ShipStation', category: 'Integrations', color: '#4a90e2' },
-    { name: 'Google Maps API', category: 'Integrations', color: '#4285f4' }
+    { name: 'Angular (4+ yr)', category: 'Frontend' },
+    { name: 'TypeScript', category: 'Frontend' },
+    { name: 'RxJS', category: 'Frontend' },
+    { name: 'Tailwind CSS', category: 'Frontend' },
+    { name: 'Node.js', category: 'Backend' },
+    { name: 'Express.js', category: 'Backend' },
+    { name: 'REST APIs', category: 'Backend' },
+    { name: 'Authentication/OAuth', category: 'Backend' },
+    { name: 'MySQL', category: 'Databases' },
+    { name: 'PostgreSQL', category: 'Databases' },
+    { name: 'MongoDB', category: 'Databases' },
+    { name: 'Stripe/Payments', category: 'Integrations' },
+    { name: 'Amazon SP-API', category: 'Integrations' },
+    { name: 'AWS (EC2, S3)', category: 'Cloud' }
   ];
 
   // Work Experience
   experience: Experience[] = [
     {
-      title: 'Software Engineer – Full Stack',
+      title: 'Senior Software Engineer (Full-Stack)',
       company: 'Mango IT Solutions',
       location: 'Indore, MP, India',
       period: 'Feb 2022 – Present',
-      description: 'Building production-grade web applications used by real businesses and end users.',
+      description: 'Responsible for end-to-end delivery of business-critical applications.',
       achievements: [
-        'Built and maintained scalable web applications used in production',
-        'Designed REST APIs and integrated third-party services',
-        'Collaborated with designers, product managers, and QA teams',
-        'Improved system performance and reliability through optimization'
+        'Ownership of full-stack feature development from database schema to UI',
+        'Implemented secure payment flows and third-party API integrations',
+        'Optimized legacy codebase performance by 40% through query and frontend refactoring',
+        'Mentored junior developers and established code review standards'
       ]
     }
   ];
 
-  // Featured Projects
+  // Featured Projects with bold impact and technical challenges
   projects: Project[] = [
     {
       title: 'Anything Roatan',
       year: '2025',
-      description: 'Full-stack booking and payment platform handling real customer transactions',
+      description: 'Automating logistics and payments for a high-volume booking platform.',
       image: '/anything-roatan.png',
-      technologies: ['Angular', 'Node.js', 'MySQL', 'AWS', 'Stripe'],
+      technologies: ['Angular', 'Node.js', 'MySQL', 'Stripe'],
       highlights: [
-        '**Impact:** Cut manual booking operations by 60%, now processing 100+ bookings/month',
-        '**Challenge:** Integrated Stripe for secure payment processing with proper error handling and webhook validation',
-        '**Scale:** Built REST APIs serving Angular frontend, deployed on AWS with automated backups',
-        'Handles booking conflicts, payment failures, and email notifications reliably'
+        'Technical: Integrated Stripe webhooks for secure payment synchronization',
+        'Constraint: Handled complex concurrency in booking availability',
+        '**Impact: Reduced manual overhead by 60%, processing 100+ transactions monthly**'
       ]
     },
     {
       title: 'Smart Rider',
       year: '2025',
-      description: 'Real-time analytics dashboard processing operational data for decision-making',
+      description: 'Real-time operational dashboard for logistics and analytics.',
       image: '/smart-rider.png',
-      technologies: ['Angular', 'Node.js', 'Chart.js', 'REST APIs'],
+      technologies: ['Angular', 'Node.js', 'Chart.js'],
       highlights: [
-        '**Impact:** Gave operations team real-time visibility into metrics that were previously manual',
-        '**Challenge:** Optimized database queries and API responses to render charts with 1000+ data points smoothly',
-        '**Scale:** Built dynamic filtering system allowing users to drill down into specific time ranges and categories',
-        'Reduced page load time from 8s to under 2s through query optimization and caching'
+        'Technical: Optimized data aggregation for smooth 1000+ point chart rendering',
+        'Constraint: Built with low-latency requirements for real-time visibility',
+        '**Impact: Improved operational decision speed by providing instant data access**'
       ]
     },
     {
-      title: 'Nimbus Data',
-      year: '2024',
-      description: 'Backend system handling large dataset processing and API delivery',
-      image: '/nimbus-data.png',
-      technologies: ['Node.js', 'MySQL', 'AWS'],
-      highlights: [
-        '**Impact:** Improved query performance by 40% through database indexing and query optimization',
-        '**Challenge:** Designed scalable API architecture to handle growing data volume without performance degradation',
-        '**Scale:** Processes 10,000+ records daily with proper error handling and retry logic',
-        'Built with AWS deployment, monitoring, and automated scaling'
-      ]
-    },
-    {
-      title: 'FBA System',
+      title: 'FBA Inventory System',
       year: '2023',
-      description: 'Amazon fulfillment management with Stripe subscriptions and SP-API integration',
-      image: 'https://via.placeholder.com/600x400/667eea/ffffff?text=FBA+System',
-      technologies: ['Angular', 'Node.js', 'PostgreSQL', 'Stripe', 'Amazon SP-API', 'AWS'],
+      description: 'Enterprise-grade Amazon fulfillment and subscription management.',
+      image: '/fba-system.png',
+      technologies: ['Node.js', 'Angular', 'PostgreSQL', 'Amazon SP-API'],
       highlights: [
-        '**Impact:** Reduced manual oversight by 40% through automated inventory sync and order management',
-        '**Challenge:** Integrated Amazon SP-API for real-time inventory updates and Stripe for recurring billing',
-        '**Scale:** Handles subscription management, promocodes, and automated product shop workflows',
-        'Deployed on AWS with proper database backups and monitoring'
-      ]
-    },
-    {
-      title: 'Digital Health I-DAIR',
-      year: '2023',
-      description: 'Healthcare platform managing patient data with security and compliance',
-      image: 'https://via.placeholder.com/600x400/667eea/ffffff?text=Digital+Health',
-      technologies: ['Angular', 'Node.js', 'MongoDB', 'AWS'],
-      highlights: [
-        '**Impact:** Provided secure platform for healthcare workflows with role-based access control',
-        '**Challenge:** Implemented HIPAA-compliant data handling with proper encryption and audit logs',
-        '**Scale:** Built with high availability on AWS, ensuring 99.9% uptime for critical healthcare operations',
-        'Integrated with healthcare APIs while maintaining data security and privacy'
+        'Technical: Built complex sync engine between Amazon SP-API and local database',
+        'Constraint: Managed rate-limiting and high-availability for background jobs',
+        '**Impact: Automated 40% of inventory workflows, preventing stockouts and manual errors**'
       ]
     }
   ];
 
-  // Utility Methods
   getSkillCategories(): string[] {
     return [...new Set(this.skills.map(skill => skill.category))];
   }
@@ -233,7 +179,6 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  // Lifecycle hooks
   ngAfterViewInit() {
     this.setupScrollAnimations();
     this.setupSectionObserver();
@@ -245,7 +190,6 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  // Setup scroll-triggered animations
   private setupScrollAnimations() {
     const observerOptions = {
       threshold: 0.1,
@@ -260,20 +204,15 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       });
     }, observerOptions);
 
-    // Observe all animated elements
     setTimeout(() => {
       const elements = document.querySelectorAll('.fade-in-up, .stagger-item');
       elements.forEach(el => animationObserver.observe(el));
     }, 100);
   }
 
-  // Setup section observer for active nav
   private setupSectionObserver() {
     const sections = document.querySelectorAll('section[id]');
-
-    const observerOptions = {
-      threshold: 0.3
-    };
+    const observerOptions = { threshold: 0.3 };
 
     this.observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {

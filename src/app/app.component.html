@@ -1,234 +1,184 @@
-<!-- Navigation Bar -->
+<!-- Navigation -->
 <nav class="navbar">
   <div class="container nav-container">
-    <div class="logo">
-      <span class="logo-text">&lt;<span class="text-gradient">MU</span> /&gt;</span>
+    <div class="logo">MU.dev</div>
+    <div class="nav-links">
+      <a (click)="scrollToSection('home')" class="nav-link" [class.active]="activeSection === 'home'">Home</a>
+      <a (click)="scrollToSection('work')" class="nav-link" [class.active]="activeSection === 'work'">Process</a>
+      <a (click)="scrollToSection('projects')" class="nav-link" [class.active]="activeSection === 'projects'">Work</a>
+      <a (click)="scrollToSection('experience')" class="nav-link"
+        [class.active]="activeSection === 'experience'">Experience</a>
+      <a (click)="scrollToSection('contact')" class="nav-link" [class.active]="activeSection === 'contact'">Contact</a>
     </div>
-    <ul class="nav-menu">
-      <li><a (click)="scrollToSection('home')" [class.active]="activeSection === 'home'">Home</a></li>
-      <li><a (click)="scrollToSection('about')" [class.active]="activeSection === 'about'">About</a></li>
-      <li><a (click)="scrollToSection('how-i-work')" [class.active]="activeSection === 'how-i-work'">Process</a></li>
-      <li><a (click)="scrollToSection('skills')" [class.active]="activeSection === 'skills'">Skills</a></li>
-      <li><a (click)="scrollToSection('projects')" [class.active]="activeSection === 'projects'">Projects</a></li>
-      <li><a (click)="scrollToSection('contact')" [class.active]="activeSection === 'contact'">Contact</a></li>
-    </ul>
   </div>
 </nav>
 
 <!-- Hero Section -->
-<section id="home" class="hero-section">
-  <div class="hero-background">
-    <div class="hero-gradient"></div>
-    <div class="hero-grid"></div>
-  </div>
-  <div class="container hero-container">
+<header id="home" class="hero-section">
+  <div class="container">
     <div class="hero-content">
-      <h1 class="hero-name fade-in-up">{{ personalInfo.greeting }}</h1>
-      <p class="hero-headline fade-in-up">{{ personalInfo.headline }}</p>
-      <p class="hero-description fade-in-up">{{ personalInfo.description }}</p>
+      <span class="hero-label mono fade-in-up">// Full-Stack Software Engineer</span>
+      <h1 class="hero-title fade-in-up">
+        Building systems that <span class="text-accent">solve real business problems.</span>
+      </h1>
+      <p class="hero-description fade-in-up">
+        4+ years of shipping production code for dashboards, payment systems, and automation.
+        Currently focused on <span class="text-info mono">#Angular</span> and <span
+          class="text-info mono">#Node.JS</span>.
+      </p>
       <div class="hero-cta fade-in-up">
-        <a (click)="scrollToSection('projects')" class="btn btn-primary">
-          View Projects
-        </a>
-        <a (click)="scrollToSection('contact')" class="btn btn-outline">
-          Get in Touch
-        </a>
+        <button (click)="scrollToSection('projects')" class="btn btn-primary">View Projects</button>
+        <button (click)="scrollToSection('contact')" class="btn btn-outline">Let's Connect</button>
       </div>
     </div>
   </div>
-  <div class="scroll-indicator">
-    <div class="mouse"></div>
-  </div>
-</section>
+</header>
 
-<!-- How I Work Section -->
-<section id="how-i-work" class="section how-i-work-section">
+<!-- How I Work -->
+<section id="work" class="section">
   <div class="container">
-    <h2 class="section-title fade-in-up">How I <span class="text-gradient">Work</span></h2>
-    <p class="section-subtitle fade-in-up">My engineering process from problem to production</p>
+    <h2 class="section-title fade-in-up">How I <span class="text-accent">Work</span></h2>
+    <p class="section-subtitle fade-in-up">A pragmatic approach to engineering in production environments.</p>
 
-    <div class="work-steps">
-      <div *ngFor="let step of workSteps; let i = index" class="work-step stagger-item"
-        [class.step-reverse]="i % 2 === 1">
-        <div class="step-number">{{ step.number }}</div>
-        <div class="step-content">
-          <div class="step-icon">{{ step.icon }}</div>
-          <h3>{{ step.title }}</h3>
-          <p>{{ step.description }}</p>
+    <div class="work-container">
+      <div class="work-timeline">
+        <div *ngFor="let step of workSteps" class="work-step-row fade-in-up">
+          <div class="step-number-box">{{ step.number }}</div>
+          <div class="work-step-card">
+            <h3 class="step-card-title">{{ step.title }}</h3>
+            <p class="step-card-desc">{{ step.description }}</p>
+          </div>
         </div>
-        <div class="step-connector" *ngIf="i < workSteps.length - 1"></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- About Section -->
-<section id="about" class="section about-section">
+<section class="section">
   <div class="container">
-    <h2 class="section-title fade-in-up">About <span class="text-gradient">Me</span></h2>
-    <div class="about-content">
-      <div class="about-card glass-card fade-in-up">
-        <p class="about-story">{{ personalInfo.about.story }}</p>
+    <div class="about-box">
+      <h2 class="section-title fade-in-up">About <span class="text-accent">Me</span></h2>
+      <p class="about-text fade-in-up">
+        I'm a Full-Stack Software Engineer with 4+ years of experience building
+        and scaling web applications using Angular, Node.js, and modern cloud infrastructure.
+        I focus on delivering systems that are secure, performant, and reliable.
+      </p>
 
-        <div class="about-stats">
-          <div *ngFor="let stat of personalInfo.about.stats" class="stat-item stagger-item">
-            <div class="stat-icon">{{ stat.icon }}</div>
-            <p class="stat-label">{{ stat.label }}</p>
-          </div>
+      <div class="about-stats-row">
+        <div *ngFor="let stat of personalInfo.about.stats" class="about-stat-panel glass-card stagger-item">
+          <span class="stat-panel-val">{{ stat.label.split(' ')[0] }}</span>
+          <span class="stat-panel-label">{{ stat.label.substring(stat.label.indexOf(' ')) }}</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Skills Section -->
-<section id="skills" class="section skills-section">
+<!-- Tech Stack -->
+<section class="section">
   <div class="container">
-    <h2 class="section-title fade-in-up">Tech <span class="text-gradient">Stack</span></h2>
-    <p class="section-subtitle fade-in-up">Technologies I use to build production systems</p>
+    <h2 class="section-title fade-in-up">Tech <span class="text-accent">Stack</span></h2>
+    <p class="section-subtitle fade-in-up">Deep expertise in modern full-stack development.</p>
 
-    <div class="skills-content">
-      <div *ngFor="let category of getSkillCategories()" class="skill-category fade-in-up">
-        <h3 class="category-title">{{ category }}</h3>
-        <div class="skills-grid">
-          <div *ngFor="let skill of getSkillsByCategory(category)" class="skill-badge stagger-item"
-            [style.border-color]="skill.color">
-            <span class="skill-name">{{ skill.name }}</span>
-          </div>
+    <div class="skills-grid">
+      <div *ngFor="let category of getSkillCategories()" class="skill-category stagger-item">
+        <h4 class="cat-title">{{ category }}</h4>
+        <div class="tags-list">
+          <span *ngFor="let skill of getSkillsByCategory(category)" class="skill-tag mono">
+            {{ skill.name }}
+          </span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Projects Section -->
-<section id="projects" class="section projects-section">
+<!-- Featured Projects -->
+<section id="projects" class="section">
   <div class="container">
-    <h2 class="section-title fade-in-up">Featured <span class="text-gradient">Projects</span></h2>
-    <p class="section-subtitle fade-in-up">Real-world applications solving real business problems</p>
+    <h2 class="section-title fade-in-up">Featured <span class="text-accent">Work</span></h2>
+    <p class="section-subtitle fade-in-up">Commercial systems delivered and in active use.</p>
 
-    <div class="projects-grid">
-      <div *ngFor="let project of projects" class="project-card glass-card fade-in-up">
-        <div class="project-image">
-          <img [src]="project.image" [alt]="project.title">
-          <div class="project-overlay">
-            <span class="project-year">{{ project.year }}</span>
+    <div class="projects-editor-grid">
+      <div *ngFor="let project of projects" class="editor-card fade-in-up">
+        <div class="editor-chrome">
+          <div class="chrome-dots">
+            <div class="chrome-dot"></div>
+            <div class="chrome-dot"></div>
+            <div class="chrome-dot"></div>
           </div>
+          <span class="mono" style="font-size: 11px; color: var(--color-text-dim);">{{
+            project.title.toLowerCase().replace(' ', '_') }}.ts</span>
         </div>
-        <div class="project-content">
-          <h3>{{ project.title }}</h3>
-          <p class="project-problem">{{ project.description }}</p>
 
-          <div class="project-details">
-            <ul class="project-list">
-              <li *ngFor="let highlight of project.highlights">{{ highlight }}</li>
+        <div class="editor-main">
+          <div class="editor-sidebar">
+            <div class="line-numbers">
+              1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9
+            </div>
+          </div>
+          <div class="editor-content">
+            <h3 class="project-editor-title">{{ project.title }}</h3>
+            <ul class="editor-list">
+              <li *ngFor="let highlight of project.highlights" class="editor-list-item">
+                <span class="item-arrow">›</span>
+                <span class="item-text" [innerHTML]="highlight"></span>
+              </li>
             </ul>
           </div>
+        </div>
 
-          <div class="project-tech">
-            <h4>Tech Stack</h4>
-            <div class="tech-tags">
-              <span *ngFor="let tech of project.technologies" class="tech-tag">{{ tech }}</span>
-            </div>
-          </div>
+        <div class="editor-footer">
+          <span *ngFor="let tech of project.technologies" class="editor-tag">{{ tech }}</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Experience Section -->
-<section id="experience" class="section experience-section">
+<!-- Experience -->
+<section id="experience" class="section">
   <div class="container">
-    <h2 class="section-title fade-in-up">Work <span class="text-gradient">Experience</span></h2>
-    <div class="experience-content">
-      <div *ngFor="let exp of experience" class="experience-card glass-card fade-in-up">
-        <div class="experience-header">
-          <div class="experience-title-group">
-            <h3>{{ exp.title }}</h3>
-            <p class="company-name">{{ exp.company }} • {{ exp.location }}</p>
-          </div>
-          <div class="experience-period">{{ exp.period }}</div>
+    <h2 class="section-title fade-in-up">Professional Journey</h2>
+    <p class="section-subtitle fade-in-up">A track record of shipping and ownership.</p>
+
+    <div class="exp-timeline">
+      <div *ngFor="let exp of experience" class="exp-entry fade-in-up">
+        <div class="exp-header">
+          <h3 class="exp-title">{{ exp.title }} <span class="text-dim">&#64;</span> <span class="text-amber">{{
+              exp.company
+              }}</span></h3>
+          <span class="exp-period mono">{{ exp.period }}</span>
         </div>
-        <p class="experience-description">{{ exp.description }}</p>
-        <div class="achievements">
-          <h4>Key Achievements</h4>
-          <ul>
-            <li *ngFor="let achievement of exp.achievements" class="stagger-item">{{ achievement }}</li>
-          </ul>
-        </div>
+        <ul class="exp-achv">
+          <li *ngFor="let achv of exp.achievements">{{ achv }}</li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Contact Section -->
-<section id="contact" class="section contact-section">
+<!-- Contact -->
+<section id="contact" class="section">
   <div class="container">
-    <h2 class="section-title fade-in-up">Let's Build Something <span class="text-gradient">Great</span></h2>
-    <div class="contact-content">
-      <div class="contact-card glass-card fade-in-up">
-        <p class="contact-intro">
-          Looking for a developer who understands both business needs and technical execution? Let's talk.
-        </p>
-
-        <div class="contact-methods">
-          <a [href]="'mailto:' + personalInfo.email" class="contact-item stagger-item">
-            <div class="contact-icon">📧</div>
-            <div class="contact-details">
-              <h4>Email</h4>
-              <p>{{ personalInfo.email }}</p>
-            </div>
-          </a>
-
-          <a [href]="'tel:' + personalInfo.phone" class="contact-item stagger-item">
-            <div class="contact-icon">📱</div>
-            <div class="contact-details">
-              <h4>Phone</h4>
-              <p>{{ personalInfo.phone }}</p>
-            </div>
-          </a>
-
-          <a [href]="personalInfo.github" target="_blank" rel="noopener noreferrer" class="contact-item stagger-item">
-            <div class="contact-icon">💻</div>
-            <div class="contact-details">
-              <h4>GitHub</h4>
-              <p>github.com/Mohitupa</p>
-            </div>
-          </a>
-
-          <a [href]="personalInfo.linkedin" target="_blank" rel="noopener noreferrer" class="contact-item stagger-item">
-            <div class="contact-icon">💼</div>
-            <div class="contact-details">
-              <h4>LinkedIn</h4>
-              <p>Connect with me</p>
-            </div>
-          </a>
-        </div>
-
-        <div class="social-links">
-          <a [href]="personalInfo.github" target="_blank" rel="noopener noreferrer" class="social-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-            </svg>
-          </a>
-          <a [href]="personalInfo.linkedin" target="_blank" rel="noopener noreferrer" class="social-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-            </svg>
-          </a>
-        </div>
+    <div class="contact-box fade-in-up">
+      <h2 class="contact-title">Let's build something <span class="text-accent">reliable.</span></h2>
+      <p class="section-subtitle">
+        I'm always open to discussing technical challenges, new products, and engineering leadership.
+      </p>
+      <div style="margin-top: var(--space-xl);">
+        <a [href]="'mailto:' + personalInfo.email" class="btn btn-primary" style="margin-right: var(--space-md);">
+          Email Me
+        </a>
+        <a [href]="personalInfo.linkedin" target="_blank" class="btn btn-outline">
+          LinkedIn
+        </a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Footer -->
-<footer class="footer">
-  <div class="container">
-    <p>&copy; 2026 {{ personalInfo.name }}. Built with Angular 19.</p>
-    <p class="footer-tagline">Crafted with 💜 and ☕</p>
-  </div>
+<footer class="footer container text-dim mono">
+  &copy; {{ 2026 }} Mohit Upadhyay // Designed for Performance.
 </footer>
