@@ -1,7 +1,230 @@
-<div class="container">
-  <h1>console<span style="color:white;">.<span style="color:#e06c75;">log</span></span>("</h1>
-  <div class="string">
-    <h1 class="greeting en">Hello World!</h1>
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="container nav-container">
+    <div class="logo">
+      <span class="logo-text">&lt;<span class="text-gradient">MU</span> /&gt;</span>
+    </div>
+    <ul class="nav-menu">
+      <li><a (click)="scrollToSection('home')" [class.active]="activeSection === 'home'">Home</a></li>
+      <li><a (click)="scrollToSection('about')" [class.active]="activeSection === 'about'">About</a></li>
+      <li><a (click)="scrollToSection('skills')" [class.active]="activeSection === 'skills'">Skills</a></li>
+      <li><a (click)="scrollToSection('experience')" [class.active]="activeSection === 'experience'">Experience</a></li>
+      <li><a (click)="scrollToSection('projects')" [class.active]="activeSection === 'projects'">Projects</a></li>
+      <li><a (click)="scrollToSection('contact')" [class.active]="activeSection === 'contact'">Contact</a></li>
+    </ul>
   </div>
-  <h1 class="closure">");</h1>
-</div>
+</nav>
+
+<!-- Hero Section -->
+<section id="home" class="hero-section">
+  <div class="hero-background"></div>
+  <div class="container hero-container">
+    <div class="hero-content animate-fadeInUp">
+      <p class="hero-greeting">Hi, I'm</p>
+      <h1 class="hero-name">{{ personalInfo.name }}</h1>
+      <h2 class="hero-title text-gradient">{{ personalInfo.title }}</h2>
+      <p class="hero-subtitle">{{ personalInfo.subtitle }}</p>
+      <p class="hero-description">{{ personalInfo.summary }}</p>
+      <div class="hero-cta">
+        <a (click)="scrollToSection('projects')" class="btn btn-primary">View My Work</a>
+        <a (click)="scrollToSection('contact')" class="btn btn-outline">Get In Touch</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="mouse"></div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="section about-section">
+  <div class="container">
+    <h2 class="section-title">About <span class="text-gradient">Me</span></h2>
+    <div class="about-content">
+      <div class="about-card glass-card animate-fadeInUp">
+        <h3>Professional Summary</h3>
+        <p>{{ personalInfo.summary }}</p>
+
+        <div class="about-highlights">
+          <div class="highlight-item">
+            <div class="highlight-icon">💼</div>
+            <div class="highlight-content">
+              <h4>4+ Years</h4>
+              <p>Professional Experience</p>
+            </div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-icon">🚀</div>
+            <div class="highlight-content">
+              <h4>5+ Projects</h4>
+              <p>Successfully Delivered</p>
+            </div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-icon">⚡</div>
+            <div class="highlight-content">
+              <h4>Full Stack</h4>
+              <p>Angular + Node.js Expert</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="education-info">
+          <h4>🎓 Education</h4>
+          <p><strong>{{ education.degree }}</strong></p>
+          <p>{{ education.institution }}</p>
+          <p class="text-muted">{{ education.period }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="section skills-section">
+  <div class="container">
+    <h2 class="section-title">Technical <span class="text-gradient">Skills</span></h2>
+    <div class="skills-content">
+      <div *ngFor="let category of getSkillCategories()" class="skill-category">
+        <h3 class="category-title">{{ category }}</h3>
+        <div class="skills-grid">
+          <div *ngFor="let skill of getSkillsByCategory(category)" class="skill-badge"
+            [style.border-color]="skill.color">
+            <span class="skill-name">{{ skill.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience Section -->
+<section id="experience" class="section experience-section">
+  <div class="container">
+    <h2 class="section-title">Work <span class="text-gradient">Experience</span></h2>
+    <div class="experience-content">
+      <div *ngFor="let exp of experience" class="experience-card glass-card">
+        <div class="experience-header">
+          <div class="experience-title-group">
+            <h3>{{ exp.title }}</h3>
+            <p class="company-name">{{ exp.company }} • {{ exp.location }}</p>
+          </div>
+          <div class="experience-period">{{ exp.period }}</div>
+        </div>
+        <p class="experience-description">{{ exp.description }}</p>
+        <div class="achievements">
+          <h4>Key Achievements:</h4>
+          <ul>
+            <li *ngFor="let achievement of exp.achievements">{{ achievement }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="section projects-section">
+  <div class="container">
+    <h2 class="section-title">Featured <span class="text-gradient">Projects</span></h2>
+    <div class="projects-grid">
+      <div *ngFor="let project of projects" class="project-card glass-card">
+        <div class="project-image">
+          <img [src]="project.image" [alt]="project.title">
+          <div class="project-overlay">
+            <span class="project-year">{{ project.year }}</span>
+          </div>
+        </div>
+        <div class="project-content">
+          <h3>{{ project.title }}</h3>
+          <p class="project-description">{{ project.description }}</p>
+
+          <div class="project-highlights">
+            <h4>Key Features:</h4>
+            <ul>
+              <li *ngFor="let highlight of project.highlights">{{ highlight }}</li>
+            </ul>
+          </div>
+
+          <div class="project-tech">
+            <h4>Technologies:</h4>
+            <div class="tech-tags">
+              <span *ngFor="let tech of project.technologies" class="tech-tag">{{ tech }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="section contact-section">
+  <div class="container">
+    <h2 class="section-title">Get In <span class="text-gradient">Touch</span></h2>
+    <div class="contact-content">
+      <div class="contact-card glass-card">
+        <p class="contact-intro">
+          I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+        </p>
+
+        <div class="contact-methods">
+          <a [href]="'mailto:' + personalInfo.email" class="contact-item">
+            <div class="contact-icon">📧</div>
+            <div class="contact-details">
+              <h4>Email</h4>
+              <p>{{ personalInfo.email }}</p>
+            </div>
+          </a>
+
+          <a [href]="'tel:' + personalInfo.phone" class="contact-item">
+            <div class="contact-icon">📱</div>
+            <div class="contact-details">
+              <h4>Phone</h4>
+              <p>{{ personalInfo.phone }}</p>
+            </div>
+          </a>
+
+          <a [href]="personalInfo.github" target="_blank" rel="noopener noreferrer" class="contact-item">
+            <div class="contact-icon">💻</div>
+            <div class="contact-details">
+              <h4>GitHub</h4>
+              <p>github.com/Mohitupa</p>
+            </div>
+          </a>
+
+          <a [href]="personalInfo.linkedin" target="_blank" rel="noopener noreferrer" class="contact-item">
+            <div class="contact-icon">💼</div>
+            <div class="contact-details">
+              <h4>LinkedIn</h4>
+              <p>Connect with me</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="social-links">
+          <a [href]="personalInfo.github" target="_blank" rel="noopener noreferrer" class="social-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+          </a>
+          <a [href]="personalInfo.linkedin" target="_blank" rel="noopener noreferrer" class="social-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2026 {{ personalInfo.name }}. Built with Angular 19.</p>
+    <p class="footer-tagline">Crafted with 💜 and ☕</p>
+  </div>
+</footer>
