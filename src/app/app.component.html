@@ -21,12 +21,15 @@
       <h1 class="hero-title fade-in-up">
         {{ personalInfo.headline }}
       </h1>
+      <h3 class="hero-highlight fade-in-up">
+        — {{ personalInfo.highlight }}
+      </h3>
       <p class="hero-description fade-in-up">
         {{ personalInfo.description }}
       </p>
       <div class="hero-cta fade-in-up">
         <button (click)="scrollToSection('projects')" class="btn btn-primary">View Projects</button>
-        <button (click)="scrollToSection('contact')" class="btn btn-outline">Let's Connect</button>
+        <a href="/Resume.pdf" target="_blank" class="btn btn-outline">Resume</a>
       </div>
     </div>
   </div>
@@ -98,7 +101,7 @@
 
     <!-- Large Featured Cards (First 3) -->
     <div class="projects-editor-grid">
-      <div *ngFor="let project of projects.slice(0, 3)" class="editor-card fade-in-up">
+      <div *ngFor="let project of projects.slice(0, 5)" class="editor-card fade-in-up">
         <div class="editor-chrome">
           <div class="chrome-dots">
             <div class="chrome-dot"></div>
@@ -132,27 +135,6 @@
       </div>
     </div>
 
-    <!-- Additional Projects (Compact Grid) -->
-    <div class="additional-projects-header fade-in-up"
-      style="margin-top: var(--space-slug); border-top: 1px solid var(--color-border); padding-top: var(--space-xl);">
-      <h3 class="section-title" style="font-size: 1.75rem; text-align: left; margin-bottom: var(--space-md);">Commercial
-        Systems & Integrations</h3>
-    </div>
-    <div class="additional-projects-grid">
-      <div *ngFor="let project of projects.slice(3)" class="compact-project-card glass-card fade-in-up">
-        <div class="compact-header">
-          <h4 class="compact-title">{{ project.title }}</h4>
-          <span class="compact-year mono">{{ project.year }}</span>
-        </div>
-        <p class="compact-desc">{{ project.description }}</p>
-        <ul class="compact-highlights">
-          <li *ngFor="let highlight of project.highlights">{{ highlight.replace('**', '').replace('**', '') }}</li>
-        </ul>
-        <div class="compact-footer">
-          <span *ngFor="let tech of project.technologies" class="editor-tag">{{ tech }}</span>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -178,44 +160,108 @@
   </div>
 </section>
 
-<!-- Contact & Footer Wrap -->
+<!-- Contact Section -->
 <section id="contact" class="section">
   <div class="container">
-    <div class="contact-box fade-in-up">
-      <h2 class="contact-title">Let's build something <span class="text-accent">reliable.</span></h2>
-      <p class="section-subtitle">
-        I'm always open to discussing technical architecture, production scalability, and full-stack engineering
-        leadership.
-      </p>
-      <div style="margin-top: var(--space-xl);">
-        <a [href]="'mailto:' + personalInfo.email" class="btn btn-primary" style="margin-right: var(--space-md);">
-          Email Me
-        </a>
-        <a [href]="personalInfo.linkedin" target="_blank" class="btn btn-outline"
-          style="margin-right: var(--space-md);">
-          LinkedIn
-        </a>
-        <a [href]="personalInfo.github" target="_blank" class="btn btn-outline">
-          GitHub
-        </a>
+    <div class="contact-grid fade-in-up">
+      <!-- Left side: Headlines & Links -->
+      <div class="contact-info">
+        <h2 class="contact-large-title">Let's talk.<br><span class="text-accent">Contact Me</span></h2>
+        <p class="contact-supporting-line">
+          I’m open to discussing technical challenges, product roles, and meaningful engineering collaborations.
+        </p>
+
+        <div class="contact-primary-email">
+          <a [href]="'mailto:' + personalInfo.email" class="email-link pulse-hover">
+            {{ personalInfo.email }}
+          </a>
+        </div>
+
+        <div class="social-links-grid">
+          <a [href]="personalInfo.github" target="_blank" class="social-btn">
+            <span class="social-icon"></span> GitHub
+          </a>
+          <a [href]="personalInfo.linkedin" target="_blank" class="social-btn">
+            <span class="social-icon"></span> LinkedIn
+          </a>
+          <!-- Optional Twitter/X placeholder -->
+          <a href="#" class="social-btn">
+            <span class="social-icon"></span> Twitter / X
+          </a>
+        </div>
+      </div>
+
+      <!-- Right side: Modern Form -->
+      <div class="contact-form-container">
+        <form class="modern-form" (submit)="sendMessage(); $event.preventDefault()">
+          <div class="form-group">
+            <label for="name" class="form-label">Your Name</label>
+            <input type="text" id="name" name="name" [(ngModel)]="contactForm.name" class="form-input"
+              placeholder="John Doe" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">Your Email</label>
+            <input type="email" id="email" name="email" [(ngModel)]="contactForm.email" class="form-input"
+              placeholder="john@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="message" class="form-label">Your Message</label>
+            <textarea id="message" name="message" [(ngModel)]="contactForm.message" class="form-input form-textarea"
+              placeholder="How can I help?" required></textarea>
+          </div>
+
+          <div class="tag-selection-area">
+            <button type="button" *ngFor="let tag of availableTags" (click)="toggleTag(tag)"
+              [class.active]="isTagSelected(tag)" class="selection-tag">
+              <span class="tag-indicator"></span>
+              {{ tag }}
+            </button>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-submit">
+            Send Message <span class="btn-arrow">→</span>
+          </button>
+        </form>
       </div>
     </div>
 
-    <footer class="footer-expanded fade-in-up">
-      <div class="footer-grid">
-        <div class="footer-column">
+    <!-- Expanded Footer -->
+    <footer class="footer-refined fade-in-up">
+      <div class="footer-main-grid">
+        <!-- 1. Personal Signature -->
+        <div class="footer-part signature-area">
           <h4 class="footer-logo mono">MU.dev</h4>
-          <p class="footer-philosophy">
-            Focused on building clean, performant, and maintainable systems that solve real business problems through
-            deliberate engineering.
+          <p class="footer-sig-text">Built and designed by <span class="text-white">Mohit Upadhyay</span></p>
+          <p class="footer-philosophy-small">Solving complex problems through deliberate engineering.</p>
+        </div>
+
+        <!-- 2. Built With -->
+        <div class="footer-part built-with-area">
+          <h5 class="footer-heading mono">Built With</h5>
+          <div class="built-tech-list mono">
+            <span>Angular 19</span>
+            <span class="dot-separator"></span>
+            <span>TypeScript</span>
+            <span class="dot-separator"></span>
+            <span>Tailwind CSS</span>
+            <span class="dot-separator"></span>
+            <span>Vercel</span>
+          </div>
+        </div>
+
+        <!-- 3. Availability -->
+        <div class="footer-part availability-area">
+          <h5 class="footer-heading mono">Availability</h5>
+          <p class="availability-status">
+            <span class="status-dot pulse"></span>
+            Based in India • Open to remote & product roles
           </p>
         </div>
-        <div class="footer-column">
-          <h5 class="footer-heading mono">Availability</h5>
-          <p class="footer-status">Open to strategic roles / Remote-friendly</p>
-        </div>
       </div>
-      <div class="footer-bottom mono text-dim">
+
+      <div class="footer-copyright-strip mono">
         &copy; 2026 Mohit Upadhyay // Production Grade Development.
       </div>
     </footer>

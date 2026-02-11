@@ -25,9 +25,16 @@
   --space-2xl: 4rem;    /* 64px */
   --space-3xl: 6rem;    /* 96px */
   --space-slug: 8rem;   /* 128px */
-  --section-padding: 140px;
+  --section-padding: 60px;
   --card-gap: 40px;
   --text-gap: 24px;
+
+  /* Specific context colors */
+  --contact-bg: #12151C;
+  --input-bg: #161A22;
+  --input-border: rgba(255, 255, 255, 0.05);
+  --tag-bg: rgba(255, 255, 255, 0.03);
+  --tag-active-bg: rgba(229, 83, 61, 0.1);
   
   /* Typography */
   --font-heading: 'Inter', system-ui, -apple-system, sans-serif;

@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface Skill {
   name: string;
@@ -31,9 +32,16 @@ interface WorkStep {
   icon: string;
 }
 
+interface ContactForm {
+  name: string;
+  email: string;
+  message: string;
+  selectedTags: string[];
+}
+
 @Component({
   selector: 'app-root',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -42,10 +50,21 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   activeSection = 'home';
   private observer!: IntersectionObserver;
 
+  // Contact Form State
+  contactForm: ContactForm = {
+    name: '',
+    email: '',
+    message: '',
+    selectedTags: []
+  };
+
+  availableTags = ['Hiring / Opportunity', 'Project Collaboration'];
+
   // Personal Information
   personalInfo = {
     name: 'Mohit Upadhyay',
     headline: 'High-performance Dashboards, Payment Systems, and AI-powered Automation',
+    highlight: 'build for production',
     description: '4+ years of Full-Stack experience building enterprise-grade SPAs and secure backend services. Specialized in Angular, Node.js, and production-scale architectures.',
     email: 'mohitu531@gmail.com',
     github: 'https://github.com/Mohitupa',
@@ -201,6 +220,32 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  }
+
+  toggleTag(tag: string): void {
+    const index = this.contactForm.selectedTags.indexOf(tag);
+    if (index > -1) {
+      this.contactForm.selectedTags.splice(index, 1);
+    } else {
+      this.contactForm.selectedTags.push(tag);
+    }
+  }
+
+  isTagSelected(tag: string): boolean {
+    return this.contactForm.selectedTags.includes(tag);
+  }
+
+  sendMessage(): void {
+    console.log('Sending message:', this.contactForm);
+    // In a real app, this would call a backend service
+    alert('Thank you for reaching out! I will get back to you soon.');
+    // Reset form
+    this.contactForm = {
+      name: '',
+      email: '',
+      message: '',
+      selectedTags: []
+    };
   }
 
   ngAfterViewInit() {
