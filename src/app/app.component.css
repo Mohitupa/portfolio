@@ -14,13 +14,7 @@
   border-bottom: 1px solid rgba(230, 232, 235, 0.03);
 }
 
-.section:nth-of-type(even) {
-  background-color: var(--color-bg-secondary);
-}
 
-.section:nth-of-type(odd) {
-  background-color: var(--color-bg-primary);
-}
 
 .container {
   max-width: var(--container-width);
@@ -98,6 +92,8 @@
 
 /* Navigation */
 .navbar {
+  max-width: 64rem;
+  margin: 0 auto;
   position: fixed;
   top: 0;
   left: 0;
@@ -339,7 +335,7 @@
 /* Featured Work / Projects */
 .projects-editor-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
   gap: var(--card-gap);
 }
 
