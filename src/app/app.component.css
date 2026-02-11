@@ -123,6 +123,7 @@
 }
 
 .nav-links {
+  cursor: pointer;
   display: flex;
   gap: var(--space-lg);
 }
@@ -143,9 +144,6 @@
   align-items: center;
   padding-top: 100px;
   padding-bottom: 60px;
-  background-image: 
-    radial-gradient(circle at 50% 50%, rgba(229, 83, 61, 0.03) 0%, transparent 70%);
-  border-bottom: 1px solid rgba(230, 232, 235, 0.05);
 }
 
 .hero-content {
