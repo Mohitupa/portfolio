@@ -11,7 +11,7 @@
 .section {
   padding: var(--section-padding) 0;
   position: relative;
-  border-bottom: 1px solid rgba(230, 232, 235, 0.03);
+  /* border-bottom: 1px solid rgba(230, 232, 235, 0.03); */
 }
 
 
@@ -361,7 +361,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  /* border-bottom: 1px solid rgba(255,255,255,0.05); */
 }
 
 .chrome-dots {
@@ -435,7 +435,7 @@
 .editor-footer {
   padding: 12px 24px;
   background: #161A22;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  /* border-top: 1px solid rgba(255,255,255,0.05); */
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
@@ -516,7 +516,7 @@
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  border-top: 1px solid rgba(255,255,255,0.03);
+  /* border-top: 1px solid rgba(255,255,255,0.03); */
   padding-top: var(--space-sm);
 }
 
@@ -524,7 +524,7 @@
 .footer-expanded {
   margin-top: var(--space-slug);
   padding: var(--space-2xl) 0 var(--space-xl) 0;
-  border-top: 1px solid var(--color-border);
+  /* border-top: 1px solid var(--color-border); */
 }
 
 .footer-grid {
@@ -563,7 +563,7 @@
 
 .footer-bottom {
   padding-top: var(--space-lg);
-  border-top: 1px solid rgba(255,255,255,0.03);
+  /* border-top: 1px solid rgba(255,255,255,0.03); */
   text-align: center;
   font-size: 0.85rem;
 }
@@ -807,7 +807,7 @@
 .footer-refined {
   margin-top: var(--space-slug);
   padding: var(--space-3xl) 0 var(--space-xl) 0;
-  border-top: 1px solid var(--color-border);
+  /* border-top: 1px solid var(--color-border); */
 }
 
 .footer-main-grid {
@@ -861,7 +861,7 @@
 
 .availability-status {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: flex-end;
   gap: 12px;
   font-size: 0.95rem;
@@ -891,8 +891,8 @@
 }
 
 .footer-copyright-strip {
-  padding-top: var(--space-xl);
-  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  /* padding-top: var(--space-xl); */
+  /* border-top: 1px solid rgba(255, 255, 255, 0.03); */
   text-align: center;
   font-size: 0.8rem;
   color: var(--color-text-dim);
