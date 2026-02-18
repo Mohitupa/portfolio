@@ -742,7 +742,7 @@
 }
 
 .project-system-container.visible {
-  animation: fade-in-up 0.8s var(--ease-smooth) forwards;
+  animation: system-fade-up 0.8s var(--ease-smooth) forwards;
 }
 
 .module-panel {
@@ -750,7 +750,7 @@
 }
 
 .project-system-container.visible .module-panel {
-  animation: fade-in-up 0.6s var(--ease-smooth) forwards;
+  animation: system-fade-up 0.6s var(--ease-smooth) forwards;
 }
 
 .project-system-container.visible .module-panel:nth-child(1) { animation-delay: 0.2s; }
@@ -1207,15 +1207,31 @@
   letter-spacing: 0.1em;
 }
 
+@keyframes system-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Animations Core */
 .fade-in-up, .stagger-item {
-  opacity: 0;
+  opacity: 0 !important; /* Force hide before intersection */
   transform: translateY(15px);
   transition: all 700ms var(--ease-smooth);
 }
 
+.fade-in-up.visible, .stagger-item.visible {
+  opacity: 1 !important;
+  transform: translateY(0);
+}
+
 .visible {
-  opacity: 1;
+  opacity: 1 !important;
   transform: translateY(0);
 }
 

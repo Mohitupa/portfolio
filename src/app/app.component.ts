@@ -214,37 +214,48 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
   ];
 
-  // Projects - Detailed Coverage with Modular Dashboard Data
   projects: Project[] = [
     {
       title: 'Smart Rider',
       year: '2025',
       description: 'AI-driven passenger engagement platform for real-time transport analytics.',
       image: '/smart-rider.png',
-      technologies: ['Angular 19', 'Node.js', 'MongoDB', 'OpenAI'],
+      technologies: ['Angular 19', 'Node.js', 'MongoDB', 'OpenAI', 'amCharts'],
       highlights: [],
       stats: [
         { label: 'Retention', value: '+45%' },
-        { label: 'Efficiency', value: '+30%' }
+        { label: 'Latency', value: '-15%' }
       ],
       modules: [
         {
-          category: 'Architecture & AI',
+          category: 'AI & Architecture',
           icon: 'M12,13A5,5 0 0,1 7,8A5,5 0 0,1 12,3A5,5 0 0,1 17,8A5,5 0 0,1 12,13M12,1L8,5H11V14H13V5H16L12,1',
           accent: 'cyan',
-          bullets: ['Angular 19 / TypeScript', 'OpenAI GPT-3.5 Integration', 'Whisper Voice Analysis']
+          bullets: [
+            'Built intelligent content engine with OpenAI GPT-3.5',
+            'Integrated Whisper for multilingual voice interactions',
+            'Architected scalable Node.js/MongoDB full-stack platform'
+          ]
         },
         {
-          category: 'Real-Time Metrics',
+          category: 'Real-Time Insights',
           icon: 'M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z',
           accent: 'cyan',
-          bullets: ['ECharts Data Visualization', '1000+ Real-time Data Points', 'WebSocket Live Updates']
+          bullets: [
+            'Created admin dashboard with amCharts 5 & ECharts',
+            'Real-time data sync with Uber and OpenAI APIs',
+            'Actionable metrics for growth and engagement tracking'
+          ]
         },
         {
-          category: 'Impact & Scale',
+          category: 'Production Integrity',
           icon: 'M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M13,10V8H11V10H13M13,16V12H11V16H13Z',
           accent: 'amber',
-          bullets: ['Personalized Content Engine', 'Multilingual Support', 'Scalable Transit Analytics']
+          bullets: [
+            'Established secure RBAC system with JWT Auth',
+            'Modeled normalized schemas for high-concurrency',
+            'Automated 3rd-party API orchestration workflows'
+          ]
         }
       ]
     },
@@ -253,30 +264,42 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       year: '2025',
       description: 'Multi-module booking and logistics infrastructure for island-wide services.',
       image: '/anything-roatan.png',
-      technologies: ['Angular', 'Node.js', 'Google Maps', 'PixelPay'],
+      technologies: ['Angular', 'Ionic', 'Google Maps', 'PixelPay', 'PHP'],
       highlights: [],
       stats: [
-        { label: 'Automation', value: '90%' },
-        { label: 'Latency', value: '-20%' }
+        { label: 'Wait Time', value: '-30%' },
+        { label: 'Booking rate', value: '+40%' }
       ],
       modules: [
         {
-          category: 'Logistics Engine',
+          category: 'Logistics & Booking',
           icon: 'M20,4H4C2.9,4,2,4.9,2,6v12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.1,4,20,4z M20,18H4V6h16V18z M6,8h12v2H6V8z M6,11h12v2H6V11z M6,14h8v2H6V14z',
           accent: 'cyan',
-          bullets: ['PixelPay Payment Gateway', 'Real-time Booking Validation', 'Taxi Dispatch Logic']
+          bullets: [
+            'Integrated PixelPay gateway for secure bookings',
+            'Built complex pricing logic and capacity management',
+            'Automated payment reminders and status validation'
+          ]
         },
         {
-          category: 'Mapping & Routing',
+          category: 'Mapping & Mobility',
           icon: 'M12,2C8.13,2 5,5.13 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9C19,5.13 15.87,2 12,2M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5Z',
           accent: 'cyan',
-          bullets: ['Google Maps API Integration', 'Distance-based Fare Engine', 'Live Driver Tracking']
+          bullets: [
+            'Real-time taxi booking with Google Maps API',
+            'Built distance-based automated fare calculation',
+            'Implemented location detection and ride flow states'
+          ]
         },
         {
-          category: 'Business Impact',
+          category: 'Unified Operations',
           icon: 'M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M13,10V8H11V10H13M13,16V12H11V16H13Z',
           accent: 'amber',
-          bullets: ['Automated Island Logistics', 'Reduced Manual Oversight', 'Secure Multi-vendor Flows']
+          bullets: [
+            'Added in-app chat with message persistence',
+            'Built modular admin panel for real-time site control',
+            'Standardized responsive UI/UX across 8+ modules'
+          ]
         }
       ]
     },
@@ -285,30 +308,42 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       year: '2024',
       description: 'Enterprise storage management UI handling 100+ administrative modules.',
       image: '/nimbus-data.png',
-      technologies: ['Angular 19', 'RxJS', 'Material', 'MySQL'],
+      technologies: ['Angular 19', 'Material', 'Laravel', 'PHP 8.4', 'MySQL'],
       highlights: [],
       stats: [
         { label: 'Screens', value: '100+' },
-        { label: 'Efficiency', value: '+30%' }
+        { label: 'Error Rate', value: '-20%' }
       ],
       modules: [
         {
-          category: 'Storage Operations',
+          category: 'Large-Scale Frontend',
           icon: 'M2,14H8V20H2V14M10,14H16V20H10V14M18,14H24V20H18V14M2,4H8V10H2V4M10,4H16V10H10V4M18,4H24V10H18V4Z',
           accent: 'cyan',
-          bullets: ['Snapshot Management', 'Replication Workflows', 'Modular SPA Architecture']
+          bullets: [
+            'Directed development of 100+ modular screens',
+            'Reduced code duplication by 30% through shared architecture',
+            'Implemented Angular Material global design system'
+          ]
         },
         {
-          category: 'System Monitoring',
+          category: 'Storage Ecosystem',
           icon: 'M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z',
           accent: 'cyan',
-          bullets: ['Controller Health Tracking', 'Sensor Data Aggregation', 'Real-time Alerts Engine']
+          bullets: [
+            'Real-time metrics for controllers, drives, and pools',
+            'Complex CRUD workflows for snapshots and replication',
+            'Automated system health and controller HA tracking'
+          ]
         },
         {
-          category: 'Impact & Scale',
+          category: 'Backend Migration',
           icon: 'M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M13,10V8H11V10H13M13,16V12H11V16H13Z',
           accent: 'amber',
-          bullets: ['100+ Administrative Screens', 'High-Availability Management', 'Unified Enterprise Storage UI']
+          bullets: [
+            'Upgraded Laravel/Lumen backend to v11 and PHP 8.4',
+            'Ubuntu server setup with Supervisor and MySQL',
+            'Built Vantage installation shell scripts for DevOps'
+          ]
         }
       ]
     },
@@ -317,30 +352,42 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       year: '2023',
       description: 'Automated Amazon fulfillment management with subscription-based access.',
       image: '/fba-system.png',
-      technologies: ['Node.js', 'Angular', 'Amazon SP-API', 'Stripe'],
+      technologies: ['Node.js', 'Angular', 'Amazon SP-API', 'Stripe', 'AWS'],
       highlights: [],
       stats: [
-        { label: 'Oversight', value: '-40%' },
-        { label: 'Sync Rate', value: '100%' }
+        { label: 'Man-hours', value: '-40%' },
+        { label: 'Uptime', value: '99.9%' }
       ],
       modules: [
         {
-          category: 'Amazon Integration',
+          category: 'Amazon Ecosystem',
           icon: 'M12,2l0.35,0l1.32,1.32c0.2,0.2 0.52,0.2 0.72,0l1.32,-1.32l0.35,0c0.23,0 0.45,0.09 0.61,0.25l7.07,7.07c0.16,0.16 0.25,0.38 0.25,0.61l0,0.35l-1.32,1.32c-0.2,0.2 -0.2,0.52 0,0.72l1.32,1.32l0,0.35c0,0.23 -0.09,0.45 -0.25,0.61l-7.07,7.07c-0.16,0.16 -0.38,0.25 -0.61,0.25l-0.35,0l-1.32,-1.32c-0.2,-0.2 -0.52,-0.2 -0.72,0l-1.32,1.32l-0.35,0c-0.23,0 -0.45,-0.09 -0.61,-0.25l-7.07,-7.07c-0.16,-0.16 -0.25,-0.38 -0.25,-0.61l0,-0.35l1.32,-1.32c0.2,-0.2 0.2,-0.52 0,-0.72l-1.32,-1.32l0,-0.35c0,-0.23 0.09,-0.45 0.25,-0.61l7.07,-7.07c0.16,-0.16 0.38,-0.25 0.61,-0.25Z',
           accent: 'cyan',
-          bullets: ['Amazon SP-API Integration', 'Sync Engine (Node.js Jobs)', 'Automatic Inventory Tracking']
+          bullets: [
+            'Streamlined order tracking via Amazon SP-API',
+            'Automated inventory sync reducing manual oversight',
+            'Real-time Google Sheets product shop automation'
+          ]
         },
         {
-          category: 'Subscription Model',
+          category: 'Revenue Operations',
           icon: 'M21,18H24V20H21V18M19,10V14H21V10H19M19,16V18H21V16H19M3,20V4H17V9H19V4A2,2 0 0,0 17,2H3A2,2 0 0,0 1,4V20A2,2 0 0,0 3,22H17V20H3M6,6V8H14V6H6M6,10V12H14V10H6M6,14V16H10V14H6Z',
           accent: 'cyan',
-          bullets: ['Stripe Recurring Billing', 'User Access Management', 'Financial Webhooks']
+          bullets: [
+            'Engineered Stripe recurring subscription model',
+            'Improved transaction reliability and scalability',
+            'Implemented promotional rules and retention systems'
+          ]
         },
         {
-          category: 'Operational Impact',
+          category: 'Cloud Infrastructure',
           icon: 'M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M13,10V8H11V10H13M13,16V12H11V16H13Z',
           accent: 'amber',
-          bullets: ['40% Less Manual Oversight', 'Automated FBA Syncing', 'Enterprise Inventory Scale']
+          bullets: [
+            'Deployed and maintained on AWS (EC2, S3, RDS)',
+            'Orchestrated automated inventory sync background jobs',
+            'Ensured enterprise reliability for fulfillment data'
+          ]
         }
       ]
     },
@@ -349,30 +396,42 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       year: '2023',
       description: 'Global health data visualization platform enabling multi-country analysis.',
       image: '/digital-health.png',
-      technologies: ['Angular', 'NestJS', 'amCharts', 'PostgreSQL'],
+      technologies: ['Angular', 'NestJS', 'amCharts', 'PostgreSQL', 'Figma'],
       highlights: [],
       stats: [
-        { label: 'Countries', value: '50+' },
-        { label: 'Data Points', value: '1M+' }
+        { label: 'Impact', value: '50+ ctries' },
+        { label: 'Analy. Gain', value: '+40%' }
       ],
       modules: [
         {
-          category: 'Data Visualization',
+          category: 'Data Analytics',
           icon: 'M3,13H9V19H3V13M11,5H17V19H11V5M19,10H25V19H19V10Z',
           accent: 'cyan',
-          bullets: ['amCharts Complex Analysis', 'Radar & Bubble Chart Models', 'Multi-year Trend Loading']
+          bullets: [
+            'Interactive dashboard with maps and amCharts',
+            'Side-by-side country comparison with dynamic charts',
+            'Handled complex visual interpretations for health data'
+          ]
         },
         {
-          category: 'Backend Services',
+          category: 'Backend Hub',
           icon: 'M12,1L8,5H11V14H13V5H16L12,1M3,21V16H5V21H19V16H21V21A2,2 0 0,1 19,23H5A2,2 0 0,1 3,21Z',
           accent: 'cyan',
-          bullets: ['NestJS Data Aggregators', 'PostgreSQL Multi-country Data', 'API Design for Scale']
+          bullets: [
+            'Architected NestJS REST APIs for multi-year data',
+            'Built Excel data import/export automation scripts',
+            'Optimized PostgreSQL queries for strategic insights'
+          ]
         },
         {
-          category: 'Global Impact',
+          category: 'Design & Deployment',
           icon: 'M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M13,10V8H11V10H13M13,16V12H11V16H13Z',
           accent: 'amber',
-          bullets: ['50+ Country Analysis', 'Global Health Strategy Tool', 'Multi-year Insight Graphing']
+          bullets: [
+            'Transformed Figma designs into responsive components',
+            'Managed global build deployment and server validation',
+            'Supported verified multi-year dataset migrations'
+          ]
         }
       ]
     }
