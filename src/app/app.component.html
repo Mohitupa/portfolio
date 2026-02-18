@@ -93,19 +93,30 @@
 </section>
 
 <!-- Tech Stack -->
-<section class="section">
-  <div class="container">
+<section class="section skills-section">
+  <div class="skills-ambient-glow"></div>
+  <div class="skills-light-gradient"></div>
+
+  <div class="container relative-z">
     <h2 class="section-title fade-in-up">Core <span class="text-accent">Competencies</span></h2>
     <p class="section-subtitle fade-in-up">Production-level expertise across the full-stack lifecycle.</p>
 
     <div class="skills-grid">
-      <div *ngFor="let category of getSkillCategories()" class="skill-category stagger-item"
-        style="transform: translate3d(calc(var(--mouse-x, 0) * 10px), calc(var(--mouse-y, 0) * 10px), 0)">
-        <h4 class="cat-title">{{ category }}</h4>
-        <div class="tags-list">
-          <span *ngFor="let skill of getSkillsByCategory(category)" class="skill-tag mono">
-            {{ skill.name }}
-          </span>
+      <div *ngFor="let category of getSkillCategories()" class="skill-category-card fade-in-up"
+        [style.--glow-color]="getCategoryColor(category)">
+        <div class="category-accent-line"></div>
+        <div class="category-content">
+          <div class="cat-header">
+            <svg class="cat-icon-svg" viewBox="0 0 24 24" fill="currentColor">
+              <path [attr.d]="getCategorySvg(category)"></path>
+            </svg>
+            <h4 class="cat-title">{{ category }}</h4>
+          </div>
+          <div class="tags-list">
+            <span *ngFor="let skill of getSkillsByCategory(category)" class="skill-tag mono">
+              {{ skill.name }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -199,14 +210,22 @@
 
         <div class="social-links-grid">
           <a [href]="personalInfo.github" target="_blank" class="social-btn">
-            <span class="social-icon"></span> GitHub
+            <svg class="social-icon-svg" viewBox="0 0 24 24" fill="currentColor">
+              <path [attr.d]="getSocialSvg('github')"></path>
+            </svg>
+            GitHub
           </a>
           <a [href]="personalInfo.linkedin" target="_blank" class="social-btn">
-            <span class="social-icon"></span> LinkedIn
+            <svg class="social-icon-svg" viewBox="0 0 24 24" fill="currentColor">
+              <path [attr.d]="getSocialSvg('linkedin')"></path>
+            </svg>
+            LinkedIn
           </a>
-          <!-- Optional Twitter/X placeholder -->
           <a href="#" class="social-btn">
-            <span class="social-icon"></span> Twitter / X
+            <svg class="social-icon-svg" viewBox="0 0 24 24" fill="currentColor">
+              <path [attr.d]="getSocialSvg('twitter')"></path>
+            </svg>
+            Twitter / X
           </a>
         </div>
       </div>
