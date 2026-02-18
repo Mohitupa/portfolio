@@ -129,39 +129,53 @@
     <h2 class="section-title fade-in-up">Featured <span class="text-accent">Systems</span></h2>
     <p class="section-subtitle fade-in-up">Scalable platforms delivered for real-world production use.</p>
 
-    <!-- Large Featured Cards (First 3) -->
-    <div class="projects-editor-grid">
-      <div *ngFor="let project of projects.slice(0, 5); let i = index" class="editor-card fade-in-up"
-        [style.transform]="'translate3d(calc(var(--mouse-x, 0) * ' + (20 + i * 5) + 'px), calc(var(--mouse-y, 0) * ' + (20 + i * 5) + 'px), 0)'">
-        <div class="editor-chrome">
-          <div class="chrome-dots">
-            <div class="chrome-dot"></div>
-            <div class="chrome-dot"></div>
-            <div class="chrome-dot"></div>
+    <!-- Enterprise System Dashboard Grid -->
+    <div class="systemic-dashboard">
+      <div *ngFor="let project of projects; let i = index" class="project-system-container fade-in-up">
+
+        <!-- System Header -->
+        <div class="system-header">
+          <div class="header-left">
+            <div class="system-type-badge">ENTERPRISE SYSTEM</div>
+            <h3 class="system-title">{{ project.title }}</h3>
+            <p class="system-desc">{{ project.description }}</p>
           </div>
-          <span class="mono" style="font-size: 11px; color: var(--color-text-dim);">{{
-            project.title.toLowerCase().replace(' ', '_') }}.ts</span>
+          <div class="header-right">
+            <div class="system-stat" *ngFor="let stat of project.stats">
+              <span class="stat-label">{{ stat.label }}</span>
+              <span class="stat-value">{{ stat.value }}</span>
+            </div>
+            <div class="system-year">{{ project.year }}</div>
+          </div>
         </div>
 
-        <div class="editor-main">
-          <div class="editor-sidebar">
-            <div class="line-numbers">
-              1<br>2<br>3<br>4<br>5<br>6
+        <!-- Modular Glass Panels -->
+        <div class="system-modules-grid">
+          <div *ngFor="let module of project.modules" class="module-panel"
+            [class.accent-cyan]="module.accent === 'cyan'" [class.accent-amber]="module.accent === 'amber'">
+            <div class="panel-border-animate"></div>
+            <div class="panel-content">
+              <div class="panel-header">
+                <svg class="panel-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path [attr.d]="module.icon"></path>
+                </svg>
+                <span class="panel-category">{{ module.category }}</span>
+              </div>
+              <ul class="panel-bullets">
+                <li *ngFor="let bullet of module.bullets">
+                  <span class="bullet-arrow">›</span>
+                  {{ bullet }}
+                </li>
+              </ul>
             </div>
           </div>
-          <div class="editor-content">
-            <h3 class="project-editor-title">{{ project.title }}</h3>
-            <ul class="editor-list">
-              <li *ngFor="let highlight of project.highlights" class="editor-list-item">
-                <span class="item-arrow">›</span>
-                <span class="item-text" [innerHTML]="highlight"></span>
-              </li>
-            </ul>
-          </div>
         </div>
 
-        <div class="editor-footer">
-          <span *ngFor="let tech of project.technologies" class="editor-tag">{{ tech }}</span>
+        <!-- System Tech Stack Footer -->
+        <div class="system-footer">
+          <div class="tech-labels">
+            <span *ngFor="let tech of project.technologies" class="tech-pill">{{ tech }}</span>
+          </div>
         </div>
       </div>
     </div>
