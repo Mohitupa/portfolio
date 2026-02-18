@@ -256,6 +256,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      this.activeSection = sectionId; // Immediate feedback for clicks
       this.isMenuOpen = false;
     }
   }
@@ -418,11 +419,18 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   }
 
   private setupSectionObserver() {
-    const sections = document.querySelectorAll('section[id]');
-    const observerOptions = { threshold: 0.3 };
+    // Include both header and sections. Home is usually the header[id="home"]
+    const sections = document.querySelectorAll('header[id], section[id]');
+
+    const observerOptions = {
+      // Trigger when the section occupies a significant part of the viewport
+      threshold: 0.4,
+      rootMargin: '-80px 0px 0px 0px' // Offset for possible fixed header height
+    };
 
     this.observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
+        // We only care about sections entering the view
         if (entry.isIntersecting) {
           this.activeSection = entry.target.id;
         }
