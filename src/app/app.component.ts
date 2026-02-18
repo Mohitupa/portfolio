@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -46,9 +46,23 @@ interface ContactForm {
   styleUrl: './app.component.css'
 })
 export class AppComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('heroCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
+
   title = 'portfolio';
+  isMenuOpen = false;
   activeSection = 'home';
+
   private observer!: IntersectionObserver;
+  private animationId: number | null = null;
+  private frames: HTMLImageElement[] = [];
+  private currentFrame = 0;
+  private lastTime = 0;
+  private frameCount = 240;
+  private totalScrollable = 0;
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
 
   // Contact Form State
   contactForm: ContactForm = {
@@ -207,6 +221,17 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
   ];
 
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    // Programmatic scroll tracking is now handled directly in renderCanvas for zero-lag sync
+  }
+
+  @HostListener('window:resize')
+  onWindowResize() {
+    this.resizeCanvas();
+    this.updateScrollDimensions();
+  }
+
   getSkillCategories(): string[] {
     return [...new Set(this.skills.map(skill => skill.category))];
   }
@@ -219,6 +244,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      this.isMenuOpen = false;
     }
   }
 
@@ -249,14 +275,107 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
+    this.preloadFrames();
     this.setupScrollAnimations();
     this.setupSectionObserver();
+    this.updateScrollDimensions();
+    this.initCanvasAnimation();
   }
 
   ngOnDestroy() {
     if (this.observer) {
       this.observer.disconnect();
     }
+    if (this.animationId) {
+      cancelAnimationFrame(this.animationId);
+    }
+  }
+
+  private preloadFrames() {
+    for (let i = 1; i <= this.frameCount; i++) {
+      const img = new Image();
+      const num = i.toString().padStart(3, '0');
+      img.src = `/animation/ezgif-frame-${num}.jpg`;
+      this.frames.push(img);
+    }
+  }
+
+  private initCanvasAnimation() {
+    const canvas = this.canvasRef.nativeElement;
+    this.resizeCanvas();
+
+    const animate = (time: number) => {
+      this.renderCanvas(time);
+      this.animationId = requestAnimationFrame(animate);
+    };
+
+    this.animationId = requestAnimationFrame(animate);
+  }
+
+  private resizeCanvas() {
+    const canvas = this.canvasRef.nativeElement;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  private updateScrollDimensions() {
+    this.totalScrollable = document.documentElement.scrollHeight - window.innerHeight;
+  }
+
+  private renderCanvas(time: number) {
+    const canvas = this.canvasRef.nativeElement;
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx || this.totalScrollable <= 0) return;
+
+    // Direct scroll sync for the frame index to reduce lag
+    const immediateScrollY = window.scrollY;
+    const scrollFraction = Math.max(0, Math.min(1, immediateScrollY / this.totalScrollable));
+
+    // Map scroll fraction to frame index
+    const targetFrame = scrollFraction * (this.frameCount - 1);
+
+    // Smooth frame transition: single lerp for the "liquid" feel
+    // Use a slightly higher factor to ensure frames are not missed during fast scrolls
+    const dist = targetFrame - this.currentFrame;
+    this.currentFrame += dist * 0.25;
+
+    const displayFrame = Math.round(this.currentFrame);
+    const img = this.frames[displayFrame];
+
+    // Performance: Skip rendering if frame not ready
+    if (!img || !img.complete) return;
+
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Global Anti-gravity Parallax & Drift
+    // Use immediate scroll for parallax to maintain perfect sync with page content
+    const parallaxOffset = immediateScrollY * 0.08;
+    const floatingOffset = Math.sin(time * 0.001) * 12;
+
+    // Draw Image with coverage logic
+    const canvasAspect = canvas.width / canvas.height;
+    const imgAspect = img.width / img.height;
+
+    let drawWidth, drawHeight, offsetX, offsetY;
+
+    if (canvasAspect > imgAspect) {
+      drawWidth = canvas.width;
+      drawHeight = canvas.width / imgAspect;
+      offsetX = 0;
+      offsetY = (canvas.height - drawHeight) / 2;
+    } else {
+      drawWidth = canvas.height * imgAspect;
+      drawHeight = canvas.height;
+      offsetX = (canvas.width - drawWidth) / 2;
+      offsetY = 0;
+    }
+
+    // REMOVED: Modulus snap. Use linear offset for a continuous motion.
+    const finalY = offsetY - parallaxOffset + floatingOffset;
+
+    ctx.globalAlpha = 1.0;
+    ctx.drawImage(img, Math.floor(offsetX), Math.floor(finalY), Math.floor(drawWidth), Math.floor(drawHeight));
   }
 
   private setupScrollAnimations() {

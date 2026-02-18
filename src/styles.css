@@ -43,6 +43,9 @@
   /* Motion */
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-base: 400ms;
+
+  /* Layout */
+  --container-width: 1200px;
 }
 
 * {
@@ -63,7 +66,7 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  max-width: 64rem;
+  /* max-width: 64rem; */
   margin: 0 auto;
 }
 
@@ -80,7 +83,7 @@ body::before {
     linear-gradient(90deg, rgba(230, 232, 235, 0.02) 1px, transparent 1px);
   background-size: 60px 60px;
   pointer-events: none;
-  z-index: 0;
+  z-index: -2;
 }
 
 /* Scrollbar Styling */
