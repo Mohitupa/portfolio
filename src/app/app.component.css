@@ -728,7 +728,13 @@
 .system-footer {
   display: flex;
   justify-content: flex-start;
-  gap: 12px;
+  margin-top: 8px;
+}
+
+.tech-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .tech-pill {
@@ -1282,6 +1288,57 @@
   .about-stats-row { flex-direction: column; align-items: center; }
   .exp-header { flex-direction: column; gap: var(--space-xs); }
   .tag-selection-area { flex-direction: column; }
+
+  /* Featured Systems Mobile Optimizations */
+  .systemic-dashboard {
+    gap: 40px;
+  }
+
+  .project-system-container {
+    padding: 20px;
+  }
+
+  .system-header {
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 16px;
+  }
+
+  .system-stat {
+    align-items: flex-start;
+  }
+
+  .system-title {
+    font-size: 1.5rem;
+  }
+
+  .system-desc {
+    font-size: 0.85rem;
+  }
+
+  .system-modules-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .module-panel {
+    padding: 20px;
+  }
+
+  .panel-category {
+    font-size: 0.85rem;
+  }
+
+  .panel-bullets li {
+    font-size: 0.8rem;
+  }
 }
 
 /* Zero-G Floating Animations */
