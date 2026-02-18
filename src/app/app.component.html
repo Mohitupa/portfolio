@@ -30,10 +30,12 @@
   <div class="container hero-container">
     <div class="hero-content">
       <span class="hero-label mono fade-in-up" aria-hidden="true">// Full-Stack Software Engineer</span>
-      <h1 class="hero-title fade-in-up">
+      <h1 class="hero-title fade-in-up"
+        style="transform: translate3d(calc(var(--mouse-x, 0) * 30px), calc(var(--mouse-y, 0) * 30px), 0)">
         {{ personalInfo.headline }}
       </h1>
-      <h3 class="hero-highlight fade-in-up">
+      <h3 class="hero-highlight fade-in-up"
+        style="transform: translate3d(calc(var(--mouse-x, 0) * 20px), calc(var(--mouse-y, 0) * 20px), 0)">
         — {{ personalInfo.highlight }}
       </h3>
       <p class="hero-description fade-in-up">
@@ -41,7 +43,8 @@
       </p>
       <div class="hero-cta fade-in-up">
         <button (click)="scrollToSection('projects')" class="btn btn-primary">View Projects</button>
-        <a href="/Resume.pdf" target="_blank" class="btn btn-outline">Resume</a>
+        <a href="/Resume.pdf" target="_blank" class="btn btn-outline"
+          style="transform: translate3d(calc(var(--mouse-x, 0) * 15px), calc(var(--mouse-y, 0) * 15px), 0)">Resume</a>
       </div>
     </div>
   </div>
@@ -55,7 +58,8 @@
 
     <div class="work-container">
       <div class="work-timeline">
-        <div *ngFor="let step of workSteps" class="work-step-row fade-in-up">
+        <div *ngFor="let step of workSteps; let i = index" class="work-step-row fade-in-up"
+          [style.transform]="'translate3d(calc(var(--mouse-x, 0) * ' + (10 + i * 5) + 'px), calc(var(--mouse-y, 0) * ' + (10 + i * 5) + 'px), 0)'">
           <div class="step-number-box">{{ step.number }}</div>
           <div class="work-step-card">
             <h3 class="step-card-title">{{ step.title }}</h3>
@@ -77,7 +81,9 @@
       </div>
 
       <div class="about-stats-row">
-        <div *ngFor="let stat of personalInfo.about.stats" class="about-stat-panel glass-card stagger-item">
+        <div *ngFor="let stat of personalInfo.about.stats; let i = index"
+          class="about-stat-panel glass-card stagger-item"
+          [style.transform]="'translate3d(calc(var(--mouse-x, 0) * ' + (15 + i * 10) + 'px), calc(var(--mouse-y, 0) * ' + (15 + i * 10) + 'px), 0)'">
           <span class="stat-panel-val">{{ stat.label.split(' ')[0] }}</span>
           <span class="stat-panel-label">{{ stat.label.substring(stat.label.indexOf(' ')) }}</span>
         </div>
@@ -93,7 +99,8 @@
     <p class="section-subtitle fade-in-up">Production-level expertise across the full-stack lifecycle.</p>
 
     <div class="skills-grid">
-      <div *ngFor="let category of getSkillCategories()" class="skill-category stagger-item">
+      <div *ngFor="let category of getSkillCategories()" class="skill-category stagger-item"
+        style="transform: translate3d(calc(var(--mouse-x, 0) * 10px), calc(var(--mouse-y, 0) * 10px), 0)">
         <h4 class="cat-title">{{ category }}</h4>
         <div class="tags-list">
           <span *ngFor="let skill of getSkillsByCategory(category)" class="skill-tag mono">
@@ -113,7 +120,8 @@
 
     <!-- Large Featured Cards (First 3) -->
     <div class="projects-editor-grid">
-      <div *ngFor="let project of projects.slice(0, 5)" class="editor-card fade-in-up">
+      <div *ngFor="let project of projects.slice(0, 5); let i = index" class="editor-card fade-in-up"
+        [style.transform]="'translate3d(calc(var(--mouse-x, 0) * ' + (20 + i * 5) + 'px), calc(var(--mouse-y, 0) * ' + (20 + i * 5) + 'px), 0)'">
         <div class="editor-chrome">
           <div class="chrome-dots">
             <div class="chrome-dot"></div>
@@ -205,7 +213,8 @@
 
       <!-- Right side: Modern Form -->
       <div class="contact-form-container">
-        <form class="modern-form" (submit)="sendMessage(); $event.preventDefault()">
+        <form class="modern-form" (submit)="sendMessage(); $event.preventDefault()"
+          style="transform: translate3d(calc(var(--mouse-x, 0) * -20px), calc(var(--mouse-y, 0) * -20px), 0);">
           <div class="form-group">
             <label for="name" class="form-label">Your Name</label>
             <input type="text" id="name" name="name" [(ngModel)]="contactForm.name" class="form-input"

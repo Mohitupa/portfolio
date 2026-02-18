@@ -59,6 +59,11 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   private lastTime = 0;
   private frameCount = 240;
   private totalScrollable = 0;
+  private mouseX = 0;
+  private mouseY = 0;
+  private targetMouseX = 0;
+  private targetMouseY = 0;
+  private mouseLerp = 0.05;
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
@@ -232,6 +237,13 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     this.updateScrollDimensions();
   }
 
+  @HostListener('window:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent) {
+    // Standardize to -0.5 to 0.5 range
+    this.targetMouseX = (event.clientX / window.innerWidth) - 0.5;
+    this.targetMouseY = (event.clientY / window.innerHeight) - 0.5;
+  }
+
   getSkillCategories(): string[] {
     return [...new Set(this.skills.map(skill => skill.category))];
   }
@@ -334,10 +346,17 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     // Map scroll fraction to frame index
     const targetFrame = scrollFraction * (this.frameCount - 1);
 
-    // Smooth frame transition: single lerp for the "liquid" feel
-    // Use a slightly higher factor to ensure frames are not missed during fast scrolls
-    const dist = targetFrame - this.currentFrame;
-    this.currentFrame += dist * 0.25;
+    // Smooth frame transition: extremely heavy lerp for ultimate luxury
+    this.currentFrame += (targetFrame - this.currentFrame) * 0.08;
+
+    // Smooth mouse interpolation: very slow follow for "weightless" feel
+    this.mouseX += (this.targetMouseX - this.mouseX) * 0.03;
+    this.mouseY += (this.targetMouseY - this.mouseY) * 0.03;
+
+    // Apply 3D transformation to foreground via CSS variables or direct DOM manipulation
+    // We use CSS variables for performance as it doesn't trigger full layout reloads
+    document.documentElement.style.setProperty('--mouse-x', `${this.mouseX}`);
+    document.documentElement.style.setProperty('--mouse-y', `${this.mouseY}`);
 
     const displayFrame = Math.round(this.currentFrame);
     const img = this.frames[displayFrame];
