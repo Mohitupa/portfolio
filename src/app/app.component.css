@@ -1375,8 +1375,6 @@
 }
 
 .hero-content {
-  animation: float-slow 8s ease-in-out infinite;
-  will-change: transform;
 }
 
 .about-stat-panel {
