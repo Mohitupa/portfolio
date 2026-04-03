@@ -142,6 +142,18 @@
             <div class="system-year">{{ project.year }}</div>
           </div>
         </div>
+        
+        <!-- Project Image Showcase -->
+        <div class="project-image-container">
+          <div class="image-overlay-glow"></div>
+          <img [src]="project.image" [alt]="project.title" class="project-img">
+          <div class="image-border-accents">
+            <span class="accent-corner top-left"></span>
+            <span class="accent-corner top-right"></span>
+            <span class="accent-corner bottom-left"></span>
+            <span class="accent-corner bottom-right"></span>
+          </div>
+        </div>
 
         <!-- Modular Glass Panels -->
         <div class="system-modules-grid">

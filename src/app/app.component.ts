@@ -250,7 +250,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       title: 'Anything Roatan',
       year: '2025',
       description: 'Multi-module booking and logistics infrastructure for island-wide services.',
-      image: '/anything-roatan.png',
+      image: '/anything-roatam.png',
       technologies: ['Angular', 'Ionic', 'Google Maps', 'PixelPay', 'PHP'],
       highlights: [],
       stats: [
@@ -294,7 +294,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       title: 'Nimbus Data',
       year: '2024',
       description: 'Enterprise storage management UI handling 100+ administrative modules.',
-      image: '/nimbus-data.png',
+      image: '/nimbusdata.png',
       technologies: ['Angular 19', 'Material', 'Laravel', 'PHP 8.4', 'MySQL'],
       highlights: [],
       stats: [
