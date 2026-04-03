@@ -190,17 +190,6 @@
   overflow: hidden;
 }
 
-#hero-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  opacity: 0.45;
-  filter: saturate(0.2) contrast(1.2) brightness(0.5);
-  pointer-events: none;
-}
 
 .hero-container {
   position: relative;
@@ -751,9 +740,6 @@
   animation: system-fade-up 0.8s var(--ease-smooth) forwards;
 }
 
-.module-panel {
-  opacity: 0;
-}
 
 .project-system-container.visible .module-panel {
   animation: system-fade-up 0.6s var(--ease-smooth) forwards;
@@ -1205,40 +1191,15 @@
 }
 
 .footer-copyright-strip {
-  /* padding-top: var(--space-xl); */
-  /* border-top: 1px solid rgba(255, 255, 255, 0.03); */
   text-align: center;
   font-size: 0.8rem;
   color: var(--color-text-dim);
   letter-spacing: 0.1em;
 }
 
-@keyframes system-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* Animations Core */
 .fade-in-up, .stagger-item {
-  opacity: 0 !important; /* Force hide before intersection */
-  transform: translateY(15px);
   transition: all 700ms var(--ease-smooth);
-}
-
-.fade-in-up.visible, .stagger-item.visible {
-  opacity: 1 !important;
-  transform: translateY(0);
-}
-
-.visible {
-  opacity: 1 !important;
-  transform: translateY(0);
 }
 
 .stagger-item:nth-child(1) { transition-delay: 100ms; }

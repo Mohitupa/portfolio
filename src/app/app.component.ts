@@ -55,8 +55,6 @@ interface ContactForm {
   styleUrl: './app.component.css'
 })
 export class AppComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('heroCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
-
   categoryMetadata: { [key: string]: { svg: string, color: string } } = {
     'Frontend': {
       svg: 'M2,21H22V19H2V21M12,2L5.8,11H18.2L12,2M12,5.17L14.67,9H9.33L12,5.17M1,12V14H23V12H1M2,15V18H22V15H2Z',
@@ -105,17 +103,6 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   activeSection = 'home';
 
   private observer!: IntersectionObserver;
-  private animationId: number | null = null;
-  private frames: HTMLImageElement[] = [];
-  private currentFrame = 0;
-  private lastTime = 0;
-  private frameCount = 240;
-  private totalScrollable = 0;
-  private mouseX = 0;
-  private mouseY = 0;
-  private targetMouseX = 0;
-  private targetMouseY = 0;
-  private mouseLerp = 0.05;
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
@@ -437,22 +424,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
   ];
 
-  @HostListener('window:scroll')
-  onWindowScroll() {
-    // Programmatic scroll tracking is now handled directly in renderCanvas for zero-lag sync
-  }
-
   @HostListener('window:resize')
   onWindowResize() {
-    this.resizeCanvas();
-    this.updateScrollDimensions();
-  }
-
-  @HostListener('window:mousemove', ['$event'])
-  onMouseMove(event: MouseEvent) {
-    // Standardize to -0.5 to 0.5 range
-    this.targetMouseX = (event.clientX / window.innerWidth) - 0.5;
-    this.targetMouseY = (event.clientY / window.innerHeight) - 0.5;
   }
 
   getSkillCategories(): string[] {
@@ -499,134 +472,13 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.preloadFrames();
-    this.setupScrollAnimations();
     this.setupSectionObserver();
-    this.updateScrollDimensions();
-    this.initCanvasAnimation();
   }
 
   ngOnDestroy() {
     if (this.observer) {
       this.observer.disconnect();
     }
-    if (this.animationId) {
-      cancelAnimationFrame(this.animationId);
-    }
-  }
-
-  private preloadFrames() {
-    for (let i = 1; i <= this.frameCount; i++) {
-      const img = new Image();
-      const num = i.toString().padStart(3, '0');
-      img.src = `/animation/ezgif-frame-${num}.jpg`;
-      this.frames.push(img);
-    }
-  }
-
-  private initCanvasAnimation() {
-    const canvas = this.canvasRef.nativeElement;
-    this.resizeCanvas();
-
-    const animate = (time: number) => {
-      this.renderCanvas(time);
-      this.animationId = requestAnimationFrame(animate);
-    };
-
-    this.animationId = requestAnimationFrame(animate);
-  }
-
-  private resizeCanvas() {
-    const canvas = this.canvasRef.nativeElement;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-
-  private updateScrollDimensions() {
-    this.totalScrollable = document.documentElement.scrollHeight - window.innerHeight;
-  }
-
-  private renderCanvas(time: number) {
-    const canvas = this.canvasRef.nativeElement;
-    const ctx = canvas.getContext('2d', { alpha: true });
-    if (!ctx || this.totalScrollable <= 0) return;
-
-    // Direct scroll sync for the frame index to reduce lag
-    const immediateScrollY = window.scrollY;
-    const scrollFraction = Math.max(0, Math.min(1, immediateScrollY / this.totalScrollable));
-
-    // Map scroll fraction to frame index
-    const targetFrame = scrollFraction * (this.frameCount - 1);
-
-    // Smooth frame transition: extremely heavy lerp for ultimate luxury
-    this.currentFrame += (targetFrame - this.currentFrame) * 0.08;
-
-    // Smooth mouse interpolation: very slow follow for "weightless" feel
-    this.mouseX += (this.targetMouseX - this.mouseX) * 0.03;
-    this.mouseY += (this.targetMouseY - this.mouseY) * 0.03;
-
-    // Apply 3D transformation to foreground via CSS variables or direct DOM manipulation
-    // We use CSS variables for performance as it doesn't trigger full layout reloads
-    document.documentElement.style.setProperty('--mouse-x', `${this.mouseX}`);
-    document.documentElement.style.setProperty('--mouse-y', `${this.mouseY}`);
-
-    const displayFrame = Math.round(this.currentFrame);
-    const img = this.frames[displayFrame];
-
-    // Performance: Skip rendering if frame not ready
-    if (!img || !img.complete) return;
-
-    // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Global Anti-gravity Parallax & Drift
-    // Use immediate scroll for parallax to maintain perfect sync with page content
-    const parallaxOffset = immediateScrollY * 0.08;
-    const floatingOffset = Math.sin(time * 0.001) * 12;
-
-    // Draw Image with coverage logic
-    const canvasAspect = canvas.width / canvas.height;
-    const imgAspect = img.width / img.height;
-
-    let drawWidth, drawHeight, offsetX, offsetY;
-
-    if (canvasAspect > imgAspect) {
-      drawWidth = canvas.width;
-      drawHeight = canvas.width / imgAspect;
-      offsetX = 0;
-      offsetY = (canvas.height - drawHeight) / 2;
-    } else {
-      drawWidth = canvas.height * imgAspect;
-      drawHeight = canvas.height;
-      offsetX = (canvas.width - drawWidth) / 2;
-      offsetY = 0;
-    }
-
-    // REMOVED: Modulus snap. Use linear offset for a continuous motion.
-    const finalY = offsetY - parallaxOffset + floatingOffset;
-
-    ctx.globalAlpha = 1.0;
-    ctx.drawImage(img, Math.floor(offsetX), Math.floor(finalY), Math.floor(drawWidth), Math.floor(drawHeight));
-  }
-
-  private setupScrollAnimations() {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
-    };
-
-    const animationObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, observerOptions);
-
-    setTimeout(() => {
-      const elements = document.querySelectorAll('.fade-in-up, .stagger-item');
-      elements.forEach(el => animationObserver.observe(el));
-    }, 100);
   }
 
   private setupSectionObserver() {
