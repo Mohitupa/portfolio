@@ -1,41 +1,31 @@
 import { Component, AfterViewInit, OnDestroy, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface Project {
-  id: string;
-  year: string;
-  name: string;
-  description: string;
-  metrics: { label: string, value: string }[];
-  image: string;
-  tech: string[];
-  color?: string;
-}
-
-interface SkillCategory {
-  category: string;
-  items: string[];
-  icon: string;
-}
-
-interface ImpactStat {
-  label: string;
-  value: string;
-  extra: string;
-  icon: string;
-}
-
-interface WorkStep {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-}
+import { HeaderComponent } from './components/layout/header/header.component';
+import { FooterComponent } from './components/layout/footer/footer.component';
+import { HeroComponent } from './components/features/hero/hero.component';
+import { ExpertiseComponent } from './components/features/expertise/expertise.component';
+import { SkillsComponent } from './components/features/skills/skills.component';
+import { ExperienceComponent } from './components/features/experience/experience.component';
+import { ProjectsComponent } from './components/features/projects/projects.component';
+import { EducationComponent } from './components/features/education/education.component';
+import { ContactComponent } from './components/features/contact/contact.component';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule, 
+    FormsModule,
+    HeaderComponent,
+    FooterComponent,
+    HeroComponent,
+    ExpertiseComponent,
+    SkillsComponent,
+    ExperienceComponent,
+    ProjectsComponent,
+    EducationComponent,
+    ContactComponent
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
