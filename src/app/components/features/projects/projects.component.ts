@@ -1,5 +1,6 @@
-import { Component, NgZone } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, NgZone, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ScrollAnimationService } from '../../../services/scroll-animation.service';
 
 interface Project {
   id: string;
@@ -22,7 +23,12 @@ interface Project {
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css']
 })
-export class ProjectsComponent {
+export class ProjectsComponent implements AfterViewInit {
+
+  // In component class:
+  @ViewChildren('animateOnScroll') animItems!: QueryList<ElementRef>;
+
+
   current = 0;
   next = 0;
   isFlipping = false;
@@ -72,10 +78,15 @@ export class ProjectsComponent {
     }
   ];
 
-  constructor(private zone: NgZone) { }
+  constructor(private zone: NgZone, private scrollAnim: ScrollAnimationService) { }
 
   get currentProject(): Project { return this.projects[this.current]; }
   get nextProject(): Project { return this.projects[this.next]; }
+
+
+  ngAfterViewInit() {
+    this.scrollAnim.observe(this.animItems.map(el => el.nativeElement));
+  }
 
   navigate(dir: 'next' | 'prev') {
     if (this.isFlipping) return;

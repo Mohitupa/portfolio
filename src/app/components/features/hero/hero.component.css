@@ -1,0 +1,82 @@
+/* Blob behind avatar — slow breathing morph */
+.absolute.inset-0.bg-primary\/15 {
+    animation: blobMorph 8s ease-in-out infinite;
+}
+
+@keyframes blobMorph {
+    0% {
+        border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+    }
+
+    33% {
+        border-radius: 50% 50% 35% 65% / 55% 40% 60% 45%;
+    }
+
+    66% {
+        border-radius: 40% 60% 60% 40% / 40% 60% 50% 55%;
+    }
+
+    100% {
+        border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+    }
+}
+
+/* Avatar photo — subtle float up/down */
+.absolute.inset-4.rounded-full {
+    animation: avatarFloat 5s ease-in-out infinite;
+}
+
+@keyframes avatarFloat {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Staggered fade-in for hero text blocks */
+.text-primary.font-semibold {
+    animation: fadeSlideUp 0.6s ease both;
+    animation-delay: 0.1s;
+}
+
+h1 {
+    animation: fadeSlideUp 0.6s ease both;
+    animation-delay: 0.2s;
+}
+
+.text-xl.text-muted-foreground {
+    animation: fadeSlideUp 0.6s ease both;
+    animation-delay: 0.3s;
+}
+
+.text-base.leading-relaxed {
+    animation: fadeSlideUp 0.6s ease both;
+    animation-delay: 0.4s;
+}
+
+.flex.flex-wrap.gap-3 {
+    animation: fadeSlideUp 0.6s ease both;
+    animation-delay: 0.5s;
+}
+
+.flex.gap-3 {
+    animation: fadeSlideUp 0.6s ease both;
+    animation-delay: 0.6s;
+}
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
