@@ -10,11 +10,12 @@ import { ExperienceComponent } from './components/features/experience/experience
 import { ProjectsComponent } from './components/features/projects/projects.component';
 import { EducationComponent } from './components/features/education/education.component';
 import { ContactComponent } from './components/features/contact/contact.component';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
   imports: [
-    CommonModule, 
+    CommonModule,
     FormsModule,
     HeaderComponent,
     FooterComponent,
@@ -30,12 +31,11 @@ import { ContactComponent } from './components/features/contact/contact.componen
   styleUrl: './app.component.css'
 })
 export class AppComponent implements AfterViewInit, OnDestroy {
-  ngAfterViewInit(): void {
-    throw new Error('Method not implemented.');
-  }
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
-  }
   title = 'portfolio';
-  
+
+  constructor(public theme: ThemeService) { }
+
+  ngAfterViewInit(): void { }
+
+  ngOnDestroy(): void { }
 }

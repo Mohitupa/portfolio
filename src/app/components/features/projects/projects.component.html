@@ -1,264 +1,122 @@
-<section id="projects" class="max-w-5xl mx-auto px-6 py-16" data-testid="section-projects">
-  <div>
-    <p class="text-primary font-semibold text-sm uppercase tracking-widest mb-2" style="opacity: 1; transform: none">
-      Work
-    </p>
-    <h2 class="font-serif text-3xl font-extrabold mb-10" style="opacity: 1; transform: none">
-      Featured Projects
-    </h2>
-    <div class="grid md:grid-cols-2 gap-5">
-      <div
-        class="relative bg-card border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all group md:col-span-2"
-        data-testid="card-project-smart-rider" style="opacity: 1; transform: none">
-        <div class="absolute inset-0 bg-gradient-to-br from-teal-500/10 to-emerald-400/5 pointer-events-none"></div>
-        <div class="relative p-6">
-          <div class="flex items-start justify-between mb-3">
-            <div>
-              <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-teal-100 text-teal-700 mr-2">2025–26</span>
-              <h3 class="font-serif font-bold text-xl mt-2">Smart Rider</h3>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="lucide lucide-code-xml w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors mt-1"
-              aria-hidden="true">
-              <path d="m18 16 4-4-4-4"></path>
-              <path d="m6 8-4 4 4 4"></path>
-              <path d="m14.5 4-5 16"></path>
-            </svg>
+<section id="projects" class="max-w-5xl mx-auto px-6 py-16">
+
+  <p class="text-primary font-semibold text-sm uppercase tracking-widest mb-2">Work</p>
+  <h2 class="font-serif text-3xl font-extrabold mb-2">Featured Projects</h2>
+  <p class="text-sm text-muted-foreground mb-10 flex items-center gap-2" style="opacity: 1; transform: none;">
+    <span>Flip through my work like a book</span>
+    <span class="inline-flex gap-1 text-muted-foreground/60"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round" class="lucide lucide-chevron-left w-3.5 h-3.5" aria-hidden="true">
+        <path d="m15 18-6-6 6-6"></path>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="lucide lucide-chevron-right w-3.5 h-3.5" aria-hidden="true">
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
+    </span>
+    <span>use the arrows or dots below to turn the page</span>
+  </p>
+
+  <div class="book-scene">
+    <div class="book" [ngClass]="currentProject.accentClass">
+
+      <!-- ═══ LEFT PAGE — project info ═══ -->
+      <div class="page left-page">
+        <div class="page-inner">
+          <div class="page-header">
+            <span class="page-number">{{ (current + 1).toString().padStart(2, '0') }}</span>
+            <span class="header-line"></span>
+            <span class="year-badge" [ngClass]="currentProject.badgeClass">{{ currentProject.year }}</span>
           </div>
-          <p class="text-sm text-muted-foreground leading-relaxed mb-4">
-            An AI-powered in-transit engagement platform that combines real-time transport data, multilingual voice
-            interactions (OpenAI GPT-3.5 + Whisper), and live analytics dashboards to improve passenger retention and
-            experience.
-          </p>
-          <ul class="space-y-1.5 mb-5">
-            <li class="flex items-start gap-2 text-sm text-foreground/80">
-              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>Integrated OpenAI GPT-3.5,
-              Cohere AI &amp; Whisper for
-              multilingual voice interactions
-            </li>
-            <li class="flex items-start gap-2 text-sm text-foreground/80">
-              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>Secure RBAC with JWT; admin
-              dashboard with amCharts 5 &amp;
-              ECharts
-            </li>
-            <li class="flex items-start gap-2 text-sm text-foreground/80">
-              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>Orchestrated Uber API &amp;
-              OpenAI API for real-time data sync
+          <h3 class="project-title">{{ currentProject.title }}</h3>
+          <p class="project-desc">{{ currentProject.description }}</p>
+          <ul class="bullet-list">
+            <li *ngFor="let b of currentProject.bullets">
+              <span class="dot"></span>{{ b }}
             </li>
           </ul>
-          <div class="flex flex-wrap gap-2">
-            <span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-teal-200 bg-white/60 text-foreground/80">Angular
-              19</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-teal-200 bg-white/60 text-foreground/80">Node.js</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-teal-200 bg-white/60 text-foreground/80">MongoDB</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-teal-200 bg-white/60 text-foreground/80">JWT</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-teal-200 bg-white/60 text-foreground/80">amCharts
-              5</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-teal-200 bg-white/60 text-foreground/80">ECharts</span>
+          <div class="tags-label">TECH STACK</div>
+          <div class="tags-row">
+            <span *ngFor="let tag of currentProject.tags" class="tag" [ngClass]="currentProject.tagBorderClass">
+              {{ tag }}
+            </span>
           </div>
         </div>
+        <!-- left page shadow during flip -->
+        <div class="left-shadow" [class.active]="flipStage === 'flipping'"></div>
       </div>
-      <div
-        class="relative bg-card border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all group"
-        data-testid="card-project-anything-roatan" style="opacity: 1; transform: none">
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-sky-400/5 pointer-events-none"></div>
-        <div class="relative p-6">
-          <div class="flex items-start justify-between mb-3">
-            <div>
-              <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-100 text-blue-700 mr-2">2025</span>
-              <h3 class="font-serif font-bold text-xl mt-2">Anything Roatan</h3>
+
+      <!-- ═══ RIGHT PAGE — project image (destination, always below) ═══ -->
+      <div class="page right-page" [ngClass]="currentProject.borderClass">
+        <img [src]="currentProject.image" [alt]="currentProject.title" class="project-screenshot" />
+        <div class="book-spine"></div>
+      </div>
+
+      <!-- ═══ FLIPPING PAGE — the page that animates ═══ -->
+      <div class="flip-container" [class.flip-next]="flipStage === 'flipping' && flipDirection === 'next'"
+        [class.flip-prev]="flipStage === 'flipping' && flipDirection === 'prev'">
+
+        <!-- FRONT of flipping page = current right image (going away) -->
+        <div class="flip-face front">
+          <img [src]="currentProject.image" [alt]="currentProject.title" class="project-screenshot" />
+          <div class="book-spine"></div>
+        </div>
+
+        <!-- BACK of flipping page = next left content (arriving) -->
+        <div class="flip-face back">
+          <div class="page-inner">
+            <div class="page-header">
+              <span class="page-number">{{ (next + 1).toString().padStart(2, '0') }}</span>
+              <span class="year-badge" [ngClass]="nextProject.badgeClass">{{ nextProject.year }}</span>
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="lucide lucide-code-xml w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors mt-1"
-              aria-hidden="true">
-              <path d="m18 16 4-4-4-4"></path>
-              <path d="m6 8-4 4 4 4"></path>
-              <path d="m14.5 4-5 16"></path>
-            </svg>
-          </div>
-          <p class="text-sm text-muted-foreground leading-relaxed mb-4">
-            A full-featured travel platform covering restaurants, activities, events, taxi bookings with live Google
-            Maps fare calculation, insurance, and relocation — complete with real-time in-app chat and Stripe payments.
-          </p>
-          <ul class="space-y-1.5 mb-5">
-            <li class="flex items-start gap-2 text-sm text-foreground/80">
-              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>PixelPay gateway for
-              activities, events &amp; taxi — with failure
-              &amp; retry flows
-            </li>
-            <li class="flex items-start gap-2 text-sm text-foreground/80">
-              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>Real-time taxi booking with
-              Google Maps fare calculation
-            </li>
-            <li class="flex items-start gap-2 text-sm text-foreground/80">
-              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>In-app chat with message
-              persistence &amp; real-time updates
-            </li>
-          </ul>
-          <div class="flex flex-wrap gap-2">
-            <span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-blue-200 bg-white/60 text-foreground/80">Angular</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-blue-200 bg-white/60 text-foreground/80">Ionic</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-blue-200 bg-white/60 text-foreground/80">CodeIgniter</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-blue-200 bg-white/60 text-foreground/80">Google
-              Maps</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-blue-200 bg-white/60 text-foreground/80">PixelPay</span>
-          </div>
-        </div>
-      </div>
-      <div
-        class="relative bg-card border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all group"
-        data-testid="card-project-nimbus-data" style="opacity: 1; transform: none">
-        <div class="absolute inset-0 bg-gradient-to-br from-violet-500/10 to-purple-400/5 pointer-events-none"></div>
-        <div class="relative p-6">
-          <div class="flex items-start justify-between mb-3">
-            <div>
-              <span
-                class="text-xs font-semibold px-2.5 py-1 rounded-full bg-violet-100 text-violet-700 mr-2">2024</span>
-              <h3 class="font-serif font-bold text-xl mt-2">Nimbus Data</h3>
+            <h3 class="project-title">{{ nextProject.title }}</h3>
+            <p class="project-desc">{{ nextProject.description }}</p>
+            <ul class="bullet-list">
+              <li *ngFor="let b of nextProject.bullets">
+                <span class="dot"></span>{{ b }}
+              </li>
+            </ul>
+            <div class="tags-label">TECH STACK</div>
+            <div class="tags-row">
+              <span *ngFor="let tag of nextProject.tags" class="tag" [ngClass]="nextProject.tagBorderClass">
+                {{ tag }}
+              </span>
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="lucide lucide-code-xml w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors mt-1"
-              aria-hidden="true">
-              <path d="m18 16 4-4-4-4"></path>
-              <path d="m6 8-4 4 4 4"></path>
-              <path d="m14.5 4-5 16"></path>
-            </svg>
-          </div>
-          <p class="text-sm text-muted-foreground leading-relaxed mb-4">
-            Enterprise storage management platform with 100+ screens — real-time dashboards, CRUD operations with live
-            clones/snapshots, and a modular Angular architecture using lazy loading, guards, and interceptors.
-          </p>
-          <ul class="space-y-1.5 mb-5">
-            <li class="flex items-start gap-2 text-sm text-foreground/80">
-              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>Modular Angular architecture
-              with lazy loading, guards &amp;
-              interceptors
-            </li>
-            <li class="flex items-start gap-2 text-sm text-foreground/80">
-              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>Real-time dashboards:
-              controllers, drives, frames, pools, sensors
-            </li>
-            <li class="flex items-start gap-2 text-sm text-foreground/80">
-              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>Complex CRUD: snapshots,
-              clones, replication, wipe, reboot,
-              shutdown
-            </li>
-          </ul>
-          <div class="flex flex-wrap gap-2">
-            <span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-violet-200 bg-white/60 text-foreground/80">Angular
-              19</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-violet-200 bg-white/60 text-foreground/80">Angular
-              Material</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-violet-200 bg-white/60 text-foreground/80">RxJS</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-violet-200 bg-white/60 text-foreground/80">Laravel/Lumen</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-violet-200 bg-white/60 text-foreground/80">MySQL</span>
           </div>
         </div>
+
       </div>
-      <div
-        class="relative bg-card border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all group"
-        data-testid="card-project-fba-system" style="opacity: 1; transform: none">
-        <div class="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-amber-400/5 pointer-events-none"></div>
-        <div class="relative p-6">
-          <div class="flex items-start justify-between mb-3">
-            <div>
-              <span
-                class="text-xs font-semibold px-2.5 py-1 rounded-full bg-orange-100 text-orange-700 mr-2">2023</span>
-              <h3 class="font-serif font-bold text-xl mt-2">FBA System</h3>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="lucide lucide-code-xml w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors mt-1"
-              aria-hidden="true">
-              <path d="m18 16 4-4-4-4"></path>
-              <path d="m6 8-4 4 4 4"></path>
-              <path d="m14.5 4-5 16"></path>
-            </svg>
-          </div>
-          <p class="text-sm text-muted-foreground leading-relaxed mb-4">
-            Automated Amazon FBA inventory management system with subscription billing (Stripe), Google Sheets sync, and
-            Amazon SP-API integration — reduced manual inventory oversight by 40%.
-          </p>
-          <ul class="space-y-1.5 mb-5">
-            <li class="flex items-start gap-2 text-sm text-foreground/80">
-              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>Stripe subscription model —
-              reduced manual inventory oversight by
-              40% via Amazon SP-API
-            </li>
-            <li class="flex items-start gap-2 text-sm text-foreground/80">
-              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>Promocode engine for
-              customer engagement campaigns
-            </li>
-            <li class="flex items-start gap-2 text-sm text-foreground/80">
-              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>Deployed on AWS EC2, S3, and
-              RDS
-            </li>
-          </ul>
-          <div class="flex flex-wrap gap-2">
-            <span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-orange-200 bg-white/60 text-foreground/80">Angular</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-orange-200 bg-white/60 text-foreground/80">Node.js</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-orange-200 bg-white/60 text-foreground/80">PostgreSQL</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-orange-200 bg-white/60 text-foreground/80">Stripe</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-orange-200 bg-white/60 text-foreground/80">Amazon
-              SP-API</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-orange-200 bg-white/60 text-foreground/80">AWS</span>
-          </div>
-        </div>
-      </div>
-      <div
-        class="relative bg-card border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all group"
-        data-testid="card-project-digital-health-i-dair" style="opacity: 1; transform: none">
-        <div class="absolute inset-0 bg-gradient-to-br from-rose-500/10 to-pink-400/5 pointer-events-none"></div>
-        <div class="relative p-6">
-          <div class="flex items-start justify-between mb-3">
-            <div>
-              <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-rose-100 text-rose-700 mr-2">2023</span>
-              <h3 class="font-serif font-bold text-xl mt-2">
-                Digital Health I-DAIR
-              </h3>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="lucide lucide-code-xml w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors mt-1"
-              aria-hidden="true">
-              <path d="m18 16 4-4-4-4"></path>
-              <path d="m6 8-4 4 4 4"></path>
-              <path d="m14.5 4-5 16"></path>
-            </svg>
-          </div>
-          <p class="text-sm text-muted-foreground leading-relaxed mb-4">
-            A global health analytics platform visualising National Digital Health Strategies across countries —
-            interactive maps, bubble charts, bar/radar charts, and multi-year dataset comparisons powered by NestJS REST
-            APIs.
-          </p>
-          <ul class="space-y-1.5 mb-5">
-            <li class="flex items-start gap-2 text-sm text-foreground/80">
-              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>Interactive dashboards:
-              maps, bar, bubble, radar &amp; pie charts
-            </li>
-            <li class="flex items-start gap-2 text-sm text-foreground/80">
-              <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>NestJS REST APIs for
-              multi-year health &amp; IT dataset
-              comparison
-            </li>
-          </ul>
-          <div class="flex flex-wrap gap-2">
-            <span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-rose-200 bg-white/60 text-foreground/80">Angular</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-rose-200 bg-white/60 text-foreground/80">RxJS</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-rose-200 bg-white/60 text-foreground/80">amCharts</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-rose-200 bg-white/60 text-foreground/80">NestJS</span><span
-              class="px-2.5 py-1 text-xs font-medium rounded-lg border border-rose-200 bg-white/60 text-foreground/80">PostgreSQL</span>
-          </div>
-        </div>
-      </div>
+      <!-- end flipping page -->
+
     </div>
   </div>
+
+  <!-- Navigation -->
+  <div class="nav-row">
+    <button class="nav-btn" (click)="navigate('prev')" [disabled]="current === 0 || isFlipping">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m15 18-6-6 6-6" />
+      </svg>
+      Previous
+    </button>
+
+    <div class="dots">
+      <button *ngFor="let p of projects; let i = index" class="dot-btn" [class.active]="i === current" (click)="goTo(i)"
+        [attr.aria-label]="'Go to ' + p.title">
+      </button>
+    </div>
+
+    <button class="nav-btn" (click)="navigate('next')" [disabled]="current === projects.length - 1 || isFlipping">
+      Next
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6" />
+      </svg>
+    </button>
+  </div>
+
+  <p class="page-counter">{{ current + 1 }} / {{ projects.length }} — {{ currentProject.title }}</p>
+
 </section>

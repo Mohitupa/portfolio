@@ -1,23 +1,55 @@
-<header class="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/60" style="">
-  <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between"><span
-      class="font-serif font-bold text-lg tracking-tight text-foreground">MU<span class="text-primary">.</span></span>
-    <nav class="hidden md:flex gap-6 text-sm font-medium text-muted-foreground"><a href="#about"
-        class="hover:text-foreground transition-colors">About</a><a href="#skills"
-        class="hover:text-foreground transition-colors">Skills</a><a href="#experience"
-        class="hover:text-foreground transition-colors">Experience</a><a href="#projects"
-        class="hover:text-foreground transition-colors">Projects</a><a href="#contact"
-        class="hover:text-foreground transition-colors">Contact</a></nav>
+<header class="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/60">
+  <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+    <span class="font-serif font-bold text-lg tracking-tight text-foreground">
+      MU<span class="text-primary">.</span>
+    </span>
+
+    <nav class="hidden md:flex gap-6 text-sm font-medium text-muted-foreground">
+      <a href="#about" class="hover:text-foreground transition-colors">About</a>
+      <a href="#skills" class="hover:text-foreground transition-colors">Skills</a>
+      <a href="#experience" class="hover:text-foreground transition-colors">Experience</a>
+      <a href="#projects" class="hover:text-foreground transition-colors">Projects</a>
+      <a href="#contact" class="hover:text-foreground transition-colors">Contact</a>
+    </nav>
+
     <div class="flex gap-3">
-      <a href="https://linkedin.com/in/mohit-upadhyay-94375b201" target="_blank" rel="noreferrer"
+
+      <!-- Dark / Light toggle -->
+      <button (click)="theme.toggle()"
         class="w-9 h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all"
-        data-testid="link-linkedin-header"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round" class="lucide lucide-linkedin w-4 h-4" aria-hidden="true">
-          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-          <rect width="4" height="12" x="2" y="9"></rect>
-          <circle cx="4" cy="4" r="2"></circle>
+        [attr.aria-label]="theme.isDark() ? 'Switch to light mode' : 'Switch to dark mode'">
+
+        <!-- Moon icon (shown in light mode) -->
+        <svg *ngIf="!theme.isDark()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="w-4 h-4" aria-hidden="true">
+          <path
+            d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" />
+        </svg>
+
+        <!-- Sun icon (shown in dark mode) -->
+        <svg *ngIf="theme.isDark()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="w-4 h-4" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path
+            d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+        </svg>
+
+      </button>
+
+      <!-- LinkedIn -->
+      <a href="https://linkedin.com/in/mohit-upadhyay-94375b201" target="_blank" rel="noreferrer"
+        class="w-9 h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"
+          aria-hidden="true">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+          <rect width="4" height="12" x="2" y="9" />
+          <circle cx="4" cy="4" r="2" />
         </svg>
       </a>
+
     </div>
   </div>
 </header>

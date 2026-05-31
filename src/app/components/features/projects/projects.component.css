@@ -1,0 +1,412 @@
+/* ══════════════════════════════════
+   BOOK SCENE
+══════════════════════════════════ */
+.book-scene {
+    perspective: 2000px;
+    perspective-origin: center center;
+    margin-bottom: 2rem;
+}
+
+.book {
+    font-family: var(--app-font-serif);
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 440px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.13);
+    border: 1px solid hsl(var(--border));
+}
+
+/* ══════════════════════════════════
+   PAGES
+══════════════════════════════════ */
+.page {
+    position: relative;
+    overflow: hidden;
+}
+
+.left-page {
+    background: hsl(var(--card));
+    border-right: 1px solid hsl(var(--border));
+    z-index: 1;
+}
+
+.right-page {
+    background: hsl(var(--muted) / 0.3);
+    z-index: 1;
+}
+
+.page-inner {
+    padding: 2rem 1.75rem 2rem 2rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Shadow that appears on left page during flip */
+.left-shadow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0));
+    pointer-events: none;
+    transition: background 0.3s;
+}
+
+.left-shadow.active {
+    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.08));
+}
+
+/* ══════════════════════════════════
+   FLIPPING PAGE (the magic layer)
+══════════════════════════════════ */
+.flip-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    /* starts on the RIGHT half */
+    width: 50%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform-origin: left center;
+    /* hinge is the SPINE (left edge of right page) */
+    z-index: 10;
+    pointer-events: none;
+}
+
+@keyframes pageFlipNext {
+    0% {
+        transform: rotateY(0deg);
+    }
+
+    100% {
+        transform: rotateY(-180deg);
+    }
+}
+
+@keyframes pageFlipPrev {
+    0% {
+        transform: rotateY(-180deg);
+    }
+
+    100% {
+        transform: rotateY(0deg);
+    }
+}
+
+.flip-container.flip-next {
+    animation: pageFlipNext 0.6s cubic-bezier(0.645, 0.045, 0.355, 1.000) forwards;
+}
+
+.flip-container.flip-prev {
+    animation: pageFlipPrev 0.6s cubic-bezier(0.645, 0.045, 0.355, 1.000) forwards;
+}
+
+/* Faces of the flipping page */
+.flip-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+}
+
+.flip-face.front {
+    transform: rotateY(0deg);
+    background: hsl(var(--muted) / 0.3);
+}
+
+.flip-face.back {
+    transform: rotateY(180deg);
+    /* back face is mirror-flipped */
+    background: hsl(var(--card));
+    border-left: 1px solid hsl(var(--border));
+    /* mirror horizontally so text reads correctly when flipped */
+    transform: rotateY(180deg) scaleX(-1);
+}
+
+.flip-face.back .page-inner {
+    transform: scaleX(-1);
+    /* un-mirror the content */
+}
+
+/* ══════════════════════════════════
+   BOOK SPINE
+══════════════════════════════════ */
+.book-spine {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom,
+            hsl(var(--border)),
+            hsl(var(--primary) / 0.3),
+            hsl(var(--border)));
+    z-index: 2;
+}
+
+/* ══════════════════════════════════
+   CONTENT STYLES
+══════════════════════════════════ */
+
+.page-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.header-line {
+    flex: 1;
+    height: 1px;
+    background: hsl(var(--border));
+}
+
+.year-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.page-number {
+    font-size: 3rem;
+    font-weight: 900;
+    color: hsl(var(--border));
+    line-height: 1;
+    letter-spacing: -0.04em;
+}
+
+.year-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+.project-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin-bottom: 0.65rem;
+    color: hsl(var(--foreground));
+    line-height: 1.2;
+}
+
+.project-desc {
+    font-size: 0.78rem;
+    color: hsl(var(--muted-foreground));
+    line-height: 1.65;
+    margin-bottom: 0.9rem;
+}
+
+.bullet-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.bullet-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.76rem;
+    color: hsl(var(--foreground) / 0.8);
+    line-height: 1.5;
+}
+
+.bullet-list .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: hsl(var(--primary));
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+
+.tags-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 0.4rem;
+}
+
+.tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tag {
+    font-size: 0.68rem;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 6px;
+    border: 1px solid;
+    background: hsl(var(--background) / 0.6);
+    color: hsl(var(--foreground) / 0.8);
+}
+
+.project-screenshot {
+    width: 100%;
+    /* height: 100%; */
+    object-fit: cover;
+    object-position: top;
+    display: block;
+}
+
+/* ══════════════════════════════════
+   ACCENT COLOURS
+══════════════════════════════════ */
+.accent-teal .right-page {
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.08), rgba(52, 211, 153, 0.04));
+}
+
+.accent-blue .right-page {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(56, 189, 248, 0.04));
+}
+
+.accent-violet .right-page {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(167, 139, 250, 0.04));
+}
+
+.accent-orange .right-page {
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.08), rgba(251, 146, 60, 0.04));
+}
+
+.accent-rose .right-page {
+    background: linear-gradient(135deg, rgba(244, 63, 94, 0.08), rgba(251, 113, 133, 0.04));
+}
+
+.badge-teal {
+    background: #ccfbf1;
+    color: #0f766e;
+}
+
+.badge-blue {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.badge-violet {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+
+.badge-orange {
+    background: #ffedd5;
+    color: #c2410c;
+}
+
+.badge-rose {
+    background: #ffe4e6;
+    color: #be123c;
+}
+
+.tag-teal {
+    border-color: #99f6e4;
+}
+
+.tag-blue {
+    border-color: #bfdbfe;
+}
+
+.tag-violet {
+    border-color: #ddd6fe;
+}
+
+.tag-orange {
+    border-color: #fed7aa;
+}
+
+.tag-rose {
+    border-color: #fecdd3;
+}
+
+/* ══════════════════════════════════
+   NAVIGATION
+══════════════════════════════════ */
+.nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--card));
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: hsl(var(--foreground));
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.nav-btn:hover:not(:disabled) {
+    border-color: hsl(var(--primary) / 0.5);
+    color: hsl(var(--primary));
+}
+
+.nav-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.dot-btn {
+    width: 28px;
+    height: 6px;
+    border-radius: 999px;
+    border: none;
+    background: hsl(var(--border));
+    cursor: pointer;
+    transition: background 0.2s, width 0.2s;
+    padding: 0;
+}
+
+.dot-btn.active {
+    background: hsl(var(--primary));
+    width: 44px;
+}
+
+.page-counter {
+    text-align: center;
+    font-size: 0.8rem;
+    color: hsl(var(--muted-foreground));
+}
+
+/* ══════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════ */
+@media (max-width: 640px) {
+    .book {
+        grid-template-columns: 1fr;
+    }
+
+    .right-page,
+    .flip-container {
+        display: none;
+    }
+
+    .left-page {
+        border-right: none;
+    }
+}
