@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: 'admin',
-    loadComponent: () => import('./modules/admin/admin.component').then(m => m.AdminComponent)
+    loadChildren: () => import('./modules/admin/admin.routes').then(m => m.ADMIN_ROUTES)
   },
   {
     path: ':slug',
@@ -19,4 +19,3 @@ export const routes: Routes = [
     redirectTo: 'fstack'
   }
 ];
-

@@ -1,1 +1,11 @@
-/* Admin component styling */
+/* Layout panel specific classes */
+nav a.active-link {
+  background-color: hsla(var(--primary), 0.1);
+  color: hsl(var(--primary));
+  border-color: hsla(var(--primary), 0.2);
+}
+
+nav a.active-link span.icon-box {
+  background-color: hsla(var(--primary), 0.15);
+  border-color: hsla(var(--primary), 0.3);
+}
