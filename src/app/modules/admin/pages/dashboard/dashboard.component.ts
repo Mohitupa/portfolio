@@ -1,13 +1,64 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { forkJoin } from 'rxjs';
+import { AdminApiService } from '../../../../services/admin-api.service';
+import { AuthService } from '../../../../services/auth.service';
+import { DashboardStats, ContactMessage } from '../../../../models/admin.model';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  template: `
-    <div class="p-6">
-      <h1 class="font-serif text-3xl font-extrabold mb-2 text-foreground">Dashboard</h1>
-      <p class="text-muted-foreground text-sm">Welcome to your Portfolio CMS Admin Panel.</p>
-    </div>
-  `
+  imports: [CommonModule, RouterModule],
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {}
+export class DashboardComponent implements OnInit {
+  stats = signal<DashboardStats | null>(null);
+  recentMessages = signal<ContactMessage[]>([]);
+  loading = signal<boolean>(true);
+  error = signal<string | null>(null);
+  currentDate = new Date();
+
+  constructor(
+    private adminApi: AdminApiService,
+    public auth: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadDashboardData();
+  }
+
+  loadDashboardData(): void {
+    this.loading.set(true);
+    this.error.set(null);
+
+    forkJoin({
+      stats: this.adminApi.getDashboardStats(),
+      messages: this.adminApi.getContactMessages()
+    }).subscribe({
+      next: (result) => {
+        if (result.stats && result.stats.success) {
+          this.stats.set(result.stats.data);
+        }
+        if (result.messages && result.messages.success) {
+          // Slice first 5 recent messages
+          this.recentMessages.set(result.messages.data.slice(0, 5));
+        }
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Error fetching dashboard data:', err);
+        this.error.set('Failed to load dashboard metrics. Please refresh the page.');
+        this.loading.set(false);
+      }
+    });
+  }
+
+  getGreeting(): string {
+    const hours = new Date().getHours();
+    if (hours < 12) return 'Good Morning';
+    if (hours < 18) return 'Good Afternoon';
+    return 'Good Evening';
+  }
+}
