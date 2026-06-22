@@ -1,7 +1,7 @@
 <div class="p-6 space-y-6 max-w-7xl mx-auto">
-  
+
   <!-- ═══ HEADER / GREETING BANNER ═══ -->
-  <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
+  <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
     <div>
       <h1 class="font-serif text-3xl font-extrabold text-foreground tracking-tight">
         {{ getGreeting() }}, {{ auth.currentUser()?.name || 'Admin' }}
@@ -10,30 +10,34 @@
         Here is the status of your Portfolio CMS for today, {{ currentDate | date:'MMMM d, y' }}.
       </p>
     </div>
-    
+
     <!-- Refresh Button -->
-    <button (click)="loadDashboardData()" 
-            [disabled]="loading()"
-            class="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl border border-border bg-card/40 hover:bg-secondary/40 text-sm font-semibold transition-colors disabled:opacity-50"
-    >
-      <svg class="w-4 h-4" [class.animate-spin]="loading()" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+    <button (click)="loadDashboardData()" [disabled]="loading()"
+      class="inline-flex items-center gap-2 px-4.5 p-2 rounded-xl border border-border bg-card/40 hover:bg-secondary/40 text-sm font-semibold transition-colors disabled:opacity-50">
+      <svg class="w-4 h-4" [class.animate-spin]="loading()" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
       </svg>
       <span>Refresh Stats</span>
     </button>
   </div>
 
   <!-- ═══ ERROR NOTIFICATION ═══ -->
-  <div *ngIf="error()" class="p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm flex items-center gap-3">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 flex-shrink-0">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+  <div *ngIf="error()"
+    class="p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm flex items-center gap-3">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+      class="w-5 h-5 flex-shrink-0">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
     </svg>
     <span class="font-medium">{{ error() }}</span>
   </div>
 
   <!-- ═══ LOADING STATE ═══ -->
   <div *ngIf="loading() && !stats()" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-    <div *ngFor="let item of [1, 2, 3, 4]" class="h-32 rounded-2xl bg-card/20 border border-border/40 animate-pulse p-6 space-y-4">
+    <div *ngFor="let item of [1, 2, 3, 4]"
+      class="h-32 rounded-2xl bg-card/20 border border-border/40 animate-pulse p-6 space-y-4">
       <div class="flex items-center justify-between">
         <div class="h-4 w-24 bg-muted rounded"></div>
         <div class="h-8 w-8 bg-muted rounded-lg"></div>
@@ -45,12 +49,15 @@
   <!-- ═══ STATS CARDS GRID ═══ -->
   <div *ngIf="stats()" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
     <!-- Stat 1: Total Portfolios -->
-    <div class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm hover:border-primary/30 transition-all duration-300 group">
+    <div
+      class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm hover:border-primary/30 transition-all duration-300 group">
       <div class="flex items-center justify-between">
         <span class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Total Portfolios</span>
-        <span class="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center border border-primary/15 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+        <span
+          class="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center border border-primary/15 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2m14 0V9a2 2 0 0 0-2-2M5 11V9a2 2 0 0 1 2-2m0 0V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M7 7h10" />
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M19 11H5m14 0a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2m14 0V9a2 2 0 0 0-2-2M5 11V9a2 2 0 0 1 2-2m0 0V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M7 7h10" />
           </svg>
         </span>
       </div>
@@ -61,10 +68,12 @@
     </div>
 
     <!-- Stat 2: Active Portfolios -->
-    <div class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm hover:border-emerald-500/30 transition-all duration-300 group">
+    <div
+      class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm hover:border-emerald-500/30 transition-all duration-300 group">
       <div class="flex items-center justify-between">
         <span class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Active Installs</span>
-        <span class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center border border-emerald-500/15 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300">
+        <span
+          class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center border border-emerald-500/15 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M22 12h-4l-3 9L9 3l-3 9H2" />
           </svg>
@@ -77,10 +86,12 @@
     </div>
 
     <!-- Stat 3: Published Configurations -->
-    <div class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm hover:border-blue-500/30 transition-all duration-300 group">
+    <div
+      class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm hover:border-blue-500/30 transition-all duration-300 group">
       <div class="flex items-center justify-between">
         <span class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Published Profiles</span>
-        <span class="w-9 h-9 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center border border-blue-500/15 group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
+        <span
+          class="w-9 h-9 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center border border-blue-500/15 group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10" />
             <path d="M12 2a14.5 14.5 0 000 20 14.5 14.5 0 000-20" />
@@ -95,12 +106,15 @@
     </div>
 
     <!-- Stat 4: Draft Configurations -->
-    <div class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm hover:border-amber-500/30 transition-all duration-300 group">
+    <div
+      class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm hover:border-amber-500/30 transition-all duration-300 group">
       <div class="flex items-center justify-between">
         <span class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Draft Configurations</span>
-        <span class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center border border-amber-500/15 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
+        <span
+          class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center border border-amber-500/15 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
           </svg>
         </span>
       </div>
@@ -112,37 +126,42 @@
   </div>
 
   <!-- ═══ WIDGETS SECTION ═══ -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
+
     <!-- Widget 1: Recent Contact Messages (Colspan 2) -->
-    <div class="lg:col-span-2 bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+    <div
+      class="lg:col-span-2 bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
       <div>
         <div class="pb-6 border-b border-border/80 mb-6">
           <div class="flex items-center gap-3">
             <h2 class="font-serif text-xl font-extrabold text-foreground tracking-tight">Recent Inquiries</h2>
-            <span class="px-2.5 py-0.5 text-[10px] font-bold rounded-full bg-primary/10 text-primary border border-primary/20">
+            <span
+              class="px-2.5 py-0.5 text-[10px] font-bold rounded-full bg-primary/10 text-primary border border-primary/20">
               Feed Connected
             </span>
           </div>
-          <p class="text-xs text-muted-foreground mt-1.5 font-medium">Last 5 form submissions from your portfolio contact form.</p>
+          <p class="text-xs text-muted-foreground mt-1.5 font-medium">Last 5 form submissions from your portfolio
+            contact form.</p>
         </div>
 
         <!-- Messages List -->
         <div class="space-y-4">
           <div *ngIf="!loading() && recentMessages().length === 0" class="py-12 text-center">
-            <svg class="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+            <svg class="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
             </svg>
             <p class="text-sm font-semibold text-muted-foreground">No recent messages</p>
             <p class="text-xs text-muted-foreground/70 mt-1">Form submissions will appear here once submitted.</p>
           </div>
 
           <!-- Messages Loop -->
-          <div *ngFor="let msg of recentMessages()" 
-               class="flex items-start gap-4 p-4 rounded-xl border border-transparent hover:border-border/60 hover:bg-secondary/20 transition-all duration-200"
-          >
+          <div *ngFor="let msg of recentMessages()"
+            class="flex items-start gap-4 p-4 rounded-xl border border-transparent hover:border-border/60 hover:bg-secondary/20 transition-all duration-200">
             <!-- Circle Avatar -->
-            <div class="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-bold text-sm flex-shrink-0">
+            <div
+              class="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-bold text-sm flex-shrink-0">
               {{ msg.name.charAt(0).toUpperCase() }}
             </div>
 
@@ -164,14 +183,17 @@
             </div>
 
             <!-- Unread Blue Dot -->
-            <div *ngIf="!msg.isRead" class="w-2.5 h-2.5 rounded-full bg-primary flex-shrink-0 mt-2 shadow-sm shadow-primary/40" title="Unread Message"></div>
+            <div *ngIf="!msg.isRead"
+              class="w-2.5 h-2.5 rounded-full bg-primary flex-shrink-0 mt-2 shadow-sm shadow-primary/40"
+              title="Unread Message"></div>
           </div>
         </div>
       </div>
 
       <!-- Footer navigation link -->
       <div class="pt-6 border-t border-border/80 mt-6 text-right">
-        <a routerLink="/admin/contact-messages" class="text-xs font-bold text-primary hover:underline inline-flex items-center gap-1">
+        <a routerLink="/admin/contact-messages"
+          class="text-xs font-bold text-primary hover:underline inline-flex items-center gap-1">
           <span>View All Messages</span>
           <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
@@ -181,7 +203,8 @@
     </div>
 
     <!-- Widget 2: Quick System Access Actions (Colspan 1) -->
-    <div class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+    <div
+      class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
       <div>
         <div class="pb-6 border-b border-border/80 mb-6">
           <h2 class="font-serif text-xl font-extrabold text-foreground tracking-tight">System Controls</h2>
@@ -190,26 +213,28 @@
 
         <!-- Actions List Grid -->
         <div class="space-y-3">
-          <a routerLink="/admin/portfolios" 
-             class="flex items-center gap-3.5 p-3.5 rounded-xl border border-border/80 bg-background/30 hover:bg-primary/5 hover:border-primary/40 text-left transition-all duration-200 group"
-          >
-            <span class="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center border border-primary/15 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+          <a routerLink="/admin/portfolios"
+            class="flex items-center gap-3 p-2 mb-2 rounded-xl border border-border/80 bg-background/30 hover:bg-primary/5 hover:border-primary/40 text-left transition-all duration-200 group">
+            <span
+              class="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center border border-primary/15 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-19.5 0A2.25 2.25 0 0 0 4.5 15h15a2.25 2.25 0 0 0 2.25-2.25m-19.5 0v3.75A2.25 2.25 0 0 0 4.5 18.75h15a2.25 2.25 0 0 0 2.25-2.25v-3.75M9 3h6m-3 0v6" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-19.5 0A2.25 2.25 0 0 0 4.5 15h15a2.25 2.25 0 0 0 2.25-2.25m-19.5 0v3.75A2.25 2.25 0 0 0 4.5 18.75h15a2.25 2.25 0 0 0 2.25-2.25v-3.75M9 3h6m-3 0v6" />
               </svg>
             </span>
-            <div>
+            <div >
               <h4 class="text-xs font-bold text-foreground">Portfolios Manager</h4>
               <p class="text-[10px] text-muted-foreground font-medium mt-0.5">Configure pages and credentials.</p>
             </div>
           </a>
 
-          <a routerLink="/admin/media" 
-             class="flex items-center gap-3.5 p-3.5 rounded-xl border border-border/80 bg-background/30 hover:bg-primary/5 hover:border-primary/40 text-left transition-all duration-200 group"
-          >
-            <span class="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center border border-primary/15 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+          <a routerLink="/admin/media"
+            class="flex items-center gap-3 p-2 mb-2 rounded-xl border border-border/80 bg-background/30 hover:bg-primary/5 hover:border-primary/40 text-left transition-all duration-200 group">
+            <span
+              class="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center border border-primary/15 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
               </svg>
             </span>
             <div>
@@ -218,12 +243,13 @@
             </div>
           </a>
 
-          <a routerLink="/admin/settings" 
-             class="flex items-center gap-3.5 p-3.5 rounded-xl border border-border/80 bg-background/30 hover:bg-primary/5 hover:border-primary/40 text-left transition-all duration-200 group"
-          >
-            <span class="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center border border-primary/15 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+          <a routerLink="/admin/settings"
+            class="flex items-center gap-3 p-2 mb-2 rounded-xl border border-border/80 bg-background/30 hover:bg-primary/5 hover:border-primary/40 text-left transition-all duration-200 group">
+            <span
+              class="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center border border-primary/15 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.43l-1.003.828c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.43l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 0 1 0-.255c.007-.378-.138-.75-.43-.991l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.645-.869l.213-1.28Z" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.43l-1.003.828c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.43l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 0 1 0-.255c.007-.378-.138-.75-.43-.991l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.645-.869l.213-1.28Z" />
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
               </svg>
             </span>
@@ -237,13 +263,15 @@
 
       <!-- Quick Session Info -->
       <div class="pt-6 border-t border-border/80 mt-6">
-        <div class="p-3.5 rounded-xl bg-secondary/30 border border-border/40 text-[11px] text-muted-foreground/80 font-medium font-sans">
+        <div
+          class="p-3 rounded-xl bg-secondary/30 border border-border/40 text-[11px] text-muted-foreground/80 font-medium font-sans">
           <p>Logged in as: <strong class="text-foreground">{{ auth.currentUser()?.email }}</strong></p>
-          <p class="mt-1">Role authority: <span class="px-1.5 py-0.5 rounded bg-primary/10 text-primary text-[10px] font-bold">{{ auth.currentUser()?.role || 'SUPER_ADMIN' }}</span></p>
+          <p class="mt-1">Role authority: <span
+              class="px-1.5 py-0.5 rounded bg-primary/10 text-primary text-[10px] font-bold">{{ auth.currentUser()?.role
+              || 'SUPER_ADMIN' }}</span></p>
         </div>
       </div>
     </div>
 
   </div>
 </div>
-
