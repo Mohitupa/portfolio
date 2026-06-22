@@ -1,0 +1,45 @@
+<!-- Loading State -->
+<div *ngIf="state.loading()" class="min-h-screen bg-background text-foreground flex items-center justify-center font-sans">
+  <div class="flex flex-col items-center gap-4">
+    <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+    <p class="text-sm font-semibold text-muted-foreground tracking-wide animate-pulse">Loading profile...</p>
+  </div>
+</div>
+
+<!-- Error State -->
+<div *ngIf="state.error() && !state.loading()" class="min-h-screen bg-background text-foreground flex items-center justify-center p-6 font-sans">
+  <div class="relative w-full max-w-md bg-card/40 backdrop-blur-md border border-destructive/20 rounded-[2rem] p-10 shadow-2xl text-center">
+    <div class="w-16 h-16 bg-destructive/10 text-destructive rounded-2xl flex items-center justify-center mx-auto mb-6">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+      </svg>
+    </div>
+    <h2 class="font-serif text-2xl font-extrabold mb-3 text-destructive">Profile Not Found</h2>
+    <p class="text-muted-foreground text-sm leading-relaxed mb-8">
+      {{ state.error() }}
+    </p>
+    <a href="/fstack" class="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 transition-all shadow-md">
+      Load Default Portfolio
+    </a>
+  </div>
+</div>
+
+<!-- Main Portfolio Content -->
+<div *ngIf="!state.loading() && !state.error() && state.portfolioData()"
+     class="min-h-screen bg-background text-foreground font-sans transition-colors duration-300"
+     [class.dark]="theme.isDark()">
+
+  <app-header></app-header>
+
+  <main class="pt-16">
+    <app-hero *ngIf="state.isSectionVisible('hero')"></app-hero>
+    <app-expertise *ngIf="state.isSectionVisible('expertise')"></app-expertise>
+    <app-skills *ngIf="state.isSectionVisible('skills')"></app-skills>
+    <app-experience *ngIf="state.isSectionVisible('experience')"></app-experience>
+    <app-projects *ngIf="state.isSectionVisible('projects')"></app-projects>
+    <app-education *ngIf="state.isSectionVisible('education')"></app-education>
+    <app-contact *ngIf="state.isSectionVisible('contact')"></app-contact>
+  </main>
+
+  <app-footer></app-footer>
+</div>

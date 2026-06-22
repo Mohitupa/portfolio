@@ -1,0 +1,14 @@
+<footer class="border-t border-border bg-card/60 py-6">
+  <div
+    class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">
+    <span class="font-serif font-bold text-foreground">
+      {{ state.footer()?.name || 'Mohit Upadhyay' }}<span class="text-primary">.</span>
+    </span>
+    <span>
+      {{ state.footer()?.designation || 'Full Stack Developer — Angular + Node.js' }}
+    </span>
+    <span>
+      {{ state.footer()?.location || 'Indore, India' }}
+    </span>
+  </div>
+</footer>

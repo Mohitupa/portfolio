@@ -1,0 +1,92 @@
+<section id="experience" class="bg-card/60 border-y border-border py-16 fade-on-scroll" #animateOnScroll>
+  <div class="max-w-5xl mx-auto px-6">
+    <div>
+      <p class="text-primary font-semibold text-sm uppercase tracking-widest mb-2" style="opacity: 1; transform: none">
+        {{ state.experienceSectionMeta()?.subtitle || 'Career' }}
+      </p>
+      <h2 class="font-serif text-3xl font-extrabold mb-12" style="opacity: 1; transform: none">
+        {{ state.experienceSectionMeta()?.title || 'Work Experience' }}
+      </h2>
+      <div class="relative">
+        <div class="absolute left-[120px] top-0 bottom-0 w-px bg-border hidden md:block"></div>
+        
+        <div *ngFor="let item of state.experience()" class="md:flex gap-8 items-start mb-8" style="opacity: 1; transform: none">
+          <!-- Left side dates (desktop only) -->
+          <div class="hidden md:flex flex-col items-end w-[112px] flex-shrink-0 pt-1">
+            <span class="text-xs font-semibold text-primary uppercase tracking-wider">
+              {{ formatDate(item.startDate) }}
+            </span>
+            <span class="text-xs text-muted-foreground">
+              {{ formatDate(item.endDate) }}
+            </span>
+          </div>
+          
+          <!-- Timeline dot (desktop only) -->
+          <div class="hidden md:flex flex-shrink-0 relative">
+            <div class="w-4 h-4 rounded-full bg-primary ring-4 ring-background translate-x-[-8.5px] mt-1"></div>
+          </div>
+          
+          <!-- Card body -->
+          <div class="flex-1 bg-card border border-border rounded-2xl p-6 shadow-sm ml-0 md:ml-4 mb-0">
+            <!-- Left side dates (mobile only) -->
+            <p class="md:hidden text-xs font-semibold text-primary uppercase tracking-wider mb-2">
+              {{ formatDate(item.startDate) }} – {{ formatDate(item.endDate) }}
+            </p>
+            
+            <div class="flex items-start justify-between flex-wrap gap-2 mb-4">
+              <div>
+                <h3 class="font-serif font-bold text-xl text-foreground">
+                  {{ item.position }}
+                </h3>
+                <p class="text-primary font-semibold text-sm mt-0.5">
+                  {{ item.company }}
+                </p>
+                
+                <div class="flex items-center gap-2 text-xs text-muted-foreground mt-1">
+                  <!-- Map Pin -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-map-pin w-3 h-3" aria-hidden="true">
+                    <path
+                      d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
+                    </path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  {{ item.location }}
+                  
+                  <!-- Calendar separator (desktop only) -->
+                  <span class="hidden md:inline">•</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-calendar w-3 h-3 hidden md:inline" aria-hidden="true">
+                    <path d="M8 2v4"></path>
+                    <path d="M16 2v4"></path>
+                    <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                    <path d="M3 10h18"></path>
+                  </svg>
+                  <span class="hidden md:inline">
+                    {{ formatDate(item.startDate) }} – {{ formatDate(item.endDate) }}
+                  </span>
+                </div>
+              </div>
+              
+              <!-- Employment Type Badge -->
+              <span *ngIf="item.employmentType" class="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+                {{ item.employmentType }}
+              </span>
+            </div>
+            
+            <!-- Job highlights list -->
+            <div class="grid sm:grid-cols-2 gap-x-6 gap-y-2">
+              <div *ngFor="let point of item.highlights" class="flex items-start gap-2 text-sm text-foreground/80">
+                <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>
+                <span>{{ point }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
