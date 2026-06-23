@@ -7412,3 +7412,204 @@
   pointer-events: none;
   z-index: 0;
 }
+
+/* Admin CMS layout utilities. These avoid relying on generated responsive
+   or arbitrary Tailwind classes that may not exist in the checked-in CSS. */
+.admin-page {
+  width: min(100%, 92rem);
+  margin-inline: auto;
+  padding: 1.25rem;
+}
+
+.admin-page > * + * {
+  margin-top: 1.25rem;
+}
+
+.admin-page-header {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+
+.admin-page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.admin-header-button {
+  min-height: 2.75rem;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.65rem 1rem;
+  line-height: 1;
+}
+
+.admin-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 1rem;
+}
+
+.admin-stat-card {
+  min-height: 6rem;
+  padding: 1rem 1.125rem;
+}
+
+.admin-stat-card h3 {
+  line-height: 1;
+}
+
+.admin-panel-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.admin-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  gap: 1rem;
+}
+
+.admin-card-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.75rem;
+}
+
+.admin-dashboard-widgets {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+.admin-editor-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+.admin-editor-sidebar {
+  display: grid;
+  gap: 1rem;
+  align-self: start;
+}
+
+.admin-form-grid-2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.admin-form-grid-3 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.admin-create-grid,
+.admin-user-form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  align-items: end;
+}
+
+.admin-inline-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.admin-upload-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+}
+
+.admin-media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 1rem;
+}
+
+.admin-message-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.admin-search-icon {
+  pointer-events: none;
+}
+
+@media (min-width: 700px) {
+  .admin-page {
+    padding: 1.5rem;
+  }
+
+  .admin-form-grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-form-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .admin-inline-grid {
+    grid-template-columns: minmax(0, 1fr) 16rem;
+  }
+
+  .admin-create-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  }
+
+  .admin-user-form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 960px) {
+  .admin-page-header {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .admin-dashboard-widgets {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .admin-dashboard-main {
+    grid-column: span 2;
+  }
+
+  .admin-page-actions {
+    justify-content: flex-end;
+  }
+
+  .admin-upload-layout {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .admin-message-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .admin-user-form-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 12rem auto;
+  }
+}
+
+@media (min-width: 1180px) {
+  .admin-editor-layout {
+    grid-template-columns: minmax(0, 1fr) 18rem;
+  }
+
+  .admin-editor-sidebar {
+    position: sticky;
+    top: 5.5rem;
+  }
+}

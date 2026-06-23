@@ -1,4 +1,4 @@
-    <div class="p-6 space-y-6 max-w-7xl mx-auto">
+    <div class="admin-page">
       <a routerLink="/admin/portfolios" class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-primary">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -7,7 +7,7 @@
       </a>
 
       <div class="bg-card/50 backdrop-blur-md border border-border/80 rounded-3xl p-5 shadow-sm sticky top-4 z-20">
-        <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
+        <div class="admin-page-header">
           <div>
             <p class="text-xs uppercase tracking-widest font-bold text-primary mb-2">Portfolio Content CMS</p>
             <h1 class="font-serif text-3xl font-extrabold text-foreground tracking-tight">
@@ -32,7 +32,7 @@
               type="button"
               (click)="saveContent()"
               [disabled]="saving() || loading()"
-              class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-border text-sm font-bold text-foreground hover:bg-secondary/40 disabled:opacity-50"
+              class="admin-header-button inline-flex items-center justify-center gap-2 rounded-full border border-border text-sm font-bold text-foreground hover:bg-secondary/40 disabled:opacity-50"
             >
               {{ saving() ? 'Saving...' : content() ? 'Save Draft' : 'Create Draft' }}
             </button>
@@ -70,11 +70,11 @@
         {{ error() }}
       </div>
 
-      <div *ngIf="loading()" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div *ngIf="loading()" class="admin-list-grid">
         <div *ngFor="let item of [1, 2, 3, 4]" class="h-44 rounded-3xl bg-muted/40 animate-pulse"></div>
       </div>
 
-      <form *ngIf="!loading()" [formGroup]="contentForm" (ngSubmit)="saveContent()" class="grid grid-cols-1 lg:grid-cols-[1fr_20rem] gap-6">
+      <form *ngIf="!loading()" [formGroup]="contentForm" (ngSubmit)="saveContent()" class="admin-editor-layout">
         <section class="bg-card/50 backdrop-blur-md border border-border/80 rounded-3xl p-5 shadow-sm">
           <ng-container *ngIf="activeTab() === 'hero'">
             <div class="border-b border-border/80 pb-5 mb-5">
@@ -82,7 +82,7 @@
               <h2 class="font-serif text-xl font-extrabold text-foreground mt-1">First viewport content</h2>
             </div>
 
-            <div formGroupName="hero" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div formGroupName="hero" class="admin-form-grid-2">
               <label class="space-y-2">
                 <span class="admin-label">Greeting</span>
                 <input formControlName="greeting" class="admin-input" placeholder="Hi, I'm" />
@@ -112,7 +112,7 @@
                 <input formControlName="location" class="admin-input" placeholder="India" />
               </label>
 
-              <div formGroupName="profileImage" class="md:col-span-2 grid grid-cols-1 md:grid-cols-[1fr_16rem] gap-4 rounded-3xl border border-border/80 bg-background/40 p-4">
+              <div formGroupName="profileImage" class="admin-inline-grid md:col-span-2 rounded-3xl border border-border/80 bg-background/40 p-4">
                 <label class="space-y-2">
                   <span class="admin-label">Profile Image URL</span>
                   <input formControlName="url" class="admin-input" placeholder="https://..." />
@@ -140,7 +140,7 @@
                 <span class="text-sm font-bold text-foreground">Show open-to-work badge</span>
               </label>
 
-              <div formGroupName="openToWorkBadge" class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 rounded-3xl border border-border/80 bg-background/40 p-4">
+              <div formGroupName="openToWorkBadge" class="admin-form-grid-2 md:col-span-2 rounded-3xl border border-border/80 bg-background/40 p-4">
                 <label class="space-y-2">
                   <span class="admin-label">Badge Text</span>
                   <input formControlName="text" class="admin-input" placeholder="OPEN TO WORK" />
@@ -216,7 +216,7 @@
               <h2 class="font-serif text-xl font-extrabold text-foreground mt-1">Search and sharing metadata</h2>
             </div>
 
-            <div formGroupName="seo" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div formGroupName="seo" class="admin-form-grid-2">
               <label class="space-y-2 md:col-span-2">
                 <span class="admin-label">Meta Title</span>
                 <input formControlName="metaTitle" class="admin-input" />
@@ -229,7 +229,7 @@
                 <span class="admin-label">Keywords</span>
                 <input formControlName="metaKeywordsText" class="admin-input" placeholder="Angular, Node.js, Portfolio" />
               </label>
-              <div formGroupName="ogImage" class="md:col-span-2 grid grid-cols-1 md:grid-cols-[1fr_16rem] gap-4 rounded-3xl border border-border/80 bg-background/40 p-4">
+              <div formGroupName="ogImage" class="admin-inline-grid md:col-span-2 rounded-3xl border border-border/80 bg-background/40 p-4">
                 <label class="space-y-2">
                   <span class="admin-label">OG Image URL</span>
                   <input formControlName="url" class="admin-input" />
@@ -248,7 +248,7 @@
               <h2 class="font-serif text-xl font-extrabold text-foreground mt-1">Visual identity and files</h2>
             </div>
 
-            <div formGroupName="theme" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div formGroupName="theme" class="admin-form-grid-3">
               <label class="space-y-2">
                 <span class="admin-label">Primary Color</span>
                 <input formControlName="primaryColor" type="color" class="h-12 w-full rounded-2xl border border-border bg-background/70 px-2" />
@@ -261,7 +261,7 @@
                 <span class="admin-label">Background Color</span>
                 <input formControlName="backgroundColor" type="color" class="h-12 w-full rounded-2xl border border-border bg-background/70 px-2" />
               </label>
-              <div formGroupName="logo" class="md:col-span-3 grid grid-cols-1 md:grid-cols-[1fr_16rem] gap-4 rounded-3xl border border-border/80 bg-background/40 p-4">
+              <div formGroupName="logo" class="admin-inline-grid md:col-span-3 rounded-3xl border border-border/80 bg-background/40 p-4">
                 <label class="space-y-2">
                   <span class="admin-label">Logo URL</span>
                   <input formControlName="url" class="admin-input" />
@@ -279,7 +279,7 @@
           </ng-container>
         </section>
 
-        <aside class="space-y-4">
+        <aside class="admin-editor-sidebar">
           <div class="bg-card/50 backdrop-blur-md border border-border/80 rounded-3xl p-5 shadow-sm">
             <p class="text-xs uppercase tracking-widest font-bold text-muted-foreground">Editor Notes</p>
             <div class="mt-4 space-y-3 text-xs text-muted-foreground leading-relaxed">

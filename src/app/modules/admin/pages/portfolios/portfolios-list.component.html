@@ -1,5 +1,5 @@
-    <div class="p-6 space-y-6 max-w-7xl mx-auto">
-      <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
+    <div class="admin-page">
+      <div class="admin-page-header">
         <div>
           <p class="text-xs uppercase tracking-widest font-bold text-primary mb-2">Portfolio CMS</p>
           <h1 class="font-serif text-3xl font-extrabold text-foreground tracking-tight">Portfolios</h1>
@@ -9,7 +9,7 @@
         <button
           type="button"
           (click)="openCreatePanel()"
-          class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-primary text-primary-foreground text-sm font-bold shadow-sm hover:opacity-90 transition-opacity"
+          class="admin-header-button inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground text-sm font-bold shadow-sm hover:opacity-90 transition-opacity"
         >
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -47,7 +47,7 @@
           </button>
         </div>
 
-        <form [formGroup]="createForm" (ngSubmit)="createPortfolio()" class="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-4 items-end">
+        <form [formGroup]="createForm" (ngSubmit)="createPortfolio()" class="admin-create-grid">
           <label class="space-y-2">
             <span class="text-xs font-bold uppercase tracking-wider text-muted-foreground">Name</span>
             <input
@@ -78,23 +78,23 @@
         </form>
       </section>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <article class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-5 shadow-sm">
+      <div class="admin-stat-grid">
+        <article class="admin-stat-card bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl shadow-sm">
           <p class="text-xs uppercase tracking-widest font-bold text-muted-foreground">Total</p>
           <h3 class="font-serif text-3xl font-extrabold text-foreground mt-2">{{ portfolios().length }}</h3>
         </article>
-        <article class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-5 shadow-sm">
+        <article class="admin-stat-card bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl shadow-sm">
           <p class="text-xs uppercase tracking-widest font-bold text-muted-foreground">Active</p>
           <h3 class="font-serif text-3xl font-extrabold text-primary mt-2">{{ activeCount() }}</h3>
         </article>
-        <article class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-5 shadow-sm">
+        <article class="admin-stat-card bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl shadow-sm">
           <p class="text-xs uppercase tracking-widest font-bold text-muted-foreground">Inactive</p>
           <h3 class="font-serif text-3xl font-extrabold text-muted-foreground mt-2">{{ inactiveCount() }}</h3>
         </article>
       </div>
 
       <section class="bg-card/40 backdrop-blur-md border border-border/80 rounded-3xl shadow-sm overflow-hidden">
-        <div class="p-5 border-b border-border/80 flex items-center justify-between gap-4">
+        <div class="admin-panel-header p-5 border-b border-border/80">
           <div>
             <h2 class="font-serif text-xl font-extrabold text-foreground tracking-tight">Portfolio registry</h2>
             <p class="text-xs text-muted-foreground mt-1 font-medium">Each card maps to a public portfolio profile.</p>
@@ -112,7 +112,7 @@
           </button>
         </div>
 
-        <div *ngIf="loading() && portfolios().length === 0" class="grid grid-cols-1 lg:grid-cols-2 gap-4 p-5">
+        <div *ngIf="loading() && portfolios().length === 0" class="admin-list-grid p-5">
           <div *ngFor="let item of [1, 2, 3, 4]" class="h-40 rounded-2xl bg-muted/40 animate-pulse"></div>
         </div>
 
@@ -126,7 +126,7 @@
           <p class="text-sm text-muted-foreground mt-1">Create the first shell, then move into the CMS editor in Phase 4.</p>
         </div>
 
-        <div *ngIf="portfolios().length > 0" class="grid grid-cols-1 lg:grid-cols-2 gap-4 p-5">
+        <div *ngIf="portfolios().length > 0" class="admin-list-grid p-5">
           <article
             *ngFor="let portfolio of portfolios(); trackBy: trackPortfolio"
             class="rounded-3xl border border-border/80 bg-background/40 p-5 hover:border-primary/30 hover:bg-primary/5 transition-all"
@@ -150,7 +150,7 @@
               </span>
             </div>
 
-            <div class="mt-5 grid grid-cols-2 gap-3 text-xs">
+            <div class="admin-card-meta-grid mt-5 text-xs">
               <div class="rounded-2xl border border-border/70 bg-card/40 p-3">
                 <p class="font-bold uppercase tracking-wider text-muted-foreground">Created</p>
                 <p class="font-semibold text-foreground mt-1">{{ portfolio.createdAt ? (portfolio.createdAt | date:'mediumDate') : 'Unknown' }}</p>

@@ -1,5 +1,5 @@
-    <div class="p-6 space-y-6 max-w-7xl mx-auto">
-      <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
+    <div class="admin-page">
+      <div class="admin-page-header">
         <div>
           <p class="text-xs uppercase tracking-widest font-bold text-primary mb-2">Inbox</p>
           <h1 class="font-serif text-3xl font-extrabold text-foreground tracking-tight">Contact Messages</h1>
@@ -10,7 +10,7 @@
           type="button"
           (click)="loadMessages()"
           [disabled]="loading()"
-          class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-border text-sm font-bold text-foreground hover:bg-secondary/40 disabled:opacity-50"
+          class="admin-header-button inline-flex items-center justify-center gap-2 rounded-full border border-border text-sm font-bold text-foreground hover:bg-secondary/40 disabled:opacity-50"
         >
           <svg class="w-4 h-4" [class.animate-spin]="loading()" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992m0 0V4.356m0 4.992-3.181-3.183a8.25 8.25 0 0 0-13.803 3.7M7.977 14.652H2.985m0 0v4.992m0-4.992 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7" />
@@ -27,16 +27,16 @@
         {{ error() }}
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <article class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-5 shadow-sm">
+      <div class="admin-stat-grid">
+        <article class="admin-stat-card bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl shadow-sm">
           <p class="text-xs uppercase tracking-widest font-bold text-muted-foreground">Total</p>
           <h3 class="font-serif text-3xl font-extrabold text-foreground mt-2">{{ messages().length }}</h3>
         </article>
-        <article class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-5 shadow-sm">
+        <article class="admin-stat-card bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl shadow-sm">
           <p class="text-xs uppercase tracking-widest font-bold text-muted-foreground">Unread</p>
           <h3 class="font-serif text-3xl font-extrabold text-primary mt-2">{{ unreadCount() }}</h3>
         </article>
-        <article class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-5 shadow-sm">
+        <article class="admin-stat-card bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl shadow-sm">
           <p class="text-xs uppercase tracking-widest font-bold text-muted-foreground">Read</p>
           <h3 class="font-serif text-3xl font-extrabold text-muted-foreground mt-2">{{ readCount() }}</h3>
         </article>
@@ -64,7 +64,7 @@
           </div>
 
           <label class="relative block">
-            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <svg class="admin-search-icon absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
             </svg>
             <input
@@ -96,7 +96,7 @@
             class="p-5 hover:bg-primary/5 transition-colors"
             [ngClass]="message.isRead ? 'bg-transparent' : 'bg-primary/5'"
           >
-            <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-4">
+            <div class="admin-message-row">
               <a [routerLink]="['/admin/contact-messages', message._id]" class="flex items-start gap-4 min-w-0">
                 <div class="relative w-11 h-11 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-bold text-sm flex-shrink-0">
                   {{ message.name.charAt(0).toUpperCase() }}

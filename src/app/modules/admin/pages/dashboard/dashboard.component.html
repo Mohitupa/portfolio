@@ -1,7 +1,7 @@
-<div class="p-6 space-y-6 max-w-7xl mx-auto">
+<div class="admin-page">
 
   <!-- ═══ HEADER / GREETING BANNER ═══ -->
-  <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
+  <div class="admin-page-header mb-4">
     <div>
       <h1 class="font-serif text-3xl font-extrabold text-foreground tracking-tight">
         {{ getGreeting() }}, {{ auth.currentUser()?.name || 'Admin' }}
@@ -13,7 +13,7 @@
 
     <!-- Refresh Button -->
     <button (click)="loadDashboardData()" [disabled]="loading()"
-      class="inline-flex items-center gap-2 px-4.5 p-2 rounded-xl border border-border bg-card/40 hover:bg-secondary/40 text-sm font-semibold transition-colors disabled:opacity-50">
+      class="admin-header-button inline-flex items-center gap-2 rounded-full border border-border bg-card/40 hover:bg-secondary/40 text-sm font-semibold transition-colors disabled:opacity-50">
       <svg class="w-4 h-4" [class.animate-spin]="loading()" fill="none" viewBox="0 0 24 24" stroke="currentColor"
         stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round"
@@ -35,7 +35,7 @@
   </div>
 
   <!-- ═══ LOADING STATE ═══ -->
-  <div *ngIf="loading() && !stats()" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div *ngIf="loading() && !stats()" class="admin-stat-grid">
     <div *ngFor="let item of [1, 2, 3, 4]"
       class="h-32 rounded-2xl bg-card/20 border border-border/40 animate-pulse p-6 space-y-4">
       <div class="flex items-center justify-between">
@@ -47,10 +47,10 @@
   </div>
 
   <!-- ═══ STATS CARDS GRID ═══ -->
-  <div *ngIf="stats()" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div *ngIf="stats()" class="admin-stat-grid">
     <!-- Stat 1: Total Portfolios -->
     <div
-      class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm hover:border-primary/30 transition-all duration-300 group">
+      class="admin-stat-card bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl shadow-sm ">
       <div class="flex items-center justify-between">
         <span class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Total Portfolios</span>
         <span
@@ -69,7 +69,7 @@
 
     <!-- Stat 2: Active Portfolios -->
     <div
-      class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm hover:border-emerald-500/30 transition-all duration-300 group">
+      class="admin-stat-card bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl shadow-sm ">
       <div class="flex items-center justify-between">
         <span class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Active Installs</span>
         <span
@@ -87,7 +87,7 @@
 
     <!-- Stat 3: Published Configurations -->
     <div
-      class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm hover:border-blue-500/30 transition-all duration-300 group">
+      class="admin-stat-card bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl shadow-sm ">
       <div class="flex items-center justify-between">
         <span class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Published Profiles</span>
         <span
@@ -107,7 +107,7 @@
 
     <!-- Stat 4: Draft Configurations -->
     <div
-      class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm hover:border-amber-500/30 transition-all duration-300 group">
+      class="admin-stat-card bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl shadow-sm ">
       <div class="flex items-center justify-between">
         <span class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Draft Configurations</span>
         <span
@@ -126,11 +126,11 @@
   </div>
 
   <!-- ═══ WIDGETS SECTION ═══ -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
+  <div class="admin-dashboard-widgets mt-4">
 
     <!-- Widget 1: Recent Contact Messages (Colspan 2) -->
     <div
-      class="lg:col-span-2 bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+      class="admin-dashboard-main bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
       <div>
         <div class="pb-6 border-b border-border/80 mb-6">
           <div class="flex items-center gap-3">
@@ -204,7 +204,7 @@
 
     <!-- Widget 2: Quick System Access Actions (Colspan 1) -->
     <div
-      class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+      class="admin-stat-card bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl shadow-sm ">
       <div>
         <div class="pb-6 border-b border-border/80 mb-6">
           <h2 class="font-serif text-xl font-extrabold text-foreground tracking-tight">System Controls</h2>
