@@ -10,6 +10,8 @@ import { environment } from '../../environments/environment';
 })
 export class AuthService {
   private apiBaseUrl = environment.API_BASE_URL;
+  private readonly tokenKey = 'admin_jwt_token';
+  private readonly userKey = 'admin_user';
   
   // State Signals
   currentUser = signal<AdminUser | null>(null);
@@ -25,20 +27,26 @@ export class AuthService {
   private initializeAuth(): void {
     const token = this.getToken();
     if (token) {
+      this.currentUser.set(this.getStoredUser());
+
       // Fetch user profile using the stored token
       this.http.get<any>(`${this.apiBaseUrl}/auth/me`).pipe(
         tap((res: any) => {
-          if (res && res.success && res.data) {
-            this.currentUser.set(res.data);
-          } else if (res && res.user) {
-            this.currentUser.set(res.user);
+          const user = this.extractUser(res);
+
+          if (user) {
+            this.setUser(user);
           } else {
-            this.logout();
+            this.clearSession();
           }
+          
           this.authLoaded.set(true);
         }),
-        catchError(() => {
-          this.logout();
+        catchError((error) => {
+          if (error?.status === 401 || error?.status === 403) {
+            this.logout();
+          }
+
           this.authLoaded.set(true);
           return of(null);
         })
@@ -53,27 +61,65 @@ export class AuthService {
       tap(response => {
         if (response && response.success && response.data) {
           this.setToken(response.data.token);
-          this.currentUser.set(response.data.user);
+          this.setUser(response.data.user);
         }
       })
     );
   }
 
   logout(): void {
-    localStorage.removeItem('admin_jwt_token');
-    this.currentUser.set(null);
+    this.clearSession();
     this.router.navigate(['/admin/login']);
   }
 
   isAuthenticated(): boolean {
-    return this.currentUser() !== null;
+    return this.currentUser() !== null || this.getToken() !== null;
   }
 
   getToken(): string | null {
-    return localStorage.getItem('admin_jwt_token');
+    return localStorage.getItem(this.tokenKey);
   }
 
   private setToken(token: string): void {
-    localStorage.setItem('admin_jwt_token', token);
+    localStorage.setItem(this.tokenKey, token);
+  }
+
+  private setUser(user: AdminUser): void {
+    this.currentUser.set(user);
+    localStorage.setItem(this.userKey, JSON.stringify(user));
+  }
+
+  private getStoredUser(): AdminUser | null {
+    const rawUser = localStorage.getItem(this.userKey);
+
+    if (!rawUser) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(rawUser) as AdminUser;
+    } catch {
+      localStorage.removeItem(this.userKey);
+      return null;
+    }
+  }
+
+  private clearSession(): void {
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.userKey);
+    this.currentUser.set(null);
+  }
+
+  private extractUser(response: any): AdminUser | null {
+    const user = response?.data || response?.user || null;
+
+    if (!user) {
+      return null;
+    }
+
+    return {
+      ...user,
+      id: user.id || user._id
+    };
   }
 }
