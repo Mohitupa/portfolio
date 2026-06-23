@@ -6,10 +6,11 @@ export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.isAuthenticated() || authService.getToken()) {
+  if (
+    authService.currentUser()
+  ) {
     return true;
   }
-
   // Redirect to login with redirect parameters
   router.navigate(['/admin/login'], { queryParams: { returnUrl: state.url } });
   return false;

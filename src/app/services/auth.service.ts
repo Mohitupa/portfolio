@@ -10,12 +10,12 @@ import { environment } from '../../environments/environment';
 })
 export class AuthService {
   private apiBaseUrl = environment.API_BASE_URL;
-  private readonly tokenKey = 'admin_jwt_token';
   private readonly userKey = 'admin_user';
-  
+
   // State Signals
   currentUser = signal<AdminUser | null>(null);
   authLoaded = signal<boolean>(false);
+  private accessToken = signal<string | null>(null);
 
   constructor(
     private http: HttpClient,
@@ -25,12 +25,16 @@ export class AuthService {
   }
 
   private initializeAuth(): void {
-    const token = this.getToken();
-    if (token) {
-      this.currentUser.set(this.getStoredUser());
+    this.currentUser.set(this.getStoredUser());
 
-      // Fetch user profile using the stored token
-      this.http.get<any>(`${this.apiBaseUrl}/auth/me`).pipe(
+    // Fetch user profile using the stored token
+    this.http
+      .get(
+        `${this.apiBaseUrl}/auth/me`,
+        {
+          withCredentials: true
+        }
+      ).pipe(
         tap((res: any) => {
           const user = this.extractUser(res);
 
@@ -39,7 +43,7 @@ export class AuthService {
           } else {
             this.clearSession();
           }
-          
+
           this.authLoaded.set(true);
         }),
         catchError((error) => {
@@ -51,16 +55,13 @@ export class AuthService {
           return of(null);
         })
       ).subscribe();
-    } else {
-      this.authLoaded.set(true);
-    }
   }
 
   login(credentials: { email: string; password: string }): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiBaseUrl}/auth/login`, credentials).pipe(
       tap(response => {
         if (response && response.success && response.data) {
-          this.setToken(response.data.token);
+          this.setAccessToken(response.data.accessToken);
           this.setUser(response.data.user);
         }
       })
@@ -73,15 +74,15 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return this.currentUser() !== null || this.getToken() !== null;
+    return this.currentUser() !== null || this.getAccessToken() !== null;
   }
 
-  getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+  getAccessToken(): string | null {
+    return this.accessToken();
   }
 
-  private setToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
+  setAccessToken(token: string): void {
+    this.accessToken.set(token);
   }
 
   private setUser(user: AdminUser): void {
@@ -105,7 +106,6 @@ export class AuthService {
   }
 
   private clearSession(): void {
-    localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
     this.currentUser.set(null);
   }
@@ -121,5 +121,15 @@ export class AuthService {
       ...user,
       id: user.id || user._id
     };
+  }
+
+  refreshToken() {
+    return this.http.post<any>(
+      `${this.apiBaseUrl}/auth/refresh-token`,
+      {},
+      {
+        withCredentials: true
+      }
+    );
   }
 }
