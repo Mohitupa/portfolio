@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap, of, catchError } from 'rxjs';
 import { AdminUser, LoginResponse } from '../models/auth.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiBaseUrl = 'https://portfolio-api-ecru-eight.vercel.app/api';
+  private apiBaseUrl = environment.API_BASE_URL;
   
   // State Signals
   currentUser = signal<AdminUser | null>(null);

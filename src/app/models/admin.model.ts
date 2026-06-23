@@ -28,3 +28,30 @@ export interface MessagesResponse {
   message?: string;
   data: ContactMessage[];
 }
+
+export interface Portfolio {
+  _id?: string;
+  id?: string;
+  name: string;
+  slug: string;
+  isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface PortfolioPayload {
+  name: string;
+  slug: string;
+}
+
+export interface PortfolioResponse {
+  success: boolean;
+  message?: string;
+  data: Portfolio;
+}
+
+export interface PortfoliosResponse {
+  success: boolean;
+  message?: string;
+  data: Portfolio[];
+}
