@@ -1,0 +1,25 @@
+    .admin-label {
+      display: block;
+      color: hsl(var(--muted-foreground));
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .admin-input {
+      width: 100%;
+      border-radius: 1rem;
+      border: 1px solid hsl(var(--border));
+      background: hsl(var(--background) / 0.7);
+      color: hsl(var(--foreground));
+      font-size: 0.875rem;
+      font-weight: 600;
+      outline: none;
+      padding: 0.75rem 1rem;
+    }
+
+    .admin-input:focus {
+      border-color: hsl(var(--primary) / 0.5);
+      box-shadow: 0 0 0 4px hsl(var(--primary) / 0.1);
+    }

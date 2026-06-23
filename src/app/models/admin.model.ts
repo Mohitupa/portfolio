@@ -212,3 +212,36 @@ export interface MediaListResponse {
   message?: string;
   data: MediaItem[];
 }
+
+export type AdminRole = 'SUPER_ADMIN' | 'ADMIN';
+
+export interface AdminUserItem {
+  _id?: string;
+  id?: string;
+  name: string;
+  email: string;
+  role: AdminRole;
+  isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface AdminUserPayload {
+  name: string;
+  email: string;
+  password?: string;
+  role: AdminRole;
+  isActive: boolean;
+}
+
+export interface AdminUserResponse {
+  success: boolean;
+  message?: string;
+  data: AdminUserItem;
+}
+
+export interface AdminUsersResponse {
+  success: boolean;
+  message?: string;
+  data: AdminUserItem[];
+}

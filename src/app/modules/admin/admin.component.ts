@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { AdminApiService } from '../../services/admin-api.service';
 
 interface NavItem {
   label: string;
@@ -16,7 +17,7 @@ interface NavItem {
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit {
   navItems: NavItem[] = [
     {
       label: 'Dashboard',
@@ -50,9 +51,26 @@ export class AdminComponent {
     }
   ];
 
-  unreadMessagesCount = signal<number>(5); // Mock unread count for Phase 1
+  unreadMessagesCount = signal<number>(0);
 
-  constructor(public auth: AuthService) {}
+  constructor(
+    public auth: AuthService,
+    private adminApi: AdminApiService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadUnreadMessagesCount();
+  }
+
+  loadUnreadMessagesCount(): void {
+    this.adminApi.getContactMessages().subscribe({
+      next: response => {
+        const unreadCount = (response.data || []).filter(message => !message.isRead).length;
+        this.unreadMessagesCount.set(unreadCount);
+      },
+      error: () => this.unreadMessagesCount.set(0),
+    });
+  }
 
   onLogout(): void {
     this.auth.logout();

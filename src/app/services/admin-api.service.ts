@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {
+  AdminUserPayload,
+  AdminUserResponse,
+  AdminUsersResponse,
   MessagesResponse,
   MediaListResponse,
   MediaResponse,
@@ -107,6 +110,26 @@ export class AdminApiService {
 
   deleteMedia(id: string): Observable<{ success: boolean; message?: string }> {
     return this.http.delete<{ success: boolean; message?: string }>(`${this.apiBaseUrl}/media/${id}`);
+  }
+
+  getAdminUsers(): Observable<AdminUsersResponse> {
+    return this.http.get<AdminUsersResponse>(`${this.apiBaseUrl}/admin-users`);
+  }
+
+  getAdminUser(id: string): Observable<AdminUserResponse> {
+    return this.http.get<AdminUserResponse>(`${this.apiBaseUrl}/admin-users/${id}`);
+  }
+
+  createAdminUser(payload: AdminUserPayload): Observable<AdminUserResponse> {
+    return this.http.post<AdminUserResponse>(`${this.apiBaseUrl}/admin-users`, payload);
+  }
+
+  updateAdminUser(id: string, payload: Partial<AdminUserPayload>): Observable<AdminUserResponse> {
+    return this.http.patch<AdminUserResponse>(`${this.apiBaseUrl}/admin-users/${id}`, payload);
+  }
+
+  deleteAdminUser(id: string): Observable<{ success: boolean; message?: string }> {
+    return this.http.delete<{ success: boolean; message?: string }>(`${this.apiBaseUrl}/admin-users/${id}`);
   }
 
   getPublicAssetUrl(filePath: string): string {
