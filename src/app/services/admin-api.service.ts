@@ -3,6 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {
   MessagesResponse,
+  MediaListResponse,
+  MediaResponse,
+  MessageResponse,
+  PortfolioContentPayload,
+  PortfolioContentResponse,
   PortfolioPayload,
   PortfolioResponse,
   PortfoliosResponse,
@@ -24,6 +29,18 @@ export class AdminApiService {
 
   getContactMessages(): Observable<MessagesResponse> {
     return this.http.get<MessagesResponse>(`${this.apiBaseUrl}/contact-messages`);
+  }
+
+  getContactMessage(id: string): Observable<MessageResponse> {
+    return this.http.get<MessageResponse>(`${this.apiBaseUrl}/contact-messages/${id}`);
+  }
+
+  markContactMessageRead(id: string): Observable<MessageResponse> {
+    return this.http.patch<MessageResponse>(`${this.apiBaseUrl}/contact-messages/${id}/read`, {});
+  }
+
+  deleteContactMessage(id: string): Observable<{ success: boolean; message?: string }> {
+    return this.http.delete<{ success: boolean; message?: string }>(`${this.apiBaseUrl}/contact-messages/${id}`);
   }
 
   getPortfolios(): Observable<PortfoliosResponse> {
@@ -48,5 +65,62 @@ export class AdminApiService {
 
   togglePortfolioStatus(id: string, isActive: boolean): Observable<PortfolioResponse> {
     return this.http.patch<PortfolioResponse>(`${this.apiBaseUrl}/portfolios/${id}/status`, { isActive });
+  }
+
+  getPortfolioContent(slugOrPortfolioId: string): Observable<PortfolioContentResponse> {
+    return this.http.get<PortfolioContentResponse>(`${this.apiBaseUrl}/portfolio-content/${slugOrPortfolioId}`);
+  }
+
+  createPortfolioContent(portfolioId: string, payload: PortfolioContentPayload): Observable<PortfolioContentResponse> {
+    return this.http.post<PortfolioContentResponse>(`${this.apiBaseUrl}/portfolio-content`, {
+      portfolioId,
+      ...payload,
+    });
+  }
+
+  updatePortfolioContent(portfolioId: string, payload: PortfolioContentPayload): Observable<PortfolioContentResponse> {
+    return this.http.patch<PortfolioContentResponse>(`${this.apiBaseUrl}/portfolio-content/${portfolioId}`, payload);
+  }
+
+  publishPortfolioContent(portfolioId: string): Observable<PortfolioContentResponse> {
+    return this.http.patch<PortfolioContentResponse>(`${this.apiBaseUrl}/portfolio-content/${portfolioId}/publish`, {});
+  }
+
+  unpublishPortfolioContent(portfolioId: string): Observable<PortfolioContentResponse> {
+    return this.http.patch<PortfolioContentResponse>(`${this.apiBaseUrl}/portfolio-content/${portfolioId}/unpublish`, {});
+  }
+
+  getMedia(): Observable<MediaListResponse> {
+    return this.http.get<MediaListResponse>(`${this.apiBaseUrl}/media`);
+  }
+
+  getMediaById(id: string): Observable<MediaResponse> {
+    return this.http.get<MediaResponse>(`${this.apiBaseUrl}/media/${id}`);
+  }
+
+  uploadMedia(file: File): Observable<MediaResponse> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post<MediaResponse>(`${this.apiBaseUrl}/media/upload`, formData);
+  }
+
+  deleteMedia(id: string): Observable<{ success: boolean; message?: string }> {
+    return this.http.delete<{ success: boolean; message?: string }>(`${this.apiBaseUrl}/media/${id}`);
+  }
+
+  getPublicAssetUrl(filePath: string): string {
+    if (!filePath) {
+      return '';
+    }
+
+    if (/^https?:\/\//i.test(filePath)) {
+      return filePath;
+    }
+
+    const apiOrigin = this.apiBaseUrl.replace(/\/api\/?$/, '');
+    const normalizedPath = filePath.replace(/\\/g, '/').replace(/^\/+/, '');
+
+    return `${apiOrigin}/${normalizedPath}`;
   }
 }

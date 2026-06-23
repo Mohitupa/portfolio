@@ -1,13 +1,273 @@
-import { Component } from '@angular/core';
+import { DatePipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { finalize } from 'rxjs';
+import { ContactMessage } from '../../../../models/admin.model';
+import { AdminApiService } from '../../../../services/admin-api.service';
+
+type MessageFilter = 'all' | 'unread' | 'read';
 
 @Component({
   selector: 'app-admin-contact-messages',
   standalone: true,
+  imports: [DatePipe, FormsModule, NgClass, NgFor, NgIf, RouterLink],
   template: `
-    <div class="p-6">
-      <h1 class="font-serif text-3xl font-extrabold mb-2 text-foreground">Contact Messages</h1>
-      <p class="text-muted-foreground text-sm">View and manage public messages.</p>
+    <div class="p-6 space-y-6 max-w-7xl mx-auto">
+      <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
+        <div>
+          <p class="text-xs uppercase tracking-widest font-bold text-primary mb-2">Inbox</p>
+          <h1 class="font-serif text-3xl font-extrabold text-foreground tracking-tight">Contact Messages</h1>
+          <p class="text-sm text-muted-foreground mt-1 font-medium">Review and manage submissions from the public portfolio contact form.</p>
+        </div>
+
+        <button
+          type="button"
+          (click)="loadMessages()"
+          [disabled]="loading()"
+          class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-border text-sm font-bold text-foreground hover:bg-secondary/40 disabled:opacity-50"
+        >
+          <svg class="w-4 h-4" [class.animate-spin]="loading()" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992m0 0V4.356m0 4.992-3.181-3.183a8.25 8.25 0 0 0-13.803 3.7M7.977 14.652H2.985m0 0v4.992m0-4.992 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7" />
+          </svg>
+          <span>Refresh</span>
+        </button>
+      </div>
+
+      <div *ngIf="notice()" class="rounded-2xl border border-primary/20 bg-primary/10 text-primary px-4 py-3 text-sm font-semibold">
+        {{ notice() }}
+      </div>
+
+      <div *ngIf="error()" class="rounded-2xl border border-destructive/20 bg-destructive/10 text-destructive px-4 py-3 text-sm font-semibold">
+        {{ error() }}
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <article class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-5 shadow-sm">
+          <p class="text-xs uppercase tracking-widest font-bold text-muted-foreground">Total</p>
+          <h3 class="font-serif text-3xl font-extrabold text-foreground mt-2">{{ messages().length }}</h3>
+        </article>
+        <article class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-5 shadow-sm">
+          <p class="text-xs uppercase tracking-widest font-bold text-muted-foreground">Unread</p>
+          <h3 class="font-serif text-3xl font-extrabold text-primary mt-2">{{ unreadCount() }}</h3>
+        </article>
+        <article class="bg-card/40 backdrop-blur-md border border-border/80 rounded-2xl p-5 shadow-sm">
+          <p class="text-xs uppercase tracking-widest font-bold text-muted-foreground">Read</p>
+          <h3 class="font-serif text-3xl font-extrabold text-muted-foreground mt-2">{{ readCount() }}</h3>
+        </article>
+      </div>
+
+      <section class="bg-card/40 backdrop-blur-md border border-border/80 rounded-3xl shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-border/80 space-y-4">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div>
+              <h2 class="font-serif text-xl font-extrabold text-foreground tracking-tight">Message feed</h2>
+              <p class="text-xs text-muted-foreground mt-1 font-medium">Unread messages are highlighted with a teal dot.</p>
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+              <button
+                *ngFor="let option of filters"
+                type="button"
+                (click)="filter.set(option.key)"
+                class="px-4 py-2 rounded-full border text-xs font-bold transition-colors"
+                [ngClass]="filter() === option.key ? 'bg-primary text-primary-foreground border-primary' : 'bg-background/50 text-muted-foreground border-border hover:text-foreground hover:bg-secondary/40'"
+              >
+                {{ option.label }}
+              </button>
+            </div>
+          </div>
+
+          <label class="relative block">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+            <input
+              [(ngModel)]="searchTerm"
+              type="search"
+              class="w-full rounded-2xl border border-border bg-background/70 py-3 pl-11 pr-4 text-sm font-semibold outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/10"
+              placeholder="Search by name, email, subject, or message"
+            />
+          </label>
+        </div>
+
+        <div *ngIf="loading() && messages().length === 0" class="space-y-3 p-5">
+          <div *ngFor="let item of [1, 2, 3, 4, 5]" class="h-28 rounded-3xl bg-muted/40 animate-pulse"></div>
+        </div>
+
+        <div *ngIf="!loading() && filteredMessages().length === 0" class="p-12 text-center">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center mb-4">
+            <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-xl font-extrabold text-foreground">No messages found</h3>
+          <p class="text-sm text-muted-foreground mt-1">Try another filter or refresh the inbox.</p>
+        </div>
+
+        <div *ngIf="filteredMessages().length > 0" class="divide-y divide-border/80">
+          <article
+            *ngFor="let message of filteredMessages(); trackBy: trackMessage"
+            class="p-5 hover:bg-primary/5 transition-colors"
+            [ngClass]="message.isRead ? 'bg-transparent' : 'bg-primary/5'"
+          >
+            <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-4">
+              <a [routerLink]="['/admin/contact-messages', message._id]" class="flex items-start gap-4 min-w-0">
+                <div class="relative w-11 h-11 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-bold text-sm flex-shrink-0">
+                  {{ message.name.charAt(0).toUpperCase() }}
+                  <span *ngIf="!message.isRead" class="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full bg-primary border-2 border-card"></span>
+                </div>
+
+                <div class="min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <h3 class="text-sm font-extrabold truncate" [ngClass]="message.isRead ? 'text-foreground' : 'text-primary'">{{ message.name }}</h3>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold border" [ngClass]="message.isRead ? 'bg-secondary/60 text-muted-foreground border-border' : 'bg-primary/10 text-primary border-primary/20'">
+                      {{ message.isRead ? 'Read' : 'Unread' }}
+                    </span>
+                  </div>
+                  <p class="text-xs font-semibold text-muted-foreground mt-1 truncate">{{ message.email }}</p>
+                  <h4 class="text-sm font-bold text-foreground mt-3 truncate">{{ message.subject }}</h4>
+                  <p class="text-sm text-muted-foreground mt-1 line-clamp-2 leading-relaxed">{{ message.message }}</p>
+                </div>
+              </a>
+
+              <div class="flex lg:flex-col items-start lg:items-end gap-2">
+                <span class="text-[11px] font-bold text-muted-foreground whitespace-nowrap">{{ message.createdAt | date:'medium' }}</span>
+                <div class="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    (click)="markRead(message)"
+                    [disabled]="message.isRead || actionId() === message._id"
+                    class="px-3 py-2 rounded-full border border-border text-xs font-bold text-foreground hover:bg-secondary/40 disabled:opacity-50"
+                  >
+                    Mark read
+                  </button>
+                  <button
+                    type="button"
+                    (click)="deleteMessage(message)"
+                    [disabled]="actionId() === message._id"
+                    class="px-3 py-2 rounded-full border border-destructive/20 text-xs font-bold text-destructive hover:bg-destructive/10 disabled:opacity-50"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
     </div>
-  `
+  `,
+  styles: [`
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  `],
 })
-export class ContactMessagesComponent {}
+export class ContactMessagesComponent implements OnInit {
+  private adminApi = inject(AdminApiService);
+
+  filters: { key: MessageFilter; label: string }[] = [
+    { key: 'all', label: 'All' },
+    { key: 'unread', label: 'Unread' },
+    { key: 'read', label: 'Read' },
+  ];
+
+  messages = signal<ContactMessage[]>([]);
+  loading = signal(false);
+  error = signal('');
+  notice = signal('');
+  actionId = signal('');
+  filter = signal<MessageFilter>('all');
+  searchTerm = '';
+
+  unreadCount = computed(() => this.messages().filter(message => !message.isRead).length);
+  readCount = computed(() => this.messages().filter(message => message.isRead).length);
+
+  filteredMessages(): ContactMessage[] {
+    const query = this.searchTerm.trim().toLowerCase();
+
+    return this.messages().filter(message => {
+      const matchesFilter =
+        this.filter() === 'all' ||
+        (this.filter() === 'unread' && !message.isRead) ||
+        (this.filter() === 'read' && message.isRead);
+
+      if (!matchesFilter) {
+        return false;
+      }
+
+      if (!query) {
+        return true;
+      }
+
+      return [
+        message.name,
+        message.email,
+        message.subject,
+        message.message,
+      ].some(value => value.toLowerCase().includes(query));
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadMessages();
+  }
+
+  loadMessages(): void {
+    this.loading.set(true);
+    this.error.set('');
+
+    this.adminApi.getContactMessages()
+      .pipe(finalize(() => this.loading.set(false)))
+      .subscribe({
+        next: response => this.messages.set(response.data ?? []),
+        error: error => this.error.set(error?.error?.message || 'Could not load contact messages.'),
+      });
+  }
+
+  markRead(message: ContactMessage): void {
+    if (message.isRead) {
+      return;
+    }
+
+    this.actionId.set(message._id);
+    this.error.set('');
+    this.notice.set('');
+
+    this.adminApi.markContactMessageRead(message._id)
+      .pipe(finalize(() => this.actionId.set('')))
+      .subscribe({
+        next: response => {
+          this.messages.update(messages => messages.map(item => item._id === message._id ? response.data : item));
+          this.notice.set('Message marked as read.');
+        },
+        error: error => this.error.set(error?.error?.message || 'Could not mark this message as read.'),
+      });
+  }
+
+  deleteMessage(message: ContactMessage): void {
+    if (!window.confirm(`Delete message from "${message.name}"? This cannot be undone.`)) {
+      return;
+    }
+
+    this.actionId.set(message._id);
+    this.error.set('');
+    this.notice.set('');
+
+    this.adminApi.deleteContactMessage(message._id)
+      .pipe(finalize(() => this.actionId.set('')))
+      .subscribe({
+        next: () => {
+          this.messages.update(messages => messages.filter(item => item._id !== message._id));
+          this.notice.set('Message deleted successfully.');
+        },
+        error: error => this.error.set(error?.error?.message || 'Could not delete this message.'),
+      });
+  }
+
+  trackMessage = (_: number, message: ContactMessage): string => message._id;
+}
