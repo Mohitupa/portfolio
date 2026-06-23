@@ -6,16 +6,16 @@
 
     <nav class="hidden md:flex gap-6 text-sm font-medium text-muted-foreground">
       <ng-container *ngIf="state.navigation().length > 0; else defaultNav">
-        <a *ngFor="let item of state.navigation()" [href]="item.link" class="hover:text-foreground transition-colors">
+        <a *ngFor="let item of state.navigation()" [href]="item.link" (click)="navigateToSection($event, item.link)" class="hover:text-foreground transition-colors">
           {{ item.label }}
         </a>
       </ng-container>
       <ng-template #defaultNav>
-        <a href="#about" class="hover:text-foreground transition-colors">About</a>
-        <a href="#skills" class="hover:text-foreground transition-colors">Skills</a>
-        <a href="#experience" class="hover:text-foreground transition-colors">Experience</a>
-        <a href="#projects" class="hover:text-foreground transition-colors">Projects</a>
-        <a href="#contact" class="hover:text-foreground transition-colors">Contact</a>
+        <a href="#about" (click)="navigateToSection($event, '#about')" class="hover:text-foreground transition-colors">About</a>
+        <a href="#skills" (click)="navigateToSection($event, '#skills')" class="hover:text-foreground transition-colors">Skills</a>
+        <a href="#experience" (click)="navigateToSection($event, '#experience')" class="hover:text-foreground transition-colors">Experience</a>
+        <a href="#projects" (click)="navigateToSection($event, '#projects')" class="hover:text-foreground transition-colors">Projects</a>
+        <a href="#contact" (click)="navigateToSection($event, '#contact')" class="hover:text-foreground transition-colors">Contact</a>
       </ng-template>
     </nav>
 

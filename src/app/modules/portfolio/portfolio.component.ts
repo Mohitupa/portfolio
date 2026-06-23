@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PortfolioStateService } from '../../services/portfolio-state.service';
 import { ThemeService } from '../../services/theme.service';
+import { SectionScrollService } from '../../services/section-scroll.service';
 import { HeaderComponent } from './components/layout/header/header.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
 import { HeroComponent } from './components/features/hero/hero.component';
@@ -35,12 +36,28 @@ import { ContactComponent } from './components/features/contact/contact.componen
 })
 export class PortfolioComponent implements OnInit, OnDestroy {
   private routeSub?: Subscription;
+  private initialHashScrolled = '';
 
   constructor(
     private route: ActivatedRoute,
     public state: PortfolioStateService,
-    public theme: ThemeService
-  ) {}
+    public theme: ThemeService,
+    private sectionScroll: SectionScrollService
+  ) {
+    effect(() => {
+      if (!this.state.portfolioData()) {
+        return;
+      }
+
+      const hash = window.location.hash;
+      if (!hash || hash === this.initialHashScrolled) {
+        return;
+      }
+
+      this.initialHashScrolled = hash;
+      window.setTimeout(() => this.sectionScroll.scrollToLink(hash), 0);
+    });
+  }
 
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {

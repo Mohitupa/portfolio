@@ -49,7 +49,7 @@
           {{ state.hero()?.location }}</span>
       </div>
       <div class="flex gap-3" style="opacity: 1; transform: none">
-        <a *ngIf="state.hero()?.primaryButton?.text" [href]="state.hero()?.primaryButton?.link || '#contact'"
+        <a *ngIf="state.hero()?.primaryButton?.text" [href]="state.hero()?.primaryButton?.link || '#contact'" (click)="navigateToPrimaryAction($event)"
           class="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 transition-colors shadow-md"
           data-testid="cta-contact">{{ state.hero()?.primaryButton?.text }}</a>
           
