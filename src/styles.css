@@ -514,6 +514,10 @@
     left: calc(var(--spacing) * -2);
   }
 
+  .-left-3 {
+    left: calc(var(--spacing) * -3);
+  }
+
   .-left-12 {
     left: calc(var(--spacing) * -12);
   }
@@ -528,6 +532,10 @@
 
   .left-2 {
     left: calc(var(--spacing) * 2);
+  }
+
+  .left-3 {
+    left: calc(var(--spacing) * 3);
   }
 
   .left-4 {
@@ -7429,6 +7437,7 @@
   display: grid;
   gap: 1rem;
   align-items: start;
+  margin-bottom: 1rem;
 }
 
 .admin-page-actions {
@@ -7612,4 +7621,8 @@
     position: sticky;
     top: 5.5rem;
   }
+}
+
+.align-items-baseline {
+  align-items: baseline;
 }
