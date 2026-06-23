@@ -5,6 +5,7 @@ import { finalize } from 'rxjs';
 import { AdminRole, AdminUserItem, AdminUserPayload } from '../../../../models/admin.model';
 import { AdminApiService } from '../../../../services/admin-api.service';
 import { AuthService } from '../../../../services/auth.service';
+import { ToastService } from '../../../../services/toast.service';
 
 type UserFormMode = 'create' | 'edit';
 
@@ -18,6 +19,7 @@ type UserFormMode = 'create' | 'edit';
 export class AdminUsersComponent implements OnInit {
   private fb = inject(FormBuilder);
   private adminApi = inject(AdminApiService);
+  private toast = inject(ToastService);
   auth = inject(AuthService);
 
   users = signal<AdminUserItem[]>([]);
@@ -53,7 +55,11 @@ export class AdminUsersComponent implements OnInit {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: response => this.users.set(response.data ?? []),
-        error: error => this.error.set(error?.error?.message || 'Could not load admin users. The backend admin-users route may not be implemented yet.'),
+        error: error => {
+          const message = error?.error?.message || 'Could not load admin users. The backend admin-users route may not be implemented yet.';
+          this.error.set(message);
+          this.toast.error(message);
+        },
       });
   }
 
@@ -130,14 +136,14 @@ export class AdminUsersComponent implements OnInit {
         next: response => {
           if (this.formMode() === 'create') {
             this.users.update(users => [response.data, ...users]);
-            this.notice.set('Admin user created successfully.');
+            this.toast.success('Admin user created successfully.');
           } else {
             this.users.update(users => users.map(user => this.userId(user) === this.userId(response.data) ? response.data : user));
-            this.notice.set('Admin user updated successfully.');
+            this.toast.success('Admin user updated successfully.');
           }
           this.closeForm();
         },
-        error: error => this.error.set(error?.error?.message || 'Could not save admin user. The backend admin-users route may not be implemented yet.'),
+        error: error => this.toast.error(error?.error?.message || 'Could not save admin user. The backend admin-users route may not be implemented yet.'),
       });
   }
 
@@ -151,15 +157,15 @@ export class AdminUsersComponent implements OnInit {
       .subscribe({
         next: response => {
           this.users.update(users => users.map(item => this.userId(item) === this.userId(user) ? response.data : item));
-          this.notice.set(`Admin user ${response.data.isActive ? 'activated' : 'deactivated'}.`);
+          this.toast.success(`Admin user ${response.data.isActive ? 'activated' : 'deactivated'}.`);
         },
-        error: error => this.error.set(error?.error?.message || 'Could not update this admin user.'),
+        error: error => this.toast.error(error?.error?.message || 'Could not update this admin user.'),
       });
   }
 
   deleteUser(user: AdminUserItem): void {
     if (this.isCurrentUser(user)) {
-      this.error.set('You cannot delete the account you are currently using.');
+      this.toast.error('You cannot delete the account you are currently using.');
       return;
     }
 
@@ -176,9 +182,9 @@ export class AdminUsersComponent implements OnInit {
       .subscribe({
         next: () => {
           this.users.update(users => users.filter(item => this.userId(item) !== this.userId(user)));
-          this.notice.set('Admin user deleted successfully.');
+          this.toast.success('Admin user deleted successfully.');
         },
-        error: error => this.error.set(error?.error?.message || 'Could not delete this admin user.'),
+        error: error => this.toast.error(error?.error?.message || 'Could not delete this admin user.'),
       });
   }
 

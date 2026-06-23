@@ -62,14 +62,6 @@
         </div>
       </div>
 
-      <div *ngIf="notice()" class="rounded-2xl border border-primary/20 bg-primary/10 text-primary px-4 py-3 text-sm font-semibold">
-        {{ notice() }}
-      </div>
-
-      <div *ngIf="error()" class="rounded-2xl border border-destructive/20 bg-destructive/10 text-destructive px-4 py-3 text-sm font-semibold">
-        {{ error() }}
-      </div>
-
       <div *ngIf="loading()" class="admin-list-grid">
         <div *ngFor="let item of [1, 2, 3, 4]" class="h-44 rounded-3xl bg-muted/40 animate-pulse"></div>
       </div>

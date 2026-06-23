@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ScrollAnimationService } from '../../../../../services/scroll-animation.service';
 import { PortfolioStateService } from '../../../../../services/portfolio-state.service';
 import { PortfolioApiService } from '../../../../../services/portfolio-api.service';
+import { ToastService } from '../../../../../services/toast.service';
 
 @Component({
   standalone: true,
@@ -17,10 +18,9 @@ export class ContactComponent implements AfterViewInit {
 
   private fb = inject(FormBuilder);
   private portfolioApi = inject(PortfolioApiService);
+  private toast = inject(ToastService);
 
   loading = signal(false);
-  successMessage = signal<string | null>(null);
-  errorMessage = signal<string | null>(null);
 
   contactForm = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
@@ -54,11 +54,9 @@ export class ContactComponent implements AfterViewInit {
   }
 
   submitContactForm(): void {
-    this.successMessage.set(null);
-    this.errorMessage.set(null);
-
     if (this.contactForm.invalid) {
       this.contactForm.markAllAsTouched();
+      this.toast.error('Please complete the highlighted contact fields.');
       return;
     }
 
@@ -73,12 +71,12 @@ export class ContactComponent implements AfterViewInit {
 
     this.portfolioApi.sendContactMessage(payload).subscribe({
       next: (response) => {
-        this.successMessage.set(response.message || 'Message sent successfully.');
+        this.toast.success(response.message || 'Message sent successfully.');
         this.contactForm.reset();
         this.loading.set(false);
       },
       error: (error) => {
-        this.errorMessage.set(error?.error?.message || 'Could not send your message. Please try again.');
+        this.toast.error(error?.error?.message || 'Could not send your message. Please try again.');
         this.loading.set(false);
       }
     });

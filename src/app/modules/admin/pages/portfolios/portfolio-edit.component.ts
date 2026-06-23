@@ -12,6 +12,7 @@ import {
   SkillTagContent,
 } from '../../../../models/admin.model';
 import { AdminApiService } from '../../../../services/admin-api.service';
+import { ToastService } from '../../../../services/toast.service';
 
 type EditorTab = 'hero' | 'skills' | 'projects' | 'seo' | 'theme';
 
@@ -26,6 +27,7 @@ export class PortfolioEditComponent implements OnInit {
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private adminApi = inject(AdminApiService);
+  private toast = inject(ToastService);
 
   tabs: { key: EditorTab; label: string }[] = [
     { key: 'hero', label: 'Hero' },
@@ -138,7 +140,7 @@ export class PortfolioEditComponent implements OnInit {
         },
         error: () => {
           this.content.set(null);
-          this.notice.set('No editable content was returned. You can create the first draft from this editor.');
+          this.toast.info('No editable content was returned. You can create the first draft from this editor.');
         },
       });
   }
@@ -146,7 +148,7 @@ export class PortfolioEditComponent implements OnInit {
   saveContent(): void {
     if (this.contentForm.invalid) {
       this.contentForm.markAllAsTouched();
-      this.error.set('Please fix the highlighted fields before saving.');
+      this.toast.error('Please fix the highlighted fields before saving.');
       return;
     }
 
@@ -154,7 +156,7 @@ export class PortfolioEditComponent implements OnInit {
     try {
       payload = this.buildPayload();
     } catch (error) {
-      this.error.set(error instanceof Error ? error.message : 'Could not prepare content payload.');
+      this.toast.error(error instanceof Error ? error.message : 'Could not prepare content payload.');
       return;
     }
 
@@ -172,9 +174,9 @@ export class PortfolioEditComponent implements OnInit {
         next: response => {
           this.content.set(response.data);
           this.patchForm(response.data);
-          this.notice.set(this.content()?._id ? 'Content saved successfully.' : 'Draft content created successfully.');
+          this.toast.success(this.content()?._id ? 'Content saved successfully.' : 'Draft content created successfully.');
         },
-        error: error => this.error.set(error?.error?.message || 'Could not save content. Please confirm the portfolio-content admin endpoint is available.'),
+        error: error => this.toast.error(error?.error?.message || 'Could not save content. Please confirm the portfolio-content admin endpoint is available.'),
       });
   }
 
@@ -196,9 +198,9 @@ export class PortfolioEditComponent implements OnInit {
       .subscribe({
         next: response => {
           this.content.set(response.data);
-          this.notice.set(this.isPublished() ? 'Portfolio content published.' : 'Portfolio content unpublished.');
+          this.toast.success(this.isPublished() ? 'Portfolio content published.' : 'Portfolio content unpublished.');
         },
-        error: error => this.error.set(error?.error?.message || 'Could not update publish status.'),
+        error: error => this.toast.error(error?.error?.message || 'Could not update publish status.'),
       });
   }
 

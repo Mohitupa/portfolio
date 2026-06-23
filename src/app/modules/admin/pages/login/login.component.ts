@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../../services/auth.service';
+import { ToastService } from '../../../../services/toast.service';
 
 @Component({
   selector: 'app-admin-login',
@@ -14,12 +15,12 @@ import { AuthService } from '../../../../services/auth.service';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   loading = signal<boolean>(false);
-  errorMessage = signal<string | null>(null);
   returnUrl: string = '/admin/dashboard';
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private toast: ToastService,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -46,7 +47,6 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading.set(true);
-    this.errorMessage.set(null);
 
     this.authService.login(this.loginForm.value).subscribe({
       next: () => {
@@ -54,9 +54,7 @@ export class LoginComponent implements OnInit {
         this.loading.set(false);
       },
       error: (err) => {
-        this.errorMessage.set(
-          err.error?.message || 'Invalid email or password. Please try again.'
-        );
+        this.toast.error(err.error?.message || 'Invalid email or password. Please try again.');
         this.loading.set(false);
       }
     });

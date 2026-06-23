@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { ContactMessage } from '../../../../models/admin.model';
 import { AdminApiService } from '../../../../services/admin-api.service';
+import { ToastService } from '../../../../services/toast.service';
 
 type MessageFilter = 'all' | 'unread' | 'read';
 
@@ -17,6 +18,7 @@ type MessageFilter = 'all' | 'unread' | 'read';
 })
 export class ContactMessagesComponent implements OnInit {
   private adminApi = inject(AdminApiService);
+  private toast = inject(ToastService);
 
   filters: { key: MessageFilter; label: string }[] = [
     { key: 'all', label: 'All' },
@@ -73,7 +75,11 @@ export class ContactMessagesComponent implements OnInit {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: response => this.messages.set(response.data ?? []),
-        error: error => this.error.set(error?.error?.message || 'Could not load contact messages.'),
+        error: error => {
+          const message = error?.error?.message || 'Could not load contact messages.';
+          this.error.set(message);
+          this.toast.error(message);
+        },
       });
   }
 
@@ -91,9 +97,9 @@ export class ContactMessagesComponent implements OnInit {
       .subscribe({
         next: response => {
           this.messages.update(messages => messages.map(item => item._id === message._id ? response.data : item));
-          this.notice.set('Message marked as read.');
+          this.toast.success('Message marked as read.');
         },
-        error: error => this.error.set(error?.error?.message || 'Could not mark this message as read.'),
+        error: error => this.toast.error(error?.error?.message || 'Could not mark this message as read.'),
       });
   }
 
@@ -111,9 +117,9 @@ export class ContactMessagesComponent implements OnInit {
       .subscribe({
         next: () => {
           this.messages.update(messages => messages.filter(item => item._id !== message._id));
-          this.notice.set('Message deleted successfully.');
+          this.toast.success('Message deleted successfully.');
         },
-        error: error => this.error.set(error?.error?.message || 'Could not delete this message.'),
+        error: error => this.toast.error(error?.error?.message || 'Could not delete this message.'),
       });
   }
 

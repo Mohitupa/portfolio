@@ -5,6 +5,7 @@ import { forkJoin } from 'rxjs';
 import { AdminApiService } from '../../../../services/admin-api.service';
 import { AuthService } from '../../../../services/auth.service';
 import { DashboardStats, ContactMessage } from '../../../../models/admin.model';
+import { ToastService } from '../../../../services/toast.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -22,6 +23,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private adminApi: AdminApiService,
+    private toast: ToastService,
     public auth: AuthService
   ) {}
 
@@ -49,7 +51,9 @@ export class DashboardComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching dashboard data:', err);
-        this.error.set('Failed to load dashboard metrics. Please refresh the page.');
+        const message = 'Failed to load dashboard metrics. Please refresh the page.';
+        this.error.set(message);
+        this.toast.error(message);
         this.loading.set(false);
       }
     });

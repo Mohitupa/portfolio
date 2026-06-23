@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { Portfolio } from '../../../../models/admin.model';
 import { AdminApiService } from '../../../../services/admin-api.service';
+import { ToastService } from '../../../../services/toast.service';
 
 @Component({
   selector: 'app-admin-portfolios-list',
@@ -16,6 +17,7 @@ import { AdminApiService } from '../../../../services/admin-api.service';
 export class PortfoliosListComponent implements OnInit {
   private fb = inject(FormBuilder);
   private adminApi = inject(AdminApiService);
+  private toast = inject(ToastService);
 
   portfolios = signal<Portfolio[]>([]);
   loading = signal(false);
@@ -45,7 +47,11 @@ export class PortfoliosListComponent implements OnInit {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: response => this.portfolios.set(response.data ?? []),
-        error: () => this.error.set('Could not load portfolios. Please confirm the API is running and your session is valid.'),
+        error: () => {
+          const message = 'Could not load portfolios. Please confirm the API is running and your session is valid.';
+          this.error.set(message);
+          this.toast.error(message);
+        },
       });
   }
 
@@ -75,10 +81,10 @@ export class PortfoliosListComponent implements OnInit {
       .subscribe({
         next: response => {
           this.portfolios.update(portfolios => [response.data, ...portfolios]);
-          this.notice.set('Portfolio created successfully.');
+          this.toast.success('Portfolio created successfully.');
           this.closeCreatePanel();
         },
-        error: error => this.error.set(error?.error?.message || 'Could not create portfolio. Check the slug and try again.'),
+        error: error => this.toast.error(error?.error?.message || 'Could not create portfolio. Check the slug and try again.'),
       });
   }
 
@@ -93,9 +99,9 @@ export class PortfoliosListComponent implements OnInit {
       .subscribe({
         next: response => {
           this.portfolios.update(portfolios => portfolios.map(item => this.portfolioId(item) === id ? response.data : item));
-          this.notice.set(`Portfolio ${response.data.isActive ? 'activated' : 'deactivated'} successfully.`);
+          this.toast.success(`Portfolio ${response.data.isActive ? 'activated' : 'deactivated'} successfully.`);
         },
-        error: () => this.error.set('Could not update status. The backend may not have the status endpoint yet.'),
+        error: () => this.toast.error('Could not update status. The backend may not have the status endpoint yet.'),
       });
   }
 
@@ -116,9 +122,9 @@ export class PortfoliosListComponent implements OnInit {
       .subscribe({
         next: () => {
           this.portfolios.update(portfolios => portfolios.filter(item => this.portfolioId(item) !== id));
-          this.notice.set('Portfolio deleted successfully.');
+          this.toast.success('Portfolio deleted successfully.');
         },
-        error: () => this.error.set('Could not delete portfolio. The backend may not have the delete endpoint yet.'),
+        error: () => this.toast.error('Could not delete portfolio. The backend may not have the delete endpoint yet.'),
       });
   }
 

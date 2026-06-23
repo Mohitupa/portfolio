@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { ContactMessage } from '../../../../models/admin.model';
 import { AdminApiService } from '../../../../services/admin-api.service';
+import { ToastService } from '../../../../services/toast.service';
 
 @Component({
   selector: 'app-admin-contact-message-detail',
@@ -16,6 +17,7 @@ export class ContactMessageDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private adminApi = inject(AdminApiService);
+  private toast = inject(ToastService);
 
   message = signal<ContactMessage | null>(null);
   loading = signal(true);
@@ -37,7 +39,11 @@ export class ContactMessageDetailComponent implements OnInit {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: response => this.message.set(response.data),
-        error: error => this.error.set(error?.error?.message || 'Could not load this message.'),
+        error: error => {
+          const message = error?.error?.message || 'Could not load this message.';
+          this.error.set(message);
+          this.toast.error(message);
+        },
       });
   }
 
@@ -57,9 +63,9 @@ export class ContactMessageDetailComponent implements OnInit {
       .subscribe({
         next: response => {
           this.message.set(response.data);
-          this.notice.set('Message marked as read.');
+          this.toast.success('Message marked as read.');
         },
-        error: error => this.error.set(error?.error?.message || 'Could not mark this message as read.'),
+        error: error => this.toast.error(error?.error?.message || 'Could not mark this message as read.'),
       });
   }
 
@@ -77,8 +83,11 @@ export class ContactMessageDetailComponent implements OnInit {
     this.adminApi.deleteContactMessage(message._id)
       .pipe(finalize(() => this.actionLoading.set(false)))
       .subscribe({
-        next: () => this.router.navigate(['/admin/contact-messages']),
-        error: error => this.error.set(error?.error?.message || 'Could not delete this message.'),
+        next: () => {
+          this.toast.success('Message deleted successfully.');
+          this.router.navigate(['/admin/contact-messages']);
+        },
+        error: error => this.toast.error(error?.error?.message || 'Could not delete this message.'),
       });
   }
 

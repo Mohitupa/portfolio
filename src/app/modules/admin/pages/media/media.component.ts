@@ -3,6 +3,7 @@ import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
 import { MediaItem } from '../../../../models/admin.model';
 import { AdminApiService } from '../../../../services/admin-api.service';
+import { ToastService } from '../../../../services/toast.service';
 
 @Component({
   selector: 'app-admin-media',
@@ -13,6 +14,7 @@ import { AdminApiService } from '../../../../services/admin-api.service';
 })
 export class MediaComponent implements OnInit {
   private adminApi = inject(AdminApiService);
+  private toast = inject(ToastService);
 
   media = signal<MediaItem[]>([]);
   loading = signal(false);
@@ -39,7 +41,11 @@ export class MediaComponent implements OnInit {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: response => this.media.set(response.data ?? []),
-        error: error => this.error.set(error?.error?.message || 'Could not load media library.'),
+        error: error => {
+          const message = error?.error?.message || 'Could not load media library.';
+          this.error.set(message);
+          this.toast.error(message);
+        },
       });
   }
 
@@ -86,9 +92,9 @@ export class MediaComponent implements OnInit {
         next: response => {
           this.media.update(items => [response.data, ...items]);
           this.selectedFile.set(null);
-          this.notice.set('File uploaded successfully.');
+          this.toast.success('File uploaded successfully.');
         },
-        error: error => this.error.set(error?.error?.message || 'Could not upload this file.'),
+        error: error => this.toast.error(error?.error?.message || 'Could not upload this file.'),
       });
   }
 
@@ -106,9 +112,9 @@ export class MediaComponent implements OnInit {
       .subscribe({
         next: () => {
           this.media.update(items => items.filter(media => media._id !== item._id));
-          this.notice.set('Media deleted successfully.');
+          this.toast.success('Media deleted successfully.');
         },
-        error: error => this.error.set(error?.error?.message || 'Could not delete this media item.'),
+        error: error => this.toast.error(error?.error?.message || 'Could not delete this media item.'),
       });
   }
 
@@ -117,12 +123,12 @@ export class MediaComponent implements OnInit {
 
     if (navigator.clipboard) {
       navigator.clipboard.writeText(url)
-        .then(() => this.notice.set('Media URL copied.'))
-        .catch(() => this.error.set(url));
+        .then(() => this.toast.success('Media URL copied.'))
+        .catch(() => this.toast.error(url));
       return;
     }
 
-    this.notice.set(url);
+    this.toast.info(url);
   }
 
   assetUrl(item: MediaItem): string {
