@@ -69,8 +69,25 @@ export class AuthService {
   }
 
   logout(): void {
+
+    this.http
+      .post(
+        `${this.apiBaseUrl}/auth/logout`,
+        {},
+        {
+          withCredentials: true
+        }
+      )
+      .subscribe({
+        next: () => { },
+        error: () => { }
+      });
+
     this.clearSession();
-    this.router.navigate(['/admin/login']);
+
+    this.router.navigate(
+      ['/admin/login']
+    );
   }
 
   isAuthenticated(): boolean {
