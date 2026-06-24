@@ -78,7 +78,14 @@ export class ProjectsComponent implements AfterViewInit {
   }
 
   getProjectImage(item: ProjectItem): string {
-    if (item.coverImage?.url) return item.coverImage.url;
+    const filePath =
+      item.coverImage?.mediaId?.filePath ||
+      item.coverImage?.filePath ||
+      item.coverImage?.url;
+
+    if (filePath) return filePath;
+
+    // Fallbacks only if API doesn't return an image
     const slug = item.slug.toLowerCase();
     if (slug.includes('rider') || slug.includes('smart')) return '/smart-rider.png';
     if (slug.includes('roatan') || slug.includes('roatam') || slug.includes('travel')) return '/anything-roatam.png';

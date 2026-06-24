@@ -31,13 +31,31 @@ export interface PortfolioData {
   updatedAt: string;
 }
 
+export interface MediaId {
+  _id: string;
+  originalName: string;
+  fileName: string;
+  filePath: string;
+  mimeType: string;
+  size: number;
+}
+
+export interface MediaField {
+  mediaId?: MediaId;
+  filePath?: string;
+  url?: string;
+  alt?: string;
+}
+
 export interface HeroSection {
   greeting: string;
   name: string;
   title: string;
   shortDescription: string;
   profileImage: {
-    url: string;
+    mediaId?: MediaId;
+    filePath?: string;
+    url?: string;
     alt: string;
   };
   email: string;
@@ -109,7 +127,9 @@ export interface ExperienceSection {
 export interface ExperienceItem {
   company: string;
   companyLogo: {
-    url: string;
+    mediaId?: MediaId;
+    filePath?: string;
+    url?: string;
     alt: string;
   };
   position: string;
@@ -135,7 +155,9 @@ export interface ProjectItem {
   year: string;
   status: string;
   coverImage: {
-    url: string;
+    mediaId?: MediaId;
+    filePath?: string;
+    url?: string;
     alt: string;
   };
   gallery: string[];
@@ -157,7 +179,9 @@ export interface EducationItem {
   degree: string;
   institution: string;
   institutionLogo: {
-    url: string;
+    mediaId?: MediaId;
+    filePath?: string;
+    url?: string;
     alt: string;
   };
   location: string;
@@ -189,7 +213,9 @@ export interface SeoSection {
   metaDescription: string;
   metaKeywords: string[];
   ogImage: {
-    url: string;
+    mediaId?: MediaId;
+    filePath?: string;
+    url?: string;
     alt: string;
   };
 }
@@ -197,11 +223,15 @@ export interface SeoSection {
 export interface BrandingSection {
   logoText: string;
   logoImage: {
-    url: string;
+    mediaId?: MediaId;
+    filePath?: string;
+    url?: string;
     alt: string;
   };
   favicon: {
-    url: string;
+    mediaId?: MediaId;
+    filePath?: string;
+    url?: string;
     alt: string;
   };
 }
@@ -217,10 +247,12 @@ export interface ThemeSection {
   secondaryColor: string;
   backgroundColor: string;
   logo: {
-    url: string;
+    mediaId?: MediaId;
+    filePath?: string;
+    url?: string;
     alt: string;
   };
-  resumeFile: string;
+  resumeFile: string | { mediaId?: MediaId; filePath?: string; url?: string };
 }
 
 export interface NavigationItem {

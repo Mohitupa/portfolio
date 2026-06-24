@@ -212,8 +212,13 @@ export class PortfolioEditComponent implements OnInit {
         title: data.hero?.title || '',
         shortDescription: data.hero?.shortDescription || '',
         profileImage: {
-          url: data.hero?.profileImage?.url || '',
-          alt: data.hero?.profileImage?.alt || '',
+          url: (
+            (data.hero?.profileImage as any)?.url ||
+            (data.hero?.profileImage as any)?.filePath ||
+            (data.hero?.profileImage as any)?.mediaId?.filePath ||
+            ''
+          ),
+          alt: (data.hero?.profileImage as any)?.alt || '',
         },
         email: data.hero?.email || 'admin@example.com',
         phone: data.hero?.phone || '',
@@ -250,8 +255,13 @@ export class PortfolioEditComponent implements OnInit {
         metaDescription: data.seo?.metaDescription || '',
         metaKeywordsText: (data.seo?.metaKeywords || []).join(', '),
         ogImage: {
-          url: data.seo?.ogImage?.url || '',
-          alt: data.seo?.ogImage?.alt || '',
+          url: (
+            (data.seo?.ogImage as any)?.url ||
+            (data.seo?.ogImage as any)?.filePath ||
+            (data.seo?.ogImage as any)?.mediaId?.filePath ||
+            ''
+          ),
+          alt: (data.seo?.ogImage as any)?.alt || '',
         },
       },
       theme: {
@@ -259,8 +269,13 @@ export class PortfolioEditComponent implements OnInit {
         secondaryColor: data.theme?.secondaryColor || '#f3f4f6',
         backgroundColor: data.theme?.backgroundColor || '#f4f1ea',
         logo: {
-          url: data.theme?.logo?.url || '',
-          alt: data.theme?.logo?.alt || '',
+          url: (
+            (data.theme?.logo as any)?.url ||
+            (data.theme?.logo as any)?.filePath ||
+            (data.theme?.logo as any)?.mediaId?.filePath ||
+            ''
+          ),
+          alt: (data.theme?.logo as any)?.alt || '',
         },
         resumeFile: data.theme?.resumeFile || '/Resume.pdf',
       },

@@ -72,7 +72,11 @@
         <div
           class="absolute inset-4 rounded-full bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center shadow-xl overflow-hidden">
           <div class="absolute inset-4 rounded-full shadow-xl overflow-hidden">
-            <img [src]="state.hero()?.profileImage?.url || '/port1.png'" [alt]="state.hero()?.profileImage?.alt || 'Mohit Upadhyay'" class="w-full h-full object-cover object-top" />
+            <img
+              [src]="state.hero()?.profileImage?.mediaId?.filePath || state.hero()?.profileImage?.filePath || state.hero()?.profileImage?.url || '/port1.png'"
+              [alt]="state.hero()?.profileImage?.alt || 'Mohit Upadhyay'"
+              class="w-full h-full object-cover object-top"
+            />
           </div>
         </div>
         
