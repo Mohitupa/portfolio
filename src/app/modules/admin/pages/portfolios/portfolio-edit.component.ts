@@ -5,6 +5,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import {
   HeroStat,
+  MediaItem,
   PortfolioContent,
   PortfolioContentPayload,
   ProjectContent,
@@ -49,6 +50,10 @@ export class PortfolioEditComponent implements OnInit {
   slug = computed(() => this.route.snapshot.queryParamMap.get('slug') || this.portfolioId());
   isPublished = computed(() => !!this.content()?.isPublished);
 
+  media = signal<MediaItem[]>([]);
+  mediaLoading = signal(false);
+  mediaError = signal('');
+
   contentForm = this.fb.nonNullable.group({
     hero: this.fb.nonNullable.group({
       greeting: ['Hi, I am'],
@@ -56,7 +61,7 @@ export class PortfolioEditComponent implements OnInit {
       title: [''],
       shortDescription: [''],
       profileImage: this.fb.nonNullable.group({
-        url: [''],
+        mediaId: [''],
         alt: [''],
       }),
       email: ['admin@example.com', [Validators.required, Validators.email]],
@@ -94,7 +99,7 @@ export class PortfolioEditComponent implements OnInit {
       metaDescription: [''],
       metaKeywordsText: [''],
       ogImage: this.fb.nonNullable.group({
-        url: [''],
+        mediaId: [''],
         alt: [''],
       }),
     }),
@@ -103,15 +108,33 @@ export class PortfolioEditComponent implements OnInit {
       secondaryColor: ['#f3f4f6'],
       backgroundColor: ['#f4f1ea'],
       logo: this.fb.nonNullable.group({
-        url: [''],
+        mediaId: [''],
         alt: [''],
       }),
-      resumeFile: ['/Resume.pdf'],
+      // this stores the mediaId of the resume file (pdf)
+      resumeFile: [''],
     }),
   });
 
   ngOnInit(): void {
+    this.loadMedia();
     this.loadContent();
+  }
+
+  private loadMedia(): void {
+    this.mediaLoading.set(true);
+    this.mediaError.set('');
+
+    this.adminApi.getMedia()
+      .pipe(finalize(() => this.mediaLoading.set(false)))
+      .subscribe({
+        next: response => this.media.set(response.data ?? []),
+        error: error => {
+          const message = error?.error?.message || 'Could not load media library.';
+          this.mediaError.set(message);
+          this.toast.error(message);
+        },
+      });
   }
 
   getHeroStatsCount(): number {
@@ -131,7 +154,7 @@ export class PortfolioEditComponent implements OnInit {
     this.error.set('');
     this.notice.set('');
 
-    this.adminApi.getPortfolioContent(this.slug())
+    this.adminApi.getAdminPortfolioContent(this.portfolioId())
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: response => {
@@ -212,12 +235,11 @@ export class PortfolioEditComponent implements OnInit {
         title: data.hero?.title || '',
         shortDescription: data.hero?.shortDescription || '',
         profileImage: {
-          url: (
+          mediaId:
+            (data.hero?.profileImage as any)?.mediaId?._id ||
+            (data.hero?.profileImage as any)?.mediaId ||
             (data.hero?.profileImage as any)?.url ||
-            (data.hero?.profileImage as any)?.filePath ||
-            (data.hero?.profileImage as any)?.mediaId?.filePath ||
-            ''
-          ),
+            '',
           alt: (data.hero?.profileImage as any)?.alt || '',
         },
         email: data.hero?.email || 'admin@example.com',
@@ -255,12 +277,11 @@ export class PortfolioEditComponent implements OnInit {
         metaDescription: data.seo?.metaDescription || '',
         metaKeywordsText: (data.seo?.metaKeywords || []).join(', '),
         ogImage: {
-          url: (
+          mediaId:
+            (data.seo?.ogImage as any)?.mediaId?._id ||
+            (data.seo?.ogImage as any)?.mediaId ||
             (data.seo?.ogImage as any)?.url ||
-            (data.seo?.ogImage as any)?.filePath ||
-            (data.seo?.ogImage as any)?.mediaId?.filePath ||
-            ''
-          ),
+            '',
           alt: (data.seo?.ogImage as any)?.alt || '',
         },
       },
@@ -269,15 +290,17 @@ export class PortfolioEditComponent implements OnInit {
         secondaryColor: data.theme?.secondaryColor || '#f3f4f6',
         backgroundColor: data.theme?.backgroundColor || '#f4f1ea',
         logo: {
-          url: (
+          mediaId:
+            (data.theme?.logo as any)?.mediaId?._id ||
+            (data.theme?.logo as any)?.mediaId ||
             (data.theme?.logo as any)?.url ||
-            (data.theme?.logo as any)?.filePath ||
-            (data.theme?.logo as any)?.mediaId?.filePath ||
-            ''
-          ),
+            '',
           alt: (data.theme?.logo as any)?.alt || '',
         },
-        resumeFile: data.theme?.resumeFile || '/Resume.pdf',
+        resumeFile:
+          (data.theme as any)?.resumeFile?._id ||
+          (data.theme as any)?.resumeFile ||
+          '',
       },
     });
   }
@@ -291,7 +314,10 @@ export class PortfolioEditComponent implements OnInit {
         name: value.hero.name,
         title: value.hero.title,
         shortDescription: value.hero.shortDescription,
-        profileImage: value.hero.profileImage,
+        profileImage: {
+          mediaId: value.hero.profileImage.mediaId,
+          alt: value.hero.profileImage.alt,
+        },
         email: value.hero.email,
         phone: value.hero.phone,
         location: value.hero.location,
@@ -317,9 +343,19 @@ export class PortfolioEditComponent implements OnInit {
         metaTitle: value.seo.metaTitle,
         metaDescription: value.seo.metaDescription,
         metaKeywords: this.parseCsv(value.seo.metaKeywordsText),
-        ogImage: value.seo.ogImage,
+        ogImage: {
+          mediaId: value.seo.ogImage.mediaId,
+          alt: value.seo.ogImage.alt,
+        },
       },
-      theme: value.theme,
+      theme: {
+        ...value.theme,
+        logo: {
+          mediaId: value.theme.logo.mediaId,
+          alt: value.theme.logo.alt,
+        },
+        resumeFile: value.theme.resumeFile,
+      },
     };
   }
 
@@ -391,6 +427,18 @@ export class PortfolioEditComponent implements OnInit {
     return tags.map((item, index) => `${item.name || ''} | ${item.displayOrder ?? index + 1} | ${item.isVisible ?? true}`).join('\n');
   }
 
+  get imageOptions(): MediaItem[] {
+    return this.media().filter(m => m.mimeType?.startsWith('image/'));
+  }
+
+  get pdfOptions(): MediaItem[] {
+    return this.media().filter(m => m.mimeType === 'application/pdf' || m.originalName?.toLowerCase().endsWith('.pdf'));
+  }
+
+  getMediaLabel(item: MediaItem): string {
+    return item.originalName || item.fileName || item._id;
+  }
+
   private parseCsv(raw: string): string[] {
     return raw.split(',').map(item => item.trim()).filter(Boolean);
   }
@@ -402,4 +450,6 @@ export class PortfolioEditComponent implements OnInit {
   private toBoolean(raw: string): boolean {
     return !['false', '0', 'no', 'hidden'].includes(raw.toLowerCase());
   }
+
+  trackMediaId = (_: number, item: MediaItem): string => item._id;
 }

@@ -63,8 +63,12 @@ export interface PortfoliosResponse {
 }
 
 export interface ImageField {
-  url: string;
+  // backend expects mediaId (ObjectId) references
+  mediaId?: string;
   alt?: string;
+
+  // keep url for backward compatibility with any existing editor fields
+  url?: string;
 }
 
 export interface ButtonField {
@@ -153,6 +157,7 @@ export interface ThemeContent {
   secondaryColor?: string;
   backgroundColor?: string;
   logo?: ImageField;
+  // backend expects mediaId (pdf) reference
   resumeFile?: string;
 }
 

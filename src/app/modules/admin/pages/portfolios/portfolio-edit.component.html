@@ -106,8 +106,13 @@
 
               <div formGroupName="profileImage" class="md:col-span-2 rounded-3xl border border-border/80 bg-background/40 p-4">
                 <label class="space-y-2">
-                  <span class="admin-label">Profile Image URL</span>
-                  <input formControlName="url" class="admin-input" placeholder="https://..." />
+                  <span class="admin-label">Profile Image</span>
+                  <select formControlName="mediaId" class="admin-input">
+                    <option [ngValue]="''">-- Select image --</option>
+                    <option *ngFor="let m of imageOptions; trackBy: trackMediaId" [ngValue]="m._id">
+                      {{ getMediaLabel(m) }}
+                    </option>
+                  </select>
                 </label>
                 <label class="space-y-2">
                   <span class="admin-label">Alt Text</span>
@@ -223,8 +228,13 @@
               </label>
               <div formGroupName="ogImage" class="md:col-span-2 rounded-3xl border border-border/80 bg-background/40 p-4">
                 <label class="space-y-2">
-                  <span class="admin-label">OG Image URL</span>
-                  <input formControlName="url" class="admin-input" />
+                  <span class="admin-label">OG Image</span>
+                  <select formControlName="mediaId" class="admin-input">
+                    <option [ngValue]="''">-- Select image --</option>
+                    <option *ngFor="let m of imageOptions; trackBy: trackMediaId" [ngValue]="m._id">
+                      {{ getMediaLabel(m) }}
+                    </option>
+                  </select>
                 </label>
                 <label class="space-y-2">
                   <span class="admin-label">Alt Text</span>
@@ -255,8 +265,13 @@
               </label>
               <div formGroupName="logo" class="md:col-span-3 rounded-3xl border border-border/80 bg-background/40 p-4">
                 <label class="space-y-2">
-                  <span class="admin-label">Logo URL</span>
-                  <input formControlName="url" class="admin-input" />
+                  <span class="admin-label">Logo</span>
+                  <select formControlName="mediaId" class="admin-input">
+                    <option [ngValue]="''">-- Select logo --</option>
+                    <option *ngFor="let m of imageOptions; trackBy: trackMediaId" [ngValue]="m._id">
+                      {{ getMediaLabel(m) }}
+                    </option>
+                  </select>
                 </label>
                 <label class="space-y-2">
                   <span class="admin-label">Alt Text</span>
@@ -264,8 +279,13 @@
                 </label>
               </div>
               <label class="space-y-2 md:col-span-3">
-                <span class="admin-label">Resume File</span>
-                <input formControlName="resumeFile" class="admin-input" placeholder="/Resume.pdf" />
+                <span class="admin-label">Resume (PDF)</span>
+                <select formControlName="resumeFile" class="admin-input">
+                  <option [ngValue]="''">-- Select PDF --</option>
+                  <option *ngFor="let m of pdfOptions; trackBy: trackMediaId" [ngValue]="m._id">
+                    {{ getMediaLabel(m) }}
+                  </option>
+                </select>
               </label>
             </div>
           </ng-container>

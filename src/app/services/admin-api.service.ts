@@ -74,6 +74,10 @@ export class AdminApiService {
     return this.http.get<PortfolioContentResponse>(`${this.apiBaseUrl}/portfolio-content/${slugOrPortfolioId}`);
   }
 
+  getAdminPortfolioContent(portfolioId: string): Observable<PortfolioContentResponse> {
+    return this.http.get<PortfolioContentResponse>(`${this.apiBaseUrl}/portfolio-content/${portfolioId}/edit`);
+  }
+
   createPortfolioContent(portfolioId: string, payload: PortfolioContentPayload): Observable<PortfolioContentResponse> {
     return this.http.post<PortfolioContentResponse>(`${this.apiBaseUrl}/portfolio-content`, {
       portfolioId,
