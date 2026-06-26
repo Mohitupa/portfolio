@@ -136,8 +136,69 @@ export class AdminApiService {
     return this.http.delete<{ success: boolean; message?: string }>(`${this.apiBaseUrl}/admin-users/${id}`);
   }
 
+  // RBAC: Roles
   getRoles(): Observable<any> {
     return this.http.get<any>(`${this.apiBaseUrl}/roles`);
+  }
+
+  // Backward compatible alias (in case components use old name)
+  getRolesList(): Observable<any> {
+    return this.getRoles();
+  }
+
+  getRoleById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiBaseUrl}/roles/${id}`);
+  }
+
+  createRole(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.apiBaseUrl}/roles`, payload);
+  }
+
+  updateRole(id: string, payload: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiBaseUrl}/roles/${id}`, payload);
+  }
+
+  deleteRole(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiBaseUrl}/roles/${id}`);
+  }
+
+  // RBAC: Permissions
+  getPermissions(): Observable<any> {
+    return this.http.get<any>(`${this.apiBaseUrl}/permissions`);
+  }
+
+  getPermissionById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiBaseUrl}/permissions/${id}`);
+  }
+
+  createPermission(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.apiBaseUrl}/permissions`, payload);
+  }
+
+  updatePermission(id: string, payload: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiBaseUrl}/permissions/${id}`, payload);
+  }
+
+  deletePermission(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiBaseUrl}/permissions/${id}`);
+  }
+
+  // RBAC: Role -> Permissions
+  getRolePermissions(roleId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiBaseUrl}/role-permissions/${roleId}`);
+  }
+
+  setRolePermissions(roleId: string, payload: { permissionIds: string[] }): Observable<any> {
+    return this.http.put<any>(`${this.apiBaseUrl}/role-permissions/${roleId}`, payload);
+  }
+
+  // RBAC: User -> Roles
+  getUserRoles(userId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiBaseUrl}/user-roles/${userId}`);
+  }
+
+  setUserRoles(userId: string, payload: { roleIds: string[] }): Observable<any> {
+    return this.http.put<any>(`${this.apiBaseUrl}/user-roles/${userId}`, payload);
   }
 
   getPublicAssetUrl(filePath: string): string {

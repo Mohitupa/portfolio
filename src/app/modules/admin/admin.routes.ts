@@ -15,10 +15,10 @@ export const ADMIN_ROUTES: Routes = [
       {
         path: 'dashboard',
         loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent),
-        // canActivate: [permissionGuard],
-        // data: {
-        //   permissions: ['dashboard.read']
-        // }
+        canActivate: [permissionGuard],
+        data: {
+          permissions: ['dashboard.read']
+        }
       },
       {
         path: 'portfolios',
@@ -66,6 +66,30 @@ export const ADMIN_ROUTES: Routes = [
         canActivate: [permissionGuard],
         data: {
           permissions: ['admin.read']
+        }
+      },
+      {
+        path: 'roles',
+        loadComponent: () => import('./pages/roles/roles.component').then(m => m.RolesComponent),
+        canActivate: [permissionGuard],
+        data: {
+          permissions: ['role.read']
+        }
+      },
+      {
+        path: 'permissions',
+        loadComponent: () => import('./pages/permissions/permissions.component').then(m => m.PermissionsComponent),
+        canActivate: [permissionGuard],
+        data: {
+          permissions: ['permission.read']
+        }
+      },
+      {
+        path: 'roles/:roleId/permissions',
+        loadComponent: () => import('./pages/role-permissions/role-permissions.component').then(m => m.RolePermissionsComponent),
+        canActivate: [permissionGuard],
+        data: {
+          permissions: ['role-permission.read']
         }
       },
       {

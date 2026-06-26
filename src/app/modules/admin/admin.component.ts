@@ -52,6 +52,16 @@ export class AdminComponent implements OnInit {
       icon: ''
     },
     {
+      label: 'Roles',
+      link: '/admin/roles',
+      icon: ''
+    },
+    {
+      label: 'Permissions',
+      link: '/admin/permissions',
+      icon: ''
+    },
+    {
       label: 'Settings',
       link: '/admin/settings',
       icon: ''
@@ -64,6 +74,8 @@ export class AdminComponent implements OnInit {
     'Media': 'media.read',
     'Messages': 'contact.read',
     'Admin Users': 'admin.read',
+    'Roles': 'role.read',
+    'Permissions': 'permission.read',
     'Settings': 'settings.read'
   };
 
