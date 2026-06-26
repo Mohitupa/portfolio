@@ -7,6 +7,7 @@
         </div>
 
         <button
+          *appHasPermission="'portfolio.create'"
           type="button"
           (click)="openCreatePanel()"
           class="admin-header-button inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground text-sm font-bold shadow-sm hover:opacity-90 transition-opacity"
@@ -61,6 +62,7 @@
           </label>
 
           <button
+            *appHasPermission="'portfolio.create'"
             type="submit"
             [disabled]="createForm.invalid || saving()"
             class="h-12 px-5 rounded-full bg-primary text-primary-foreground text-sm font-bold shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
@@ -155,6 +157,7 @@
 
             <div class="mt-5 flex flex-wrap gap-2">
               <a
+                *appHasPermission="'portfolio.update'"
                 [routerLink]="['/admin/portfolios', portfolioId(portfolio), 'edit']"
                 [queryParams]="{ slug: portfolio.slug }"
                 class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground text-xs font-bold shadow-sm"
@@ -166,6 +169,7 @@
               </a>
 
               <button
+                *appHasPermission="'portfolio.status'"
                 type="button"
                 (click)="toggleStatus(portfolio)"
                 [disabled]="actionId() === portfolioId(portfolio)"
@@ -175,6 +179,7 @@
               </button>
 
               <button
+                *appHasPermission="'portfolio.delete'"
                 type="button"
                 (click)="deletePortfolio(portfolio)"
                 [disabled]="actionId() === portfolioId(portfolio)"

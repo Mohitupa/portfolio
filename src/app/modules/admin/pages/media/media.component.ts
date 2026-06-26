@@ -4,11 +4,12 @@ import { finalize } from 'rxjs';
 import { MediaItem } from '../../../../models/admin.model';
 import { AdminApiService } from '../../../../services/admin-api.service';
 import { ToastService } from '../../../../services/toast.service';
+import { HasPermissionDirective } from '../../../../shared/directives/has-permission.directive';
 
 @Component({
   selector: 'app-admin-media',
   standalone: true,
-  imports: [DatePipe, DecimalPipe, NgClass, NgFor, NgIf],
+  imports: [DatePipe, DecimalPipe, NgClass, NgFor, NgIf, HasPermissionDirective],
   templateUrl: './media.component.html',
   styleUrl: './media.component.css',
 })

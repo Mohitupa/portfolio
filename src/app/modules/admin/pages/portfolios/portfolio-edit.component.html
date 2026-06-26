@@ -29,6 +29,7 @@
             </span>
 
             <button
+              *appHasPermission="content() ? 'portfolio-content.update' : 'portfolio-content.create'"
               type="button"
               (click)="saveContent()"
               [disabled]="saving() || loading()"
@@ -38,6 +39,7 @@
             </button>
 
             <button
+              *appHasPermission="isPublished() ? 'portfolio-content.unpublish' : 'portfolio-content.publish'"
               type="button"
               (click)="togglePublish()"
               [disabled]="publishing() || saving() || !content()"

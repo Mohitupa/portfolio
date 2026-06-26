@@ -59,6 +59,7 @@
             </a>
 
             <button
+              *appHasPermission="'contact.update'"
               type="button"
               (click)="markRead()"
               [disabled]="message()!.isRead || actionLoading()"
@@ -68,6 +69,7 @@
             </button>
 
             <button
+              *appHasPermission="'contact.delete'"
               type="button"
               (click)="deleteMessage()"
               [disabled]="actionLoading()"

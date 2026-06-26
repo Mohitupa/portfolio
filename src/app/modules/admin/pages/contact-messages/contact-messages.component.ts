@@ -6,13 +6,14 @@ import { finalize } from 'rxjs';
 import { ContactMessage } from '../../../../models/admin.model';
 import { AdminApiService } from '../../../../services/admin-api.service';
 import { ToastService } from '../../../../services/toast.service';
+import { HasPermissionDirective } from '../../../../shared/directives/has-permission.directive';
 
 type MessageFilter = 'all' | 'unread' | 'read';
 
 @Component({
   selector: 'app-admin-contact-messages',
   standalone: true,
-  imports: [DatePipe, FormsModule, NgClass, NgFor, NgIf, RouterLink],
+  imports: [DatePipe, FormsModule, NgClass, NgFor, NgIf, RouterLink, HasPermissionDirective],
   templateUrl: './contact-messages.component.html',
   styleUrl: './contact-messages.component.css',
 })

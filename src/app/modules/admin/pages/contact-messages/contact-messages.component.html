@@ -112,6 +112,7 @@
                 <span class="text-[11px] font-bold text-muted-foreground whitespace-nowrap">{{ message.createdAt | date:'medium' }}</span>
                 <div class="flex flex-wrap gap-2">
                   <button
+                    *appHasPermission="'contact.update'"
                     type="button"
                     (click)="markRead(message)"
                     [disabled]="message.isRead || actionId() === message._id"
@@ -120,6 +121,7 @@
                     Mark read
                   </button>
                   <button
+                    *appHasPermission="'contact.delete'"
                     type="button"
                     (click)="deleteMessage(message)"
                     [disabled]="actionId() === message._id"

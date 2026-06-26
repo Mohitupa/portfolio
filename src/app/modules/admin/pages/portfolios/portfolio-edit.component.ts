@@ -14,13 +14,14 @@ import {
 } from '../../../../models/admin.model';
 import { AdminApiService } from '../../../../services/admin-api.service';
 import { ToastService } from '../../../../services/toast.service';
+import { HasPermissionDirective } from '../../../../shared/directives/has-permission.directive';
 
 type EditorTab = 'hero' | 'skills' | 'projects' | 'seo' | 'theme';
 
 @Component({
   selector: 'app-admin-portfolio-edit',
   standalone: true,
-  imports: [DatePipe, NgClass, NgFor, NgIf, ReactiveFormsModule, RouterLink],
+  imports: [DatePipe, NgClass, NgFor, NgIf, ReactiveFormsModule, RouterLink, HasPermissionDirective],
   templateUrl: './portfolio-edit.component.html',
   styleUrl: './portfolio-edit.component.css',
 })

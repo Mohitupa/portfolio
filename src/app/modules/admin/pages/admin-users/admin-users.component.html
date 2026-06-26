@@ -7,6 +7,7 @@
         </div>
 
         <button
+          *appHasPermission="'admin.create'"
           type="button"
           (click)="openCreateForm()"
           class="admin-header-button inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground text-sm font-bold shadow-sm hover:opacity-90 transition-opacity"
@@ -79,6 +80,7 @@
             </label>
 
             <button
+              *appHasPermission="formMode() === 'create' ? 'admin.create' : 'admin.update'"
               type="submit"
               [disabled]="userForm.invalid || saving()"
               class="h-12 px-5 rounded-full bg-primary text-primary-foreground text-sm font-bold shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
@@ -176,6 +178,7 @@
 
             <div class="mt-5 flex flex-wrap gap-2">
               <button
+                *appHasPermission="'admin.update'"
                 type="button"
                 (click)="openEditForm(user)"
                 class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground text-xs font-bold shadow-sm"
@@ -184,6 +187,7 @@
               </button>
 
               <button
+                *appHasPermission="'admin.status'"
                 type="button"
                 (click)="toggleActive(user)"
                 [disabled]="actionId() === userId(user)"
@@ -193,6 +197,7 @@
               </button>
 
               <button
+                *appHasPermission="'admin.delete'"
                 type="button"
                 (click)="deleteUser(user)"
                 [disabled]="actionId() === userId(user) || isCurrentUser(user)"

@@ -6,13 +6,14 @@ import { AdminRole, AdminUserItem, AdminUserPayload } from '../../../../models/a
 import { AdminApiService } from '../../../../services/admin-api.service';
 import { AuthService } from '../../../../services/auth.service';
 import { ToastService } from '../../../../services/toast.service';
+import { HasPermissionDirective } from '../../../../shared/directives/has-permission.directive';
 
 type UserFormMode = 'create' | 'edit';
 
 @Component({
   selector: 'app-admin-users',
   standalone: true,
-  imports: [DatePipe, NgClass, NgFor, NgIf, ReactiveFormsModule],
+  imports: [DatePipe, NgClass, NgFor, NgIf, ReactiveFormsModule, HasPermissionDirective],
   templateUrl: './admin-users.component.html',
   styleUrl: './admin-users.component.css',
 })

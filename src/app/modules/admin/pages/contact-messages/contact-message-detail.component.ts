@@ -5,11 +5,12 @@ import { finalize } from 'rxjs';
 import { ContactMessage } from '../../../../models/admin.model';
 import { AdminApiService } from '../../../../services/admin-api.service';
 import { ToastService } from '../../../../services/toast.service';
+import { HasPermissionDirective } from '../../../../shared/directives/has-permission.directive';
 
 @Component({
   selector: 'app-admin-contact-message-detail',
   standalone: true,
-  imports: [DatePipe, NgClass, NgIf, RouterLink],
+  imports: [DatePipe, NgClass, NgIf, RouterLink, HasPermissionDirective],
   templateUrl: './contact-message-detail.component.html',
   styleUrl: './contact-message-detail.component.css',
 })

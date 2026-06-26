@@ -18,7 +18,9 @@ interface NavItem {
   styleUrl: './admin.component.css'
 })
 export class AdminComponent implements OnInit {
-  navItems: NavItem[] = [
+  navItems: NavItem[] = [];
+
+  private allNavItems: NavItem[] = [
     {
       label: 'Dashboard',
       link: '/admin/dashboard',
@@ -51,6 +53,15 @@ export class AdminComponent implements OnInit {
     }
   ];
 
+  private navPermissionMap: Record<string, string> = {
+    'Dashboard': 'dashboard.read',
+    'Portfolios': 'portfolio.read',
+    'Media': 'media.read',
+    'Messages': 'contact.read',
+    'Admin Users': 'admin.read',
+    'Settings': 'settings.read'
+  };
+
   unreadMessagesCount = signal<number>(0);
 
   constructor(
@@ -59,6 +70,11 @@ export class AdminComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.navItems = this.allNavItems.filter(item => {
+      const perm = this.navPermissionMap[item.label];
+      return perm ? this.auth.hasPermission(perm) : true;
+    });
+
     this.loadUnreadMessagesCount();
   }
 

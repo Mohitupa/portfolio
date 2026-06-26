@@ -64,7 +64,8 @@
           <span class="flex-1 p-2">{{ item.label }}</span>
 
           <!-- Badge on Messages Link -->
-          <span *ngIf="item.label === 'Messages' && unreadMessagesCount() > 0"
+          <span
+            *ngIf="item.label === 'Messages' && auth.hasPermission('contact.read') && unreadMessagesCount() > 0"
             class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-primary text-primary-foreground shadow-sm">
             {{ unreadMessagesCount() }}
           </span>
