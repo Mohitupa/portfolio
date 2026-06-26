@@ -68,8 +68,7 @@
           <label class="space-y-2">
             <span class="admin-label">Role</span>
             <select formControlName="role" class="admin-input">
-              <option value="ADMIN">ADMIN</option>
-              <option value="SUPER_ADMIN">SUPER_ADMIN</option>
+              <option *ngFor="let r of roles()" [value]="r">{{ r }}</option>
             </select>
           </label>
 

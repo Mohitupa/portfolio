@@ -175,7 +175,7 @@ export class AuthService {
       ? user.roles
       : (typeof user.role === 'string' && user.role ? [user.role] : []);
 
-    const permissions: string[] = Array.isArray(user.permissions) ? user.permissions : [];
+    const permissions: string[] = Array.isArray(user.permissions) ? user.permissions : [];  
 
     // If permissions are not present, keep empty list; UI/guards will treat as unauthorized
     return {

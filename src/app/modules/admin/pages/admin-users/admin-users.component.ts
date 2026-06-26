@@ -24,6 +24,7 @@ export class AdminUsersComponent implements OnInit {
   auth = inject(AuthService);
 
   users = signal<AdminUserItem[]>([]);
+  roles = signal<AdminRole[]>(['ADMIN', 'SUPER_ADMIN']);
   loading = signal(false);
   saving = signal(false);
   error = signal('');
@@ -45,7 +46,42 @@ export class AdminUsersComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.loadUsers();
+    this.loadRoles().add(() => this.loadUsers());
+  }
+
+  private loadRoles() {
+    return this.adminApi.getRoles().pipe(
+      finalize(() => {
+        // no-op; keeps signatures simple
+      })
+    ).subscribe({
+      next: (response: any) => {
+        const rawRoles: any[] = response?.data ?? response?.roles ?? response ?? [];
+        // Accept either ["ADMIN","SUPER_ADMIN"] or [{value:"ADMIN"}] or [{name:"ADMIN"}]
+        const mapped: AdminRole[] = Array.isArray(rawRoles)
+          ? rawRoles
+              .map((r: any): AdminRole | null => {
+                if (typeof r === 'string') return r as AdminRole;
+                if (r?.value) return r.value as AdminRole;
+                if (r?.name) return r.name as AdminRole;
+                return null;
+              })
+              .filter((r): r is AdminRole => r !== null)
+          : [];
+
+        if (mapped.length) {
+          this.roles.set(mapped);
+        }
+      },
+      error: () => {
+        // Keep fallback roles; do not block UI
+      },
+    });
+  }
+
+  private getDefaultRole(): AdminRole {
+    const list = this.roles();
+    return (list && list.length ? list[0] : 'ADMIN') as AdminRole;
   }
 
   loadUsers(): void {
@@ -70,11 +106,14 @@ export class AdminUsersComponent implements OnInit {
     this.formOpen.set(true);
     this.notice.set('');
     this.error.set('');
+
+    const defaultRole = this.getDefaultRole();
+
     this.userForm.reset({
       name: '',
       email: '',
       password: '',
-      role: 'ADMIN',
+      role: defaultRole,
       isActive: true,
     });
     this.userForm.controls.password.setValidators([Validators.required, Validators.minLength(8)]);

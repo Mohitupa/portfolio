@@ -136,6 +136,10 @@ export class AdminApiService {
     return this.http.delete<{ success: boolean; message?: string }>(`${this.apiBaseUrl}/admin-users/${id}`);
   }
 
+  getRoles(): Observable<any> {
+    return this.http.get<any>(`${this.apiBaseUrl}/roles`);
+  }
+
   getPublicAssetUrl(filePath: string): string {
     if (!filePath) {
       return '';

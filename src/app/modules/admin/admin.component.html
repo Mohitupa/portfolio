@@ -14,7 +14,7 @@
 
       <!-- Navigation Links -->
       <nav class="p-4 space-y-1">
-        <a *ngFor="let item of navItems" [routerLink]="item.link"
+        <a *ngFor="let item of navItems()" [routerLink]="item.link"
           routerLinkActive="bg-primary/10 text-primary border-primary font-bold" #rla="routerLinkActive"
           class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-semibold text-muted-foreground hover:text-foreground hover:bg-secondary/40 border border-transparent transition-all duration-200">
           <!-- Nav Icon Box -->

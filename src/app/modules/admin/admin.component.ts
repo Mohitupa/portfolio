@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -18,7 +18,12 @@ interface NavItem {
   styleUrl: './admin.component.css'
 })
 export class AdminComponent implements OnInit {
-  navItems: NavItem[] = [];
+  navItems = computed<NavItem[]>(() => {
+    return this.allNavItems.filter(item => {
+      const perm = this.navPermissionMap[item.label];
+      return perm ? this.auth.hasPermission(perm) : true;
+    });
+  });
 
   private allNavItems: NavItem[] = [
     {
@@ -70,11 +75,6 @@ export class AdminComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.navItems = this.allNavItems.filter(item => {
-      const perm = this.navPermissionMap[item.label];
-      return perm ? this.auth.hasPermission(perm) : true;
-    });
-
     this.loadUnreadMessagesCount();
   }
 

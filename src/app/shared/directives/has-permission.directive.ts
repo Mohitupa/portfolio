@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef, ViewContainerRef, inject } from '@angular/core';
+import { Directive, Input, TemplateRef, ViewContainerRef, effect, inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 
 @Directive({
@@ -12,7 +12,12 @@ export class HasPermissionDirective {
   @Input() appHasPermission: string | null = null;
 
   constructor() {
-    this.updateView();
+    effect(() => {
+      // Track auth permissions reactivity via the currentUser signal
+      // (so the directive updates after login / /auth/me resolves)
+      this.auth.currentUser();
+      this.updateView();
+    });
   }
 
   private updateView(): void {
